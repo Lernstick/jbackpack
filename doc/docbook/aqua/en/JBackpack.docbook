@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd">
+
+<book id="JBackpack" lang="en">
+
+    <bookinfo>
+        <title>JBackpack Manual</title>
+        <date>2010-07-31</date>
+        <releaseinfo>Version 0.8.16</releaseinfo>
+        <abstract>
+            <para>
+                <application>JBackpack</application> is a personal backup
+                program. It features incremental backups, network transparency
+                and encryption.
+            </para>
+        </abstract>
+    </bookinfo>
+
+    <chapter id="overview">
+        <title>Overview</title>
+        <para>
+            <indexterm>
+                <primary>rdiff-backup</primary>
+            </indexterm>
+            JBackpack uses rdiff-backup
+            (<ulink url="http://www.nongnu.org/rdiff-backup"
+            >http://www.nongnu.org/rdiff-backup</ulink>)
+            for all backup and restore functions. The most interesting feature
+            of rdiff-backup is <emphasis>incremental backups</emphasis>.
+        </para>
+        <para>
+            <indexterm>
+                <primary>incremental backup</primary>
+            </indexterm>
+            An incremental backup is a backup method in which multiple backups
+            are kept (not just the last one). Each original piece of backed up
+            information is stored only once, and then successive backups contain
+            only the information that changed since a previous backup. This way
+            it becomes possible to restore changed or deleted files, even when
+            several backups have been run since changing or deleting these
+            files.
+        </para>
+        <para>
+            JBackpack offers a build-in increment browser. This makes the file
+            selection before restoring very easy.
+        </para>
+        <para>
+            <indexterm>
+                <primary>SSHFS</primary>
+            </indexterm>
+            JBackpack uses SSHFS
+            (<ulink url="http://fuse.sourceforge.net/sshfs.html"
+            >http://fuse.sourceforge.net/sshfs.html</ulink>) and SMB
+            (<ulink url="http://en.wikipedia.org/wiki/Server_Message_Block"
+            >http://en.wikipedia.org/wiki/Server_Message_Block</ulink>)
+            to access remote file systems. This way it is possible to store
+            backups on remote systems. This increases the availability of the
+            backups in case of a local system failure but slows down the backup
+            process because the available bandwidth for remote file systems
+            tends to be much smaller than the available bandwidth for local file
+            systems.
+        </para>
+        <para>
+            <indexterm>
+                <primary>EncFS</primary>
+            </indexterm>
+            JBackpack uses EncFS
+            (<ulink url="http://www.arg0.net/encfs"
+            >http://www.arg0.net/encfs</ulink>)
+            to encrypt backup destination directories. Encryption provides
+            confidentiality but also slows down backup and restore.
+        </para>
+    </chapter>
+
+    <chapter id="directories">
+        <title>Directories</title>
+        <para>
+            When you start JBackpack for the first time it will open the
+            "Directories" tab.
+            <figure>
+                <title>Directories tab</title>
+                <graphic fileref="MainWindow.png"></graphic>
+            </figure>
+            Here you can configure the directories used for the backup process.
+        </para>
+        <sect1><title>Source directory</title>
+            <indexterm>
+                <primary>source directory</primary>
+            </indexterm>
+            <para>
+                The first directory is the source directory. Only files in this
+                directory are included in backups. JBackpack uses your home
+                directory per default. When you want to backup a different
+                directory you must click the "Other directory" radio button.
+                Then you can type the path of the other directory into the
+                textfield or use the file browser button right of the textfield
+                to browse to the directory you want to backup.
+            </para>
+        </sect1>
+        <sect1><title>Destination directory</title>
+            <indexterm>
+                <primary>destination directory</primary>
+            </indexterm>
+            <para>
+                The second directory is the destination directory. This is the
+                location where the backup files and increments are stored. The
+                destination directory can either be:
+                <itemizedlist>
+                    <listitem><para>
+                        local
+                    </para></listitem>
+                    <listitem><para>
+                        <indexterm>
+                            <primary>SSH</primary>
+                        </indexterm>
+                        remote via SSH (more information about SSH can be found
+                        here:
+                        <ulink url="http://en.wikipedia.org/wiki/Secure_Shell"
+                        >http://en.wikipedia.org/wiki/Secure_Shell</ulink>)
+                    </para></listitem>
+                    <listitem><para>
+                        <indexterm>
+                            <primary>SMB</primary>
+                        </indexterm>
+                        remote via SMB (more information about SMB can be found
+                        here:
+                        <ulink url="http://en.wikipedia.org/wiki/Server_Message_Block"
+                        >http://en.wikipedia.org/wiki/Server_Message_Block</ulink>)
+                    </para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                When you select a local destination directory you can type the
+                path of your destination directory into the textfield or use the
+                file browser button right of the textfield to browse to your
+                destination directory.
+            </para>
+            <para>
+                When you select a remote destination directory via SSH you have
+                to configure some additional settings:
+                <figure>
+                    <title>SSH settings</title>
+                    <graphic fileref="SSH.png"></graphic>
+                </figure>
+                Please insert the host name of the server where you want to
+                store the backup data (you must be able to connect via SSH to
+                this server) and your user name on this remote server. Directory
+                browsing on the remote server is based on your home directory on
+                the remote server. If your remote destination directory is not a
+                subdirectory of your home directory on the server you can
+                specify a custom base directory to start remote file browsing
+                somewhere else.
+            </para>
+            <para>
+                <indexterm>
+                    <primary>public key</primary>
+                </indexterm>
+                You can authenticate at your remote backup server with either a
+                password or a public key. If you choose public key
+                authentication please make sure that everything is correctly set
+                up. Some details about setting up SSH public key authentication
+                can be found here:
+                <ulink url="http://www.debian-administration.org/article/SSH_with_authentication_key_instead_of_password"
+                >http://www.debian-administration.org/article/SSH_with_authentication_key_instead_of_password</ulink>
+            </para>
+            <para>
+                After successfully logging in, the remote backup destination
+                directory can be configured:
+                <figure>
+                    <title>Logged in</title>
+                    <graphic fileref="LoggedIn.png"></graphic>
+                </figure>
+                If you know the path of the directory you can type it directly
+                into the textfield, otherwise you can use the file browser
+                button right of the textfield to browse to your directory.
+            </para>
+            <para>
+                When you select a remote destination directory via SMB you have
+                to configure some additional settings:
+                <figure>
+                    <title>SMB settings</title>
+                    <graphic fileref="SMB.png"></graphic>
+                </figure>
+                Please insert the host name of the server where you want to
+                store the backup data (you must be able to connect via SMB to
+                this server), the name of the share, your user name and password
+                on this remote server.
+            </para>
+            <para os="linux">
+                You need to have the privileges to mount file systems via sudo
+                (more information about sudo can be found here:
+                <ulink url="http://en.wikipedia.org/wiki/Sudo"
+                >http://en.wikipedia.org/wiki/Sudo</ulink>). To mount the remote
+                file system your local password is needed.
+            </para>
+            <para>
+                After successfully logging in, the remote backup destination
+                directory can be configured.
+            </para>
+            <para>
+                When you have selected a valid (and still unencrypted)
+                destination directory a button for encryption appears:
+                <figure>
+                    <title>Encryption button</title>
+                    <graphic fileref="Encryption.png"></graphic>
+                </figure>
+                By clicking on this button you can encrypt your destination
+                directory with a password.
+            </para>
+            <para>
+                When your destination directory is encrypted, the encryption
+                control panel appears:
+                <figure>
+                    <title>Encryption control panel</title>
+                    <graphic fileref="EncryptionControl.png"></graphic>
+                </figure>
+                <indexterm>
+                    <primary>lock</primary>
+                </indexterm>
+                <indexterm>
+                    <primary>unlock</primary>
+                </indexterm>
+                There you can lock and unlock the backup destination directory,
+                change the encryption password and (if you no longer need the
+                additional security provided by encryption) decrypt the
+                destination directory.
+            </para>
+            <para>
+                Encrypted directories can only be accessed for backup and
+                restore operations when they are unlocked. Unlocking is only
+                possible with the encryption password. <emphasis>There is no
+                recovery mechanism. You really have to remember the encryption
+                password!</emphasis>
+            </para>
+
+        </sect1>
+    </chapter>
+
+    <chapter id="backup">
+        <title>Backup</title>
+        <para>
+            If you have configured all your directories you may switch to the
+            backup tab:
+            <figure>
+                <title>Backup</title>
+                <graphic fileref="Backup.png"></graphic>
+            </figure>
+            You can start the backup process by pressing the big "Backup" button
+            at the top.
+        </para>
+        <para>
+            <indexterm>
+                <primary>compression</primary>
+            </indexterm>
+            The only option activated by default is
+            <quote>Compress files</quote>. File compression can save a
+            considerable amount of storage space in your destination directory
+            but also slows down the backup and restore process.
+        </para>
+        <para>
+            <indexterm>
+                <primary>reminder</primary>
+            </indexterm>
+            You can also configure JBackpack to remind you to backup your data
+            at a given interval.
+        </para>
+        <para>
+            <indexterm>
+                <primary>exclusions</primary>
+            </indexterm>
+            If you do not want to backup <emphasis>all</emphasis> the data of
+            your source directory, you can select the checkbox
+            <quote>Exclude files</quote>. This enables another set of options:
+            <figure>
+                <title>Excludes</title>
+                <graphic fileref="Excludes.png"></graphic>
+            </figure>
+        </para>
+        <para>
+            In the file patterns textarea you can type in paths of files or
+            directories you want to exclude. The button on the right hand side
+            (with the big green <quote>plus</quote> icon) opens a filechooser
+            that simplifies selecting and adding files and directories you want
+            to exclude.
+        </para>
+        <para os="linux">
+            <indexterm>
+                <primary>exceptions</primary>
+            </indexterm>
+            You can also make exceptions from the exclusions. This is very
+            helpful in more complicated backup settings, like in the following
+            example. Assume that you have this directory structure:
+<screen>
+    /home─┐
+          ├─alice
+          ├─bob
+          ├─other1
+          ├─other2
+          ├─...
+          └─otherN
+</screen>
+            If you only want to backup
+            <computeroutput>/home/alice/</computeroutput> and
+            <computeroutput>/home/bob/</computeroutput> you have to configure
+            <computeroutput>/home/</computeroutput> as the source directory, add
+            <computeroutput>/home/</computeroutput> as excluded file pattern and
+            add <computeroutput>/home/alice/</computeroutput> and
+            <computeroutput>/home/bob/</computeroutput> to the exceptions.
+        </para>
+        <para os="macosx">
+            <indexterm>
+                <primary>exceptions</primary>
+            </indexterm>
+            You can also make exceptions from the exclusions. This is very
+            helpful in more complicated backup settings, like in the following
+            example. Assume that you have this directory structure:
+<screen>
+    /Users─┐
+           ├─alice
+           ├─bob
+           ├─other1
+           ├─other2
+           ├─...
+           └─otherN
+</screen>
+            If you only want to backup
+            <computeroutput>/Users/alice/</computeroutput> and
+            <computeroutput>/Users/bob/</computeroutput> you have to configure
+            <computeroutput>/Users/</computeroutput> as the source directory,
+            add <computeroutput>/Users/</computeroutput> as excluded file
+            pattern and add <computeroutput>/Users/alice/</computeroutput> and
+            <computeroutput>/Users/bob/</computeroutput> to the exceptions.
+        </para>
+        <para os="windows">
+            <indexterm>
+                <primary>exceptions</primary>
+            </indexterm>
+            You can also make exceptions from the exclusions. This is very
+            helpful in more complicated backup settings, like in the following
+            example. Assume that you have this directory structure:
+<screen>
+    C:.
+    └───Documents and Settings
+        ├───Alice
+        ├───Bob
+        ├───Other1
+        ├───Other2
+        ├───...
+        └───OtherN
+</screen>
+            If you only want to backup
+            <computeroutput>C:\Documents and Settings\Alice\</computeroutput> and
+            <computeroutput>C:\Documents and Settings\Bob\</computeroutput> you
+            have to configure
+            <computeroutput>C:\Documents and Settings\</computeroutput> as the
+            source directory, add
+            <computeroutput>C:\Documents and Settings\</computeroutput> as
+            excluded file pattern and add
+            <computeroutput>C:\Documents and Settings\Alice\</computeroutput> and
+            <computeroutput>C:\Documents and Settings\Bob\</computeroutput> to
+            the exceptions.
+        </para>
+        <para>
+            On the right hand side you can exclude files by their features:
+            <itemizedlist>
+                <listitem><para>
+                    size (you can specify a minimum and a maximum size)
+                </para></listitem>
+                <listitem><para>
+                    if it is located on the same filesystem as the source
+                    directory
+                </para></listitem>
+                <listitem><para>
+                    <indexterm>
+                        <primary>symbolic link</primary>
+                    </indexterm>
+                    if it is a symbolic link
+                </para></listitem>
+                <listitem><para>
+                    <indexterm>
+                        <primary>device file</primary>
+                    </indexterm>
+                    if it is a device file
+                </para></listitem>
+                <listitem><para>
+                    <indexterm>
+                        <primary>socket</primary>
+                    </indexterm>
+                    if it is a socket
+                </para></listitem>
+                <listitem><para>
+                    <indexterm>
+                        <primary>named pipe</primary>
+                    </indexterm>
+                    if it is a named pipe
+                </para></listitem>
+            </itemizedlist>
+            More information about symbolic links, device files, sockets and
+            named pipes can be found here:
+            <ulink url="http://en.wikipedia.org/wiki/Unix_file_types"
+            >http://en.wikipedia.org/wiki/Unix_file_types</ulink>
+        </para>
+        <para>
+            If you start the backup process you see the following progress
+            information:
+            <figure>
+                <title>Running backup</title>
+                <graphic fileref="Running_Backup.png"></graphic>
+            </figure>
+            It shows:
+            <itemizedlist>
+                <listitem><para>
+                    the number of already backed up files
+                </para></listitem>
+                <listitem><para>
+                    the currently backed up file
+                </para></listitem>
+                <listitem><para>
+                    the time already spent
+                </para></listitem>
+            </itemizedlist>
+            <indexterm>
+                <primary>automatic shutdown</primary>
+            </indexterm>
+            You can also choose to shutdown the computer when the backup
+            operation is finished. You have to have administrative privileges
+            and provide your password. You can also cancel the backup operation.
+        </para>
+        <para>
+            <indexterm>
+                <primary>backup summary</primary>
+            </indexterm>
+            When the backup operation finishes, the following summary is
+            displayed:
+            <figure>
+                <title>Backup summary</title>
+                <graphic fileref="Backup_Statistics.png"></graphic>
+            </figure>
+            Most of the time there is not much else to do after running a
+            backup. Therefore JBackpack sets the default focus to the
+            <quote>Quit JBackpack</quote> button. You can just press
+            <keycap>Enter</keycap> or click on the
+            <quote>Quit JBackpack</quote> button. If you really want to
+            continue using JBackpack, please use the
+            <quote>Continue using JBackpack</quote> button.
+        </para>
+    </chapter>
+
+    <chapter id="restore">
+        <title>Restore</title>
+        <para>
+            <indexterm>
+                <primary>restore</primary>
+            </indexterm>
+            If you want to restore files, you have to select the restore tab:
+            <figure>
+                <title>Restore</title>
+                <graphic fileref="Restore.png"></graphic>
+            </figure>
+            <indexterm>
+                <primary>mirror</primary>
+            </indexterm>
+            <indexterm>
+                <primary>increment</primary>
+            </indexterm>
+            On the left hand side you have the list of available backups. For
+            every backup you see its type, timestamp and its storage usage.
+            There are two backup types: The top backup is called the
+            <quote>mirror</quote>. It contains all files of the last backup and
+            is labeled with a harddisk icon. All other backups are called
+            <quote>increments</quote> and only store the differences relatively
+            to the younger backup (and therefore usually need much less storage
+            space than the mirror). They are labeled with an arrow icon.
+        </para>
+        <para>
+            If you select a backup from the list, the file hierarchy of this
+            backup is shown in the file chooser on the right hand side. With the
+            help of the two arrow buttons at the bottom of the backups list you
+            can easily navigate through the list of backups without constantly
+            moving and aiming your mouse pointer.
+        </para>
+        <para>
+            Below the arrow buttons several storage size values are displayed:
+            <itemizedlist>
+                <listitem><para>
+                    <indexterm>
+                        <primary>cumulative size</primary>
+                    </indexterm>
+                    the cumulative size (the size sum of the currently selected
+                    backup and all older backups)
+                </para></listitem>
+                <listitem><para>
+                    <indexterm>
+                        <primary>total size</primary>
+                    </indexterm>
+                    the total size of all backups
+                </para></listitem>
+                <listitem><para>
+                    the storage space usage of the selected destination
+                    directory
+                </para></listitem>
+            </itemizedlist>
+            With this information at hand you can decide if and how many backups
+            you want to keep or delete. You can also automate the deletion of
+            old backups. For more details see <xref linkend="autodeletion"/>.
+        </para>
+        <para>
+            At the top of the right hand side you can select between either to
+            restore the whole selected backup or just certain files or
+            directories from the selected backup.
+        </para>
+        <para>
+            At the bottom of the window you can start the restore operation. You
+            can select to count the selected files before starting the restore
+            operation. This makes it possible to display a progress bar during
+            the backup operation but may take some additional seconds. You can
+            also choose where to restore the files, either into the original
+            source directory or another directory.
+        </para>
+    </chapter>
+
+    <chapter id="advanced_settings">
+        <title>Advanced Settings</title>
+        <para>
+            Here you can configure optional features of JBackpack.
+        </para>
+        <figure>
+            <title>Advanced Settings</title>
+            <graphic fileref="Advanced_Settings.png"></graphic>
+        </figure>
+        <sect1 id="autodeletion">
+            <title>Automatic deletion of old backups</title>
+            <para>
+                <indexterm>
+                    <primary>automatic deletion</primary>
+                </indexterm>
+                Every backup consumes storage space in your destination
+                directory. Eventually you have to delete old backups. You can do
+                so manually in the "Restore" tab but manual deletion can become
+                tiring and sometimes you just forget about it. Automatic
+                deletion of old backups relieves you of this work. You can
+                specify with three different features how many old backups are
+                deleted:
+                <itemizedlist>
+                    <listitem><para>
+                        number of backups
+                    </para></listitem>
+                    <listitem><para>
+                        age of backups
+                    </para></listitem>
+                    <listitem><para>
+                        storage space usage
+                    </para></listitem>
+                </itemizedlist>
+            </para>
+        </sect1>
+        <sect1><title>Temporary directory</title>
+            <para>
+                <indexterm>
+                    <primary>temporary directory</primary>
+                </indexterm>
+                The temporary directory is used to store files that are only
+                temporarily created during backup and restore. It usually needs
+                to have as much free space as the size of the largest file in a
+                backup or restore operation.
+            </para>
+            <para>
+                In most cases it is a good idea to use the system default
+                directory. In case of a too small system default directory
+                you can configure a different directory. The storage usage of
+                the currently configured temporary directory is shown below the
+                path.
+            </para>
+        </sect1>
+    </chapter>
+
+    <chapter id="profiles">
+        <title>Working with profiles</title>
+        <para>
+            <indexterm>
+                <primary>profiles</primary>
+            </indexterm>
+            There are quite a number of configuration options in JBackpack. You
+            can manage these configuration options by using so-called profiles,
+            files that bundle all these configuration options. If you open the
+            <guimenu>File</guimenu> menu, there are several menu items for
+            working with profiles:
+            <figure>
+                <title>File menu</title>
+                <graphic fileref="FileMenu.png"></graphic>
+            </figure>
+            You can
+            <itemizedlist>
+                <listitem><para>
+                    create a new profile (this resets all configuration options
+                    to their default value)
+                </para></listitem>
+                <listitem><para>
+                    open saved profiles
+                </para></listitem>
+                <listitem><para>
+                    open recently used profiles
+                </para></listitem>
+                <listitem><para>
+                    save profiles
+                </para></listitem>
+            </itemizedlist>
+            Working with profiles makes it easy to copy the JBackpack
+            configuration from one machine to another and makes it possible to
+            try something out without the risk to lose a usable configuration.
+        </para>
+    </chapter>
+
+    <chapter id="program_settings">
+        <title>Program settings</title>
+        <para>
+            There are also some settings in JBackpack that are not directly
+            affecting the backup and restore operations but the way JBackpack
+            itself operates. These settings can be configured by selecting
+            <menuchoice>
+              <guimenu>File</guimenu>
+              <guimenuitem>Preferences...</guimenuitem>
+            </menuchoice>.
+        </para>
+        <para>
+            <figure>
+                <title>Logging Level</title>
+                <graphic fileref="Preferences1.png"></graphic>
+            </figure>
+            <indexterm>
+                <primary>logging level</primary>
+            </indexterm>
+            <indexterm>
+                <primary>log file</primary>
+            </indexterm>
+            JBackpack records the details of its on operation into a log file.
+            This is useful in case of a program error so that all actions before
+            and after the error as well as the details of the error itself can
+            be reconstructed and hopefully fixed by the JBackpack developers.
+            Here you can configure how much information is recorded into the log
+            files. The higher the level the more information gets recorded and
+            the slower JBackpack operates.
+        </para>
+        <para>
+            <figure>
+                <title>Miscellaneous</title>
+                <graphic fileref="Preferences2.png"></graphic>
+            </figure>
+            <indexterm>
+                <primary>warning</primary>
+            </indexterm>
+            JBackpack usually warns users when the destination directory is not
+            encrypted. There are certain special cases, e.g. when the
+            destination directory is located on an encrypted harddrive or when
+            the destination directory is located in a trusted zone, when this
+            warning is not necessary. Therefore you can disable this warning
+            here.
+        </para>
+    </chapter>
+</book>

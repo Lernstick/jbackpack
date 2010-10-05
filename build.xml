@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2010 imedias
+
+This file is part of JBackpack.
+
+JBackpack is free software; you can redistribute it and/or modify it under the
+terms of the GNU Lesser General Public License as published by the Free Software
+Foundation; either version 3 of the License, or (at your option) any later
+version.
+
+JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License along
+with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<project name="JBackpack" default="default" basedir=".">
+    <description>Builds, tests, and runs the project BackupRestoreGUI.</description>
+    <import file="nbproject/build-impl.xml"/>
+
+    <!-- Our own Jar Building Target -->
+    <target name="jar" depends="create-jar"/>
+
+    <target name="create-jar" depends="init,compile,-pre-pre-jar,-load-properties">
+        <jar destfile="${dist.jar.resolved}"
+             basedir="build/classes/"
+             excludes="ch/fhnw/jbackpack/todo">
+            <zipfileset src="libs/derby.jar" excludes="META-INF/**"/>
+            <zipfileset src="${file.reference.javaws.jar}" excludes="META-INF/**"/>
+            <zipfileset src="libs/jh.jar" excludes="META-INF/**"/>
+            <manifest>
+                <attribute name="Main-Class" value="ch.fhnw.jbackpack.JBackpack"/>
+                <attribute name="SplashScreen-Image" value="ch/fhnw/jbackpack/icons/Splash.png"/>
+            </manifest>
+        </jar>
+        <copy file="${dist.jar.resolved}" tofile="${dist.dir.resolved}/JBackpack.jar"/>
+        <echo>To run this application from the command line without Ant, try:</echo>
+        <echo>java -jar "${dist.jar.resolved}"</echo>
+    </target>
+
+    <target name="1_sort_strings">
+        <exec executable="sh">
+            <arg value="sort_strings.sh"></arg>
+        </exec>
+    </target>
+    <target name="2_check_strings">
+        <exec executable="sh">
+            <arg value="check_strings.sh"></arg>
+        </exec>
+    </target>
+    <target name="3_check_icons">
+        <exec executable="sh">
+            <arg value="check_icons.sh"></arg>
+        </exec>
+    </target>
+    <target name="4_debian_package">
+        <!-- build debian package -->
+        <exec executable="dpkg-buildpackage">
+            <arg value="-rfakeroot"/>
+        </exec>
+        <exec executable="fakeroot">
+            <arg value="debian/rules"/>
+            <arg value="clean"/>
+        </exec>
+    </target>
+
+    <target name="5_mac_os_x_dmg" depends="jar">
+        <echo>creating application directory...</echo>
+        <taskdef
+            name="jarbundler"
+            classname="net.sourceforge.jarbundler.JarBundler"
+            classpath="/usr/share/ant/lib/jarbundler-2.1.0.jar"/>
+        <jarbundler dir="dist"
+            name="JBackpack"
+            jar="dist/JBackpack.jar"
+            mainclass="ch.fhnw.jbackpack.JBackpack"
+            jvmversion="1.6+"
+            developmentregion="de"
+            icon="kdat_backup.icns"
+            />
+        <exec executable="hdiutil">
+            <arg line="unmount /Volumes/JBackpack"/>
+        </exec>
+        <delete file="dist/JBackpack-${JBackpack_Version}.dmg"/>
+        <echo>creating dmg...</echo>
+        <exec dir="dist" executable="hdiutil">
+            <arg line="create -sectors 20000 -fs HFS+ -volname
+            JBackpack JBackpack-${JBackpack_Version}"/>
+        </exec>
+        <echo>mounting dmg...</echo>
+        <exec dir="dist" executable="hdiutil">
+            <arg line="mount JBackpack-${JBackpack_Version}.dmg"/>
+        </exec>
+        <echo>copying application directory...</echo>
+        <exec executable="mv">
+            <arg line="dist/JBackpack.app /Volumes/JBackpack"/>
+        </exec>
+        <echo>copying dmg template...</echo>
+        <exec executable="ln">
+            <arg line="-s /Applications &quot;/Volumes/JBackpack/ &quot;"/>
+        </exec>
+        <exec executable="cp">
+            <arg line="-a dmg_template/.background /Volumes/JBackpack"/>
+        </exec>
+        <exec executable="cp">
+            <arg line="-a dmg_template/.DS_Store /Volumes/JBackpack"/>
+        </exec>
+        <echo>detaching dmg...</echo>
+        <exec executable="hdiutil">
+            <arg line="detach /Volumes/JBackpack"/>
+        </exec>
+        <echo>converting dmg into read-only format...</echo>
+        <delete file="dist/tmp.dmg"/>
+        <exec dir="dist" executable="hdiutil">
+            <arg line="convert JBackpack-${JBackpack_Version}.dmg -format UDRO -o tmp"/>
+        </exec>
+        <move file="dist/tmp.dmg" tofile="dist/JBackpack-${JBackpack_Version}.dmg" overwrite="true"/>
+        <!-- this breaks our pretty background...
+        <exec dir="dist" executable="hdiutil">
+            <arg line="internet-enable -yes jbackpack-${JBackpack_Version}.dmg"/>
+        </exec>
+        -->
+    </target>
+
+    <target name="6_create-docs" depends="-load-properties">
+        <!-- update common images -->
+        <!-- hint: do NOT delete the complete directory, this will break svn -->
+        <echo>Updating images common to all translations...</echo>
+        <delete failonerror="false">
+            <fileset dir="src/ch/fhnw/jbackpack/help/nimbus/images" includes="*.png"/>
+            <fileset dir="src/ch/fhnw/jbackpack/help/aqua/images" includes="*.png"/>
+            <fileset dir="src/ch/fhnw/jbackpack/help/windows/images" includes="*.png"/>
+        </delete>
+        <copy todir="src/ch/fhnw/jbackpack/help/nimbus/images">
+            <fileset dir="doc/docbook/nimbus/images" includes="*.png"/>
+        </copy>
+        <copy todir="src/ch/fhnw/jbackpack/help/aqua/images">
+            <fileset dir="doc/docbook/aqua/images" includes="*.png"/>
+        </copy>
+        <copy todir="src/ch/fhnw/jbackpack/help/windows/images">
+            <fileset dir="doc/docbook/windows/images" includes="*.png"/>
+        </copy>
+
+        <echo>Generating German documentation...</echo>
+        <antcall target="create-doc">
+            <param name="doc_language" value="de"/>
+            <param name="plaf" value="nimbus"/>
+            <param name="profile.os" value="linux"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="de"/>
+            <param name="plaf" value="nimbus"/>
+            <param name="profile.os" value="linux"/>
+        </antcall>
+        <antcall target="create-doc">
+            <param name="doc_language" value="de"/>
+            <param name="plaf" value="aqua"/>
+            <param name="profile.os" value="macosx"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="de"/>
+            <param name="plaf" value="aqua"/>
+            <param name="profile.os" value="macosx"/>
+        </antcall>
+        <antcall target="create-doc">
+            <param name="doc_language" value="de"/>
+            <param name="plaf" value="windows"/>
+            <param name="profile.os" value="windows"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="de"/>
+            <param name="plaf" value="windows"/>
+            <param name="profile.os" value="windows"/>
+        </antcall>
+
+        <echo>Generating Swiss German documentation...</echo>
+        <!-- copy German docs and replace all occurances of "ß" with "ss" -->
+        <copy overwrite="yes" file="doc/docbook/default/de/JBackpack.docbook"
+              tofile="doc/docbook/default/de_CH/JBackpack.docbook"/>
+        <replace summary="yes" file="doc/docbook/default/de_CH/JBackpack.docbook"
+                 token="ß" value="ss"/>
+        <antcall target="create-doc">
+            <param name="doc_language" value="de_CH"/>
+            <param name="plaf" value="nimbus"/>
+            <param name="profile.os" value="linux"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="de_CH"/>
+            <param name="plaf" value="nimbus"/>
+            <param name="profile.os" value="linux"/>
+        </antcall>
+        <antcall target="create-doc">
+            <param name="doc_language" value="de_CH"/>
+            <param name="plaf" value="aqua"/>
+            <param name="profile.os" value="macosx"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="de_CH"/>
+            <param name="plaf" value="aqua"/>
+            <param name="profile.os" value="macosx"/>
+        </antcall>
+        <antcall target="create-doc">
+            <param name="doc_language" value="de_CH"/>
+            <param name="plaf" value="windows"/>
+            <param name="profile.os" value="windows"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="de_CH"/>
+            <param name="plaf" value="windows"/>
+            <param name="profile.os" value="windows"/>
+        </antcall>
+
+        <echo>Generating English documentation...</echo>
+        <antcall target="create-doc">
+            <param name="doc_language" value="en"/>
+            <param name="plaf" value="nimbus"/>
+            <param name="profile.os" value="linux"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="en"/>
+            <param name="plaf" value="nimbus"/>
+            <param name="profile.os" value="linux"/>
+        </antcall>
+        <antcall target="create-doc">
+            <param name="doc_language" value="en"/>
+            <param name="plaf" value="aqua"/>
+            <param name="profile.os" value="macosx"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="en"/>
+            <param name="plaf" value="aqua"/>
+            <param name="profile.os" value="macosx"/>
+        </antcall>
+        <antcall target="create-doc">
+            <param name="doc_language" value="en"/>
+            <param name="plaf" value="windows"/>
+            <param name="profile.os" value="windows"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="en"/>
+            <param name="plaf" value="windows"/>
+            <param name="profile.os" value="windows"/>
+        </antcall>
+        
+        <echo>All documentation generated. Must rebuild project now...</echo>
+        <antcall target="clean"/>
+        <antcall target="compile"/>
+    </target>
+
+    <target name="create-doc">
+        <!-- copy default doc to current look&feel directory -->
+        <copy overwrite="yes"
+            file="doc/docbook/default/${doc_language}/JBackpack.docbook"
+            tofile="doc/docbook/${plaf}/${doc_language}/JBackpack.docbook"/>
+
+        <!-- update version tag -->
+        <replaceregexp
+            file="doc/docbook/${plaf}/${doc_language}/JBackpack.docbook"
+            match="&lt;releaseinfo&gt;.*&lt;/releaseinfo&gt;"
+            replace="&lt;releaseinfo&gt;Version ${JBackpack_Version}&lt;/releaseinfo&gt;"
+        />
+
+        <!-- remove old docs -->
+        <!-- hint: do NOT remove the complete directory, this will break svn -->
+        <delete failonerror="false">
+            <fileset
+                dir="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}"
+                includes="*"/>
+        </delete>
+
+        <!-- create javahelp stuff
+        - unfortunately does not include navigation
+        - this gets fixed by the next task
+        -->
+        <exec dir="doc/docbook/${plaf}/${doc_language}" executable="xsltproc">
+            <arg line="
+                 --stringparam use.id.as.filename 1
+                 --stringparam profile.os &quot;${profile.os}&quot;
+                 -o ../../../../src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}/
+                 /usr/share/xml/docbook/stylesheet/nwalsh/javahelp/profile-javahelp.xsl
+            JBackpack.docbook"/>
+        </exec>
+
+        <!-- remove javahelp stuff that we do better ourself -->
+        <delete failonerror="false">
+            <fileset
+                dir="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}"
+                includes="jhelpset.hs"/>
+        </delete>
+
+        <!-- create html docs with navigation
+        - updates the html files created by the task above
+        -->
+        <exec dir="doc/docbook/${plaf}/${doc_language}" executable="xsltproc">
+            <arg line="
+                 --stringparam use.id.as.filename 1
+                 --stringparam profile.os &quot;${profile.os}&quot;
+                 --stringparam chunker.output.encoding UTF-8
+                 --stringparam section.autolabel 1
+                 --stringparam section.label.includes.component.label 1
+                 --stringparam admon.graphics 1
+                 --stringparam admon.graphics.path ../images/
+                 --stringparam chunker.output.indent yes
+                 -o ../../../../src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}/
+                 /usr/share/xml/docbook/stylesheet/nwalsh/html/profile-chunk.xsl
+            JBackpack.docbook"/>
+        </exec>
+
+        <!-- copy language specific pictures -->
+        <copy todir="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}">
+            <fileset
+                dir="doc/docbook/${plaf}/${doc_language}"
+                includes="*.png,*.jpg"/>
+        </copy>
+
+        <!-- update javahelp index -->
+        <echo>Updating the JavaHelp index files...</echo>
+        <!-- do not index version control files-->
+        <move failonerror="false"
+            file="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}/.svn/"
+            tofile="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}_svn/"/>
+        <exec dir="src/ch/fhnw/jbackpack/help/${plaf}" executable="jhindexer">
+            <arg line="-verbose -locale ${doc_language} -db JavaHelpSearch_${doc_language} ${doc_language}"/>
+        </exec>
+        <move failonerror="false"
+            file="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}_svn/"
+            tofile="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}/.svn/"/>
+    </target>
+
+    <target name="create-pdf">
+        <!-- create fo output -->
+        <exec dir="doc/docbook/${plaf}/${doc_language}"
+                executable="xsltproc"
+                output="doc/docbook/${plaf}/${doc_language}/JBackpack.fo"
+                error="error.txt">
+            <arg line="
+                 --stringparam profile.os &quot;${profile.os}&quot;
+                 --stringparam paper.type A4
+                 --stringparam dingbat.font.family dejavu
+                 --stringparam section.autolabel 1
+                 --stringparam section.label.includes.component.label 1
+                 --stringparam admon.graphics 1
+                 --stringparam admon.graphics.path ../images/
+                 --stringparam menuchoice.menu.separator &#xA0;>&#xA0;
+                 --stringparam insert.xref.page.number yes
+                 --stringparam insert.link.page.number yes
+                 /usr/share/xml/docbook/stylesheet/nwalsh/fo/profile-docbook.xsl
+            JBackpack.docbook"/>
+        </exec>
+        <delete file="error.txt"/>
+        <!-- correct image scaling for pdf, use "scale-down-to-fit" with fop 1.0 and later... -->
+        <replace summary="yes" file="doc/docbook/${plaf}/${doc_language}/JBackpack.fo"
+                 token="width=&quot;auto&quot; height=&quot;auto&quot; content-width=&quot;auto&quot; content-height=&quot;auto&quot;"
+                 value="content-width=&quot;scale-to-fit&quot; content-height=&quot;100%&quot; width=&quot;100%&quot; scaling=&quot;uniform&quot;"/>
+        <!-- convert to PDF -->
+        <echo>calling fop...</echo>
+        <exec dir="doc/docbook/${plaf}/${doc_language}" executable="fop">
+            <arg line="JBackpack.fo JBackpack.pdf"/>
+        </exec>
+        <delete file="doc/docbook/${plaf}/${doc_language}/JBackpack.fo"/>
+        <move
+            file="doc/docbook/${plaf}/${doc_language}/JBackpack.pdf"
+            tofile="JBackpack_${plaf}_${doc_language}.pdf"/>
+    </target>
+
+    <target name="-load-properties">
+        <property file="src/ch/fhnw/jbackpack/Strings.properties"/>
+        <property name="dist.dir.resolved" location="${dist.dir}"/>
+        <property name="dist.jar.resolved" location="${dist.dir}/jbackpack-${JBackpack_Version}.jar"/>
+    </target>
+</project>

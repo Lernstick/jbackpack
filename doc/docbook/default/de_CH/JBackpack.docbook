@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd">
+
+<book id="JBackpack" lang="de">
+
+    <bookinfo>
+        <title>JBackpack-Handbuch</title>
+        <date>2010-07-31</date>
+        <releaseinfo>Version 0.8.13</releaseinfo>
+        <abstract>
+            <para>
+                <application>JBackpack</application> ist ein Programm für die
+                Sicherung und Wiederherstellung persönlicher Daten. Es bietet
+                inkrementelle Datensicherungen, Netzwerktransparenz und
+                Verschlüsselung.
+            </para>
+        </abstract>
+    </bookinfo>
+
+    <chapter id="overview">
+        <title>Übersicht</title>
+        <para>
+            <indexterm>
+                <primary>rdiff-backup</primary>
+            </indexterm>
+            JBackpack verwendet rdiff-backup
+            (<ulink url="http://www.nongnu.org/rdiff-backup"
+            >http://www.nongnu.org/rdiff-backup</ulink>)
+            für alle Datensicherungs- und Wiederherstellungsfunktionen. Die
+            interessanteste Funktion von rdiff-backup ist die Unterstützung von
+            <emphasis>inkrementellen Datensicherungen</emphasis>.
+        </para>
+        <para>
+            <indexterm>
+                <primary>inkrementelle Datensicherung</primary>
+            </indexterm>
+            Inkrementelle Datensicherung ist eine Datensicherungsmethode, bei
+            der mehrere Datensicherungen aufbewahrt werden (also nicht nur die
+            letzte). Jede Information wird nur einmal abgespeichert und
+            nachfolgende Datensicherungen beinhalten nur die Informationen, die
+            sich seit der letzten Datensicherung geändert haben. Dies ermöglicht
+            es, geänderte oder gelöschte Informationen wiederherzustellen, auch
+            wenn mehrere Datensicherungen seit der Änderung oder dem Löschen
+            durchgeführt wurden.
+        </para>
+        <para>
+            JBackpack hat einen integrierten Inkrement-Browser, mit dem die
+            Dateiauswahl vor der Wiederherstellung sehr vereinfacht wird.
+        </para>
+        <para>
+            <indexterm>
+                <primary>SSHFS</primary>
+            </indexterm>
+            JBackpack verwendet SSHFS
+            (<ulink url="http://fuse.sourceforge.net/sshfs.html"
+            >http://fuse.sourceforge.net/sshfs.html</ulink>) und SMB
+            (<ulink url="http://de.wikipedia.org/wiki/Server_Message_Block"
+            >http://de.wikipedia.org/wiki/Server_Message_Block</ulink>), um auf
+            entferte Dateisysteme zuzugreifen. So können Datensicherungen auch
+            auf entfernten Systemen abgelegt werden. Dies erhöht die
+            Verfügbarkeit der Datensicherungen im Falle eines lokalen
+            Systemfehlers. Allerdings verlangsamt dies auch den
+            Datensicherungsprozess, da die verfügbare Bandbreite auf entfernte
+            Systeme im Allgemeinen viel geringer ist als die verfügbare
+            Bandbreite auf lokale Dateisysteme.
+        </para>
+        <para>
+            <indexterm>
+                <primary>EncFS</primary>
+            </indexterm>
+            JBackpack verwendet EncFS
+            (<ulink url="http://www.arg0.net/encfs"
+            >http://www.arg0.net/encfs</ulink>),
+            um Datensicherungsverzeichnisse zu verschlüsseln. Verschlüsselung
+            bietet Vertraulichkeit, verlangsamt jedoch auch die Datensicherung
+            und Wiederherstellung.
+        </para>
+    </chapter>
+
+    <chapter id="directories">
+        <title>Verzeichnisse</title>
+        <para>
+            Wenn Sie JBackpack das erste Mal starten, öffnet sich der Reiter
+            "Verzeichnisse".
+            <figure>
+                <title>Reiter "Verzeichnisse"</title>
+                <graphic fileref="../de/Hauptfenster.png"></graphic>
+            </figure>
+            Hier können Sie einstellen, welche Verzeichnisse für die
+            Datensicherung verwendet werden.
+        </para>
+        <sect1><title>Quellverzeichnis</title>
+            <indexterm>
+                <primary>Quellverzeichnis</primary>
+            </indexterm>
+            <para>
+                Das erste Verzeichnis ist das Quellverzeichnis. Nur Dateien in
+                diesem Verzeichnis werden gesichert. JBackpack verwendet
+                standardmässig Ihr persönliches Verzeichnis. Wenn Sie ein anderes
+                Verzeichnis sichern wollen, müssen Sie den Knopf "anderes
+                Verzeichnis" auswählen. Dann können Sie den Pfad des anderen
+                Verzeichnisses in das Textfeld eintippen oder den
+                Dateiauswahlknopf rechts neben dem Textfeld verwenden, um das
+                gewünschte Verzeichnis auszuwählen.
+            </para>
+        </sect1>
+        <sect1><title>Datensicherungsverzeichnis</title>
+            <indexterm>
+                <primary>Datensicherungsverzeichnis</primary>
+            </indexterm>
+            <para>
+                Das zweite Verzeichnis ist das Datensicherungsverzeichnis. Dies
+                ist der Ort, an dem Ihre Datensicherung und die Inkremente
+                abgespeichert werden. Das Datensicherungsverzeichnis ist
+                entweder:
+                <itemizedlist>
+                    <listitem><para>
+                        lokal
+                    </para></listitem>
+                    <listitem><para>
+                        <indexterm>
+                            <primary>SSH</primary>
+                        </indexterm>
+                        entfernt via SSH (weitere Informationen über SSH finden
+                        Sie unter folgender Adresse:
+                        <ulink url="http://de.wikipedia.org/wiki/Secure_Shell"
+                        >http://de.wikipedia.org/wiki/Secure_Shell</ulink>)
+                    </para></listitem>
+                    <listitem><para>
+                        <indexterm>
+                            <primary>SMB</primary>
+                        </indexterm>
+                        entfernt via SMB (weitere Informationen über SMB finden
+                        Sie unter folgender Adresse:
+                        <ulink url="http://de.wikipedia.org/wiki/Server_Message_Block"
+                        >http://de.wikipedia.org/wiki/Server_Message_Block</ulink>)
+                    </para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                Wenn Sie ein lokales Verzeichnis auswählen, können Sie den Pfad
+                entweder direkt in das Textfeld eintippen oder den
+                Dateiauswahlknopf rechts neben dem Textfeld verwenden, um das
+                gewünschte Verzeichnis auszuwählen.
+            </para>
+            <para>
+                Wenn Sie ein entferntes Datensicherungsverzeichnis via SSH
+                auswählen wollen, müssen Sie einige zusätzliche Einstellungen
+                vornehmen:
+                <figure>
+                    <title>Einstellungen für SSH</title>
+                    <graphic fileref="../de/SSH.png"></graphic>
+                </figure>
+                Bitte geben Sie den Namen des Servers an, auf dem Sie Ihre Daten
+                sichern wollen (Sie müssen via SSH auf den Server zugreifen
+                können) und Ihren Benutzernamen auf dem entfernten Server. Die
+                spätere Verzeichnisauswahl auf dem entfernten Server basiert auf
+                Ihrem persönlichen Verzeichnis auf dem entfernten Server. Wenn
+                Ihr Datensicherungsverzeichnis kein Unterverzeichnis Ihres
+                persönlichen Verzeichnisses auf dem Server ist, können Sie ein
+                anderes Basisverzeichnis angeben.
+            </para>
+            <para>
+                <indexterm>
+                    <primary>öffentlicher Schlüssel</primary>
+                </indexterm>
+                Sie können sich am entfernten Server entweder mit einem Passwort
+                oder einem öffentlichen Schlüssel authentisieren. Wenn Sie sich
+                mit einem öffentlichen Schlüssel authentisieren möchten, stellen
+                Sie bitte sicher, dass Sie alle notwendigen Einstellungen
+                vorgenommen haben. Weitere Informationen über die
+                Authentisierung mit öffentlichen Schlüsseln finden Sie unter
+                folgender Adresse:
+                <ulink url="http://www.debian-administration.org/article/SSH_with_authentication_key_instead_of_password"
+                >http://www.debian-administration.org/article/SSH_with_authentication_key_instead_of_password</ulink>
+            </para>
+            <para>
+                Nach einer erfolgreichen Anmeldung kann das entfernte
+                Datensicherungsverzeichnis konfiguriert werden:
+                <figure>
+                    <title>Angemeldet</title>
+                    <graphic fileref="../de/Angemeldet.png"></graphic>
+                </figure>
+                Wenn Sie den Pfad des Verzeichnisses kennen, können Sie ihn
+                direkt in das Textfeld eingeben, ansonsten können Sie auch den
+                Dateiauswahlknopf rechts neben dem Textfeld verwenden, um das
+                gewünschte Verzeichnis auszuwählen.
+            </para>
+            <para>
+                Wenn Sie ein entferntes Datensicherungsverzeichnis via SMB
+                auswählen wollen, müssen Sie einige zusätzliche Einstellungen
+                vornehmen:
+                <figure>
+                    <title>Einstellungen für SMB</title>
+                    <graphic fileref="../de/SMB.png"></graphic>
+                </figure>
+                Bitte geben Sie den Namen des Servers an, auf dem Sie Ihre Daten
+                sichern wollen (Sie müssen via SMB auf den Server zugreifen
+                können), den Namen der Freigabe, Ihren Benutzernamen und Ihr
+                Passwort auf dem entfernten Server.
+            </para>
+            <para os="linux">
+                Sie benötigen die Berechtigung, Dateisysteme via sudo einbinden
+                zu können (weitere Informationen zu sudo finden Sie unter
+                folgender Adresse:
+                <ulink url="http://de.wikipedia.org/wiki/Sudo"
+                >http://de.wikipedia.org/wiki/Sudo</ulink>). Um das entfernte
+                Dateisystem einbinden zu können, wird Ihr lokales Passwort
+                benötigt.
+            </para>
+            <para>
+                Nach einer erfolgreichen Anmeldung kann das entfernte
+                Datensicherungsverzeichnis konfiguriert werden.
+            </para>
+            <para>
+                Wenn Sie ein gültiges (und noch nicht verschlüsseltes)
+                Datensicherungsverzeichnis angegeben haben, erscheint ein Knopf
+                zur Verschlüsselung:
+                <figure>
+                    <title>Verschlüsselung</title>
+                    <graphic fileref="../de/Verschluesselung.png"></graphic>
+                </figure>
+                Durch Betätigen dieses Knopfes können Sie Ihr
+                Datensicherungsverzeichnis mit einem Passwort verschlüsseln.
+            </para>
+            <para>
+                Wenn Ihr Datensicherungsverzeichnis verschlüsselt ist, erscheint
+                die Verschlüsselungssteuerung:
+                <figure>
+                    <title>Verschlüsselungssteuerung</title>
+                    <graphic fileref="../de/VerschluesselungSteuerung.png"></graphic>
+                </figure>
+                <indexterm>
+                    <primary>sperren</primary>
+                </indexterm>
+                <indexterm>
+                    <primary>entsperren</primary>
+                </indexterm>
+                Sie können das Datensicherungsverzeichnis sperren und
+                entsperren, das Verschlüsselungspasswort ändern und (wenn Sie
+                die zusätzliche Sicherheit, die die Verschlüsselung bietet,
+                nicht mehr benötigen) das Datensicherungsverzeichnis auch wieder
+                dauerhaft entschlüsseln.
+            </para>
+            <para>
+                Verschlüsselte Verzeichnisse können bei der Datensicherung oder
+                Wiederherstellung nur verwendet werden, wenn sie entsperrt
+                wurden. Die Entsperrung ist nur mit dem Verschlüsselungspasswort
+                möglich. <emphasis>Es gibt keinen Wiederherstellungsmechanismus.
+                Sie müssen sich das Verschlüsselungspasswort wirklich merken!
+                </emphasis>
+            </para>
+        </sect1>
+    </chapter>
+
+    <chapter id="backup">
+        <title>Datensicherung</title>
+        <para>
+            Wenn Sie alle Verzeichnisse ausgewählt haben, können Sie auf den
+            Reiter <quote>Datensicherung</quote> wechseln:
+            <figure>
+                <title>Datensicherung</title>
+                <graphic fileref="Datensicherung.png"></graphic>
+            </figure>
+            Sie können die Datensicherung durch Betätigen des grossen
+            <quote>Daten sichern</quote>-Knopfes starten.
+        </para>
+        <para>
+            <indexterm>
+                <primary>Komprimierung</primary>
+            </indexterm>
+            Die einzige Option, die standardmässig aktiviert ist, ist
+            <quote>Dateien komprimieren</quote>. Die Komprimierung kann
+            erheblich Speicherplatz einsparen, verlangsamt allerdings auch die
+            Datensicherung und Wiederherstellung.
+        </para>
+        <para>
+            <indexterm>
+                <primary>Erinnerung</primary>
+            </indexterm>
+            Sie können JBackpack auch so einstellen, dass Sie in regelmässigen
+            Abständen daran erinnert werden, Ihre Daten zu sichern.
+        </para>
+        <para>
+            <indexterm>
+                <primary>Dateien ausschliessen</primary>
+            </indexterm>
+            Wenn Sie nicht <emphasis>alle</emphasis> Daten aus dem
+            Quellverzeichnis sichern wollen, können Sie das Kästchen
+            <quote>Dateien ausschliessen</quote> anwählen. Dies öffnet weitere
+            Optionen:
+            <figure>
+                <title>Dateien ausschliessen</title>
+                <graphic fileref="DateienAusschliessen.png"></graphic>
+            </figure>
+        </para>
+        <para>
+            Im Dateimuster-Textfeld können Sie Pfade von Dateien oder
+            Verzeichnissen angeben, die Sie ausschliessen wollen. Der Knopf
+            rechts vom Textfeld (mit dem grossen grünen
+            <quote>Plus</quote>-Symbol) öffnet eine Dateiauswahl, die die
+            Auswahl und das Hinzufügen von Dateien und Verzeichnissen
+            vereinfacht.
+        </para>
+        <para os="linux">
+            <indexterm>
+                <primary>Ausnahmen</primary>
+            </indexterm>
+            Sie können auch Ausnahmen bei den ausgeschlossenen Dateien und
+            Verzeichnissen machen. Dies ist insbesondere bei komplexeren
+            Datensicherungssituationen interessant. Ein Beispiel soll dies
+            verdeutlichen. Nehmen Sie an, Sie haben folgende
+            Verzeichnisstruktur:
+<screen>
+    /home─┐
+          ├─anton
+          ├─barbara
+          ├─sonstiges1
+          ├─sonstiges2
+          ├─...
+          └─sonstigesN
+</screen>
+            Wenn Sie nur <computeroutput>/home/anton/</computeroutput> und
+            <computeroutput>/home/barbara/</computeroutput> sichern wollen,
+            müssen Sie <computeroutput>/home/</computeroutput> als
+            Quellverzeichnis einstellen, <computeroutput>/home/</computeroutput>
+            ausschliessen und
+            <computeroutput>/home/anton/</computeroutput> und
+            <computeroutput>/home/barbara/</computeroutput> als Ausnahmen
+            hinzufügen.
+        </para>
+        <para os="macosx">
+            <indexterm>
+                <primary>Ausnahmen</primary>
+            </indexterm>
+            Sie können auch Ausnahmen bei den ausgeschlossenen Dateien und
+            Verzeichnissen machen. Dies ist insbesondere bei komplexeren
+            Datensicherungssituationen interessant. Ein Beispiel soll dies
+            verdeutlichen. Nehmen Sie an, Sie haben folgende
+            Verzeichnisstruktur:
+<screen>
+    /Users─┐
+           ├─anton
+           ├─barbara
+           ├─sonstiges1
+           ├─sonstiges2
+           ├─...
+           └─sonstigesN
+</screen>
+            Wenn Sie nur <computeroutput>/Users/anton/</computeroutput> und
+            <computeroutput>/Users/barbara/</computeroutput> sichern wollen,
+            müssen Sie <computeroutput>/Users/</computeroutput> als
+            Quellverzeichnis einstellen,
+            <computeroutput>/Users/</computeroutput> ausschliessen und
+            <computeroutput>/Users/anton/</computeroutput> und
+            <computeroutput>/Users/barbara/</computeroutput> als Ausnahmen
+            hinzufügen.
+        </para>
+        <para os="windows">
+            <indexterm>
+                <primary>Ausnahmen</primary>
+            </indexterm>
+            Sie können auch Ausnahmen bei den ausgeschlossenen Dateien und
+            Verzeichnissen machen. Dies ist insbesondere bei komplexeren
+            Datensicherungssituationen interessant. Ein Beispiel soll dies
+            verdeutlichen. Nehmen Sie an, Sie haben folgende
+            Verzeichnisstruktur:
+<screen>
+    C:.
+    └───Dokumente und Einstellungen
+        ├───Anton
+        ├───Barbara
+        ├───Sonstiges1
+        ├───Sonstiges2
+        ├───...
+        └───SonstigesN
+</screen>
+            Wenn Sie nur
+            <computeroutput>C:\Dokumente und Einstellungen\Anton\</computeroutput>
+            und
+            <computeroutput>C:\Dokumente und Einstellungen\Barbara\</computeroutput>
+            sichern wollen, müssen Sie
+            <computeroutput>C:\Dokumente und Einstellungen\</computeroutput> als
+            Quellverzeichnis einstellen,
+            <computeroutput>C:\Dokumente und Einstellungen\</computeroutput>
+            ausschliessen und
+            <computeroutput>C:\Dokumente und Einstellungen\Anton\</computeroutput>
+            und
+            <computeroutput>C:\Dokumente und Einstellungen\Barbara\</computeroutput>
+            als Ausnahmen hinzufügen.
+        </para>
+        <para>
+            Auf der rechten Seite können Sie Dateien anhand deren Eigenschaften
+            ausschliessen:
+            <itemizedlist>
+                <listitem><para>
+                    Grösse (Sie können eine minimale und maximale Grösse angeben)
+                </para></listitem>
+                <listitem><para>
+                    ob sie auf dem Dateisystem des Quellverzeichnisses liegt
+                </para></listitem>
+                <listitem><para>
+                    <indexterm>
+                        <primary>symbolischer Link</primary>
+                    </indexterm>
+                    ob es ein symbolischer Link ist
+                </para></listitem>
+                <listitem><para>
+                    <indexterm>
+                        <primary>Gerätedatei</primary>
+                    </indexterm>
+                    ob es eine Gerätedatei ist
+                </para></listitem>
+                <listitem><para>
+                    <indexterm>
+                        <primary>Socket</primary>
+                    </indexterm>
+                    ob es ein Socket ist
+                </para></listitem>
+                <listitem><para>
+                    <indexterm>
+                        <primary>benannte Pipe</primary>
+                    </indexterm>
+                    ob es eine benannte Pipe ist
+                </para></listitem>
+            </itemizedlist>
+            Weitere Informationen über symbolische Links, Gerätedateien, Sockets
+            und benannte Pipes können unter folgender Adresse gefunden werden:
+            <ulink url="http://en.wikipedia.org/wiki/Unix_file_types"
+            >http://en.wikipedia.org/wiki/Unix_file_types</ulink>
+        </para>
+        <para>
+            Wenn Sie die Datensicherung starten, sehen Sie folgende
+            Fortschrittsinformationen:
+            <figure>
+                <title>Laufende Datensicherung</title>
+                <graphic fileref="../de/Laufende_Datensicherung.png"></graphic>
+            </figure>
+            Gezeigt werden:
+            <itemizedlist>
+                <listitem><para>
+                    die Anzahl der bereits gesicherten Dateien
+                </para></listitem>
+                <listitem><para>
+                    die aktuell gesicherte Datei
+                </para></listitem>
+                <listitem><para>
+                    die bereits abgelaufene Zeit
+                </para></listitem>
+            </itemizedlist>
+            <indexterm>
+                <primary>automatisches Herunterfahren</primary>
+            </indexterm>
+            Sie können auch wählen, dass der Computer nach der Datensicherung
+            heruntergefahren wird. Sie müssen dazu über Administratorenrechte
+            verfügen und Ihr Passwort eingeben. Sie können die Datensicherung
+            auch abbrechen.
+        </para>
+        <para>
+            <indexterm>
+                <primary>Zusammenfassung</primary>
+            </indexterm>
+            Wenn die Datensicherung beendet ist, wird folgende Zusammenfassung
+            angezeigt:
+            <figure>
+                <title>Zusammenfassung der Datensicherung</title>
+                <graphic fileref="Datensicherungsstatistik.png"></graphic>
+            </figure>
+            Normalerweise gibt es nach einer erfolgreichen Datensicherung nicht
+            mehr viel zu tun. Deswegen setzt JBackpack hier standardmässig den
+            Fokus auf den Knopf <quote>JBackpack beenden</quote>. Sie können
+            einfach <keycap>Enter</keycap> betätigen oder den Knopf
+            <quote>JBackpack beenden</quote> anklicken. Wenn Sie tatsächlich
+            JBackpack weiterverwenden wollen, betätigen Sie bitte den Knopf
+            <quote>JBackpack weiterverwenden</quote>.
+        </para>
+    </chapter>
+
+    <chapter id="restore">
+        <title>Wiederherstellung</title>
+        <para>
+            <indexterm>
+                <primary>Wiederherstellung</primary>
+            </indexterm>
+            Wenn Sie Dateien wiederherstellen wollen, müssen Sie auf den Reiter
+            <quote>Wiederherstellung</quote> wechseln:
+            <figure>
+                <title>Wiederherstellung</title>
+                <graphic fileref="Wiederherstellung.png"></graphic>
+            </figure>
+            <indexterm>
+                <primary>Spiegel</primary>
+            </indexterm>
+            <indexterm>
+                <primary>Inkrement</primary>
+            </indexterm>
+            Auf der linken Seite wird die Liste der verfügbaren Datensicherungen
+            angezeigt. Für jede Datensicherung wird dessen Typ, Zeitstempel und
+            Speicherplatzbedarf angezeigt. Es gibt zwei verschiedene
+            Datensicherungstypen: Die oberste Datensicherung wird
+            <quote>Spiegel</quote> genannt. Sie beinhaltet alle Dateien der
+            letzten Datensicherung und wird mit einem Festplattensymbol
+            gekennzeichnet. Alle anderen Datensicherungen werden
+            <quote>Inkremente</quote> genannt und speichern nur die Unterschiede
+            relativ zur jüngeren Datensicherung (und benötigen deswegen
+            normalerweise deutlich weniger Speicherplatz als der Spiegel). Sie
+            sind durch ein Pfeilsymbol gekennzeichnet.
+        </para>
+        <para>
+            Wenn Sie eine Datensicherung aus der Liste auswählen, wird die
+            Dateistruktur dieser Datensicherung in der Dateiauswahl auf der
+            rechten Seite angezeigt. Mit Hilfe der Pfeilknöpfe unter der Liste
+            der Datensicherungen können Sie einfach zwischen den
+            Datensicherungen wechseln, ohne immer wieder den Mauszeiger bewegen
+            und zielen zu müssen.
+        </para>
+        <para>
+            Unter den Pfeilknöpfen werden verschiedene Werte zum
+            Speicherplatzbedarf angezeigt:
+            <itemizedlist>
+                <listitem><para>
+                    <indexterm>
+                        <primary>kumulative Grösse</primary>
+                    </indexterm>
+                    die kumulative Grösse (die Summe der Grössen der ausgewählten
+                    Datensicherung und aller älteren Datensicherungen)
+                </para></listitem>
+                <listitem><para>
+                    <indexterm>
+                        <primary>Gesamtgrösse</primary>
+                    </indexterm>
+                    die Summe der Grössen aller Datensicherungen
+                </para></listitem>
+                <listitem><para>
+                    die Auslastung des Speicherplatzes des
+                    Datensicherungsverzeichnisses
+                </para></listitem>
+            </itemizedlist>
+            Mit Hilfe dieser Informationen können Sie entscheiden, ob und
+            wie viele Datensicherungen Sie aufheben oder löschen wollen. Sie
+            können das Löschen von alten Datensicherungen auch automatisieren.
+            Weitere Informationen dazu finden Sie im
+            <xref linkend="autodeletion"/>.
+        </para>
+        <para>
+            Auf der oberen rechten Seite können Sie wählen, ob Sie entweder die
+            gesamte Datensicherung oder nur ausgewählte Dateien wiederherstellen
+            wollen.
+        </para>
+        <para>
+            Im unteren Fensterbereich können Sie die Wiederherstellung starten.
+            Sie können die ausgewählten Dateien vor der Wiederherstellung zählen
+            lassen. Das ermöglicht die Anzeige eines Fortschrittsbalkens während
+            der Wiederherstellung, kann aber ein paar zusätzliche Sekunden
+            dauern. Sie können ausserdem wählen, wohin die Daten
+            wiederhergestellt werden sollen: entweder in das originale
+            Quellverzeichnis oder in ein anderes Verzeichnis.
+        </para>
+    </chapter>
+
+    <chapter id="advanced_settings">
+        <title>Erweiterte Einstellungen</title>
+        <para>
+            Hier können sie optionale Funktionen von JBackpack konfigurieren.
+        </para>
+        <figure>
+            <title>Erweiterte Einstellungen</title>
+            <graphic fileref="../de/Erweiterte_Einstellungen.png"></graphic>
+        </figure>
+        <sect1 id="autodeletion">
+            <title>Automatisches Löschen alter Datensicherungen</title>
+            <para>
+                <indexterm>
+                    <primary>automatisches Löschen</primary>
+                </indexterm>
+                Jede Datensicherung verbraucht Speicherplatz in Ihrem
+                Datensicherungsverzeichnis. Irgendwann müssen Sie alte
+                Datensicherungen löschen. Sie können das manuell im Reiter
+                <quote>Wiederherstellung</quote> tun. Das manuelle Löschen ist
+                jedoch mühsam und wird manchmal einfach vergessen. Das
+                automatische Löschen kann Sie von dieser Arbeit befreien. Sie
+                können über drei verschiedene Eigenschaften festlegen, wie viele
+                Datensicherungen automatisch gelöscht werden sollen:
+                <itemizedlist>
+                    <listitem><para>
+                        Anzahl der Datensicherungen
+                    </para></listitem>
+                    <listitem><para>
+                        Alter der Datensicherungen
+                    </para></listitem>
+                    <listitem><para>
+                        verbrauchter Speicherplatz
+                    </para></listitem>
+                </itemizedlist>
+            </para>
+        </sect1>
+        <sect1><title>Temporäres Verzeichnis</title>
+            <para>
+                <indexterm>
+                    <primary>temporäres Verzeichnis</primary>
+                </indexterm>
+                Das temporäre Verzeichnis wird verwendet, um Dateien
+                abzuspeichern, die nur kurzzeitig während der Datensicherung
+                oder der Wiederherstellung erzeugt werden. Normalerweise wird im
+                temporären Verzeichnis genauso viel freier Speicherplatz
+                benötigt, wie die grösste Datei einer Datensicherung oder
+                Wiederherstellung belegt.
+            </para>
+            <para>
+                In den meisten Fällen ist es sinnvoll, die Systemvorgabe zu
+                verwenden. Falls das vorgegebene temporäre Verzeichnis zu wenig
+                Speicherplatz bietet, können Sie hier ein anderes Verzeichnis
+                angeben. Die Speicherplatzbelegung des aktuell eingestellten
+                temporären Verzeichnisses wird unter dem Pfad angezeigt.
+            </para>
+        </sect1>
+    </chapter>
+
+    <chapter id="profiles">
+        <title>Arbeiten mit Profilen</title>
+        <para>
+            <indexterm>
+                <primary>Profile</primary>
+            </indexterm>
+            In JBackpack können zahlreiche Einstellungen vorgenommen werden. Sie
+            können diese Einstellungen über so genannte <quote>Profile</quote>
+            (Dateien, die all diese Einstellungen zusammenfassen) verwalten.
+            Wenn Sie das <guimenu>Datei</guimenu>-Menü öffnen, werden mehrere
+            Menüpunkte zum Arbeiten mit Profilen angezeigt:
+            <figure>
+                <title>Dateimenü</title>
+                <graphic fileref="../de/DateiMenue.png"></graphic>
+            </figure>
+            Sie können
+            <itemizedlist>
+                <listitem><para>
+                    ein neues Profil erzeugen (dies setzt alle Einstellungen auf
+                    ihre Voreinstellung zurück)
+                </para></listitem>
+                <listitem><para>
+                    gespeicherte Profile laden
+                </para></listitem>
+                <listitem><para>
+                    kürzlich verwendete Profile laden
+                </para></listitem>
+                <listitem><para>
+                    Profile abspeichern
+                </para></listitem>
+            </itemizedlist>
+            Die Verwendung von Profilen vereinfacht das Kopieren einer
+            JBackpack-Konfiguration von einem System zum anderen und ermöglicht
+            es, einmal etwas auszuprobieren, ohne dabei riskieren zu müssen,
+            eine funktionierende Konfiguration zu verlieren.
+        </para>
+    </chapter>
+
+    <chapter id="program_settings">
+        <title>Einstellungen</title>
+        <para>
+            Es gibt einige Einstellungen in JBackpack, die nicht direkt mit der
+            Datensicherung oder der Wiederherstellung zu tun haben, sondern
+            damit, wie JBackpack selbst arbeitet. Diese Einstellungen können
+            durch den Aufruf des Menüpunktes
+            <quote>
+                <menuchoice>
+                  <guimenu>Datei</guimenu>
+                  <guimenuitem>Einstellungen...</guimenuitem>
+                </menuchoice>
+            </quote>
+            konfiguriert werden.
+        </para>
+        <para>
+            <figure>
+                <title>Protokollierung</title>
+                <graphic fileref="Einstellungen1.png"></graphic>
+            </figure>
+            <indexterm>
+                <primary>Protokollierung</primary>
+            </indexterm>
+            <indexterm>
+                <primary>Logdatei</primary>
+            </indexterm>
+            JBackpack zeichnet Details zum eigenen Programmablauf in einer
+            Logdatei auf. Dies ist im Fall eines Programmfehlers nützlich, da so
+            alle Aktionen vor und nach dem Fehler und die Details zum Fehler
+            selbst rekonstruiert und von den JBackpack-Entwicklern hoffentlich
+            behoben werden können. Hier können Sie einstellen, wie viele
+            Informationen in der Logdatei aufgezeichnet werden sollen. Je höher
+            die eingestellte Stufe ist, desto mehr Informationen werden
+            aufgezeichnet aber auch umso langsamer wird JBackpack arbeiten.
+        </para>
+        <para>
+            <figure>
+                <title>Sonstiges</title>
+                <graphic fileref="../de/Einstellungen2.png"></graphic>
+            </figure>
+            <indexterm>
+                <primary>Warnung</primary>
+            </indexterm>
+            JBackpack warnt Benutzer normalerweise, wenn das
+            Datensicherungsverzeichnis nicht verschlüsselt ist. Es gibt jedoch
+            auch Sonderfälle, z.B. wenn das Datensicherungsverzeichnis auf einer
+            verschlüsselten Festplatte oder in einer Vertrauenszone liegt, in
+            denen diese Warnung nicht notwendig ist. Deswegen können Sie hier
+            diese Warnung deaktivieren.
+        </para>
+    </chapter>
+</book>

@@ -1,0 +1,311 @@
+jbackpack (0.9-1) unstable; urgency=low
+
+  * fixed some legal stuff
+
+ -- Ronny Standtke <ronny@onnies>  Sun, 03 Oct 2010 17:16:10 +0200
+
+jbackpack (0.9) unstable; urgency=low
+
+  * added copyright and licencing information to (almost) every file
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 21 Sep 2010 17:47:28 +0200
+
+jbackpack (201009171549) unstable; urgency=low
+
+  * many small fixes
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 17 Sep 2010 15:49:27 +0200
+
+jbackpack (201009161446) unstable; urgency=low
+
+  * remote backup support (SSH only)
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 16 Sep 2010 14:46:39 +0200
+
+jbackpack (201009081919) unstable; urgency=low
+
+  * use database for file browsing
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 08 Sep 2010 19:19:26 +0200
+
+jbackpack (201008241752) unstable; urgency=low
+
+  * fixed preferences handling
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 24 Aug 2010 17:52:20 +0200
+
+jbackpack (201008241424) unstable; urgency=low
+
+  * updated help
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 24 Aug 2010 14:24:14 +0200
+
+jbackpack (201008201139) unstable; urgency=low
+
+  * flush timestamp before shutdown
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 20 Aug 2010 11:39:50 +0200
+
+jbackpack (201008191356) unstable; urgency=low
+
+  * GUI cleanup
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 19 Aug 2010 13:56:26 +0200
+
+jbackpack (201008181818) unstable; urgency=low
+
+  * smbfs fixes
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 18 Aug 2010 18:18:37 +0200
+
+jbackpack (201008181428) unstable; urgency=low
+
+  * added support for smbfs
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 18 Aug 2010 14:28:02 +0200
+
+jbackpack (201008171207) unstable; urgency=low
+
+  * fixed problems with whitespaces and filesystems
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 17 Aug 2010 12:07:07 +0200
+
+jbackpack (201008131726) unstable; urgency=low
+
+  * many little fixes
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 13 Aug 2010 17:26:17 +0200
+
+jbackpack (201008121530) unstable; urgency=low
+
+  * added manual
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 12 Aug 2010 15:30:39 +0200
+
+jbackpack (201008090759) unstable; urgency=low
+
+  * GUI update
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Mon, 09 Aug 2010 07:59:03 +0200
+
+jbackpack (201008061700) unstable; urgency=low
+
+  * added automatic deletion by increment space usage
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 06 Aug 2010 17:00:20 +0200
+
+jbackpack (201008061520) unstable; urgency=low
+
+  * added automatic deletion by increment age
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 06 Aug 2010 15:20:50 +0200
+
+jbackpack (201008061332) unstable; urgency=low
+
+  * added automatic deletion by increment number
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 06 Aug 2010 13:32:32 +0200
+
+jbackpack (201008030944) unstable; urgency=low
+
+  * added exclusion by file size
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 03 Aug 2010 09:44:24 +0200
+
+jbackpack (201007301449) unstable; urgency=low
+
+  * many filechooser fixes
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 30 Jul 2010 14:49:21 +0200
+
+jbackpack (201007261931) unstable; urgency=low
+
+  * more reminder and layout fixes
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Mon, 26 Jul 2010 19:31:51 +0200
+
+jbackpack (201007231101) unstable; urgency=low
+
+  * many reminder fixes
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 23 Jul 2010 11:01:57 +0200
+
+jbackpack (201007211616) unstable; urgency=low
+
+  * added reminder
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 21 Jul 2010 16:16:52 +0200
+
+jbackpack (201007141208) unstable; urgency=low
+
+  * added help system (content still pending...) and about dialog
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 14 Jul 2010 12:08:07 +0200
+
+jbackpack (201007070938) unstable; urgency=low
+
+  * small layout improvement
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 07 Jul 2010 09:38:48 +0200
+
+jbackpack (201007060915) unstable; urgency=low
+
+  * many bugfixes
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 06 Jul 2010 09:15:10 +0200
+
+jbackpack (201007021735) unstable; urgency=low
+
+  * improved filename length check (divide & conquer with gui feedback)
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 02 Jul 2010 17:35:29 +0200
+
+jbackpack (201007011320) unstable; urgency=low
+
+  * improved windows installation helper
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 01 Jul 2010 13:20:41 +0200
+
+jbackpack (201006301335) unstable; urgency=low
+
+  * added fuse sanity check
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 30 Jun 2010 13:35:38 +0200
+
+jbackpack (201006301054) unstable; urgency=low
+
+  * added plaintext backup warning
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 30 Jun 2010 10:54:51 +0200
+
+jbackpack (201006291012) unstable; urgency=low
+
+  * fixed long-filename handling, added logging settings, added single file progress support
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 29 Jun 2010 10:12:10 +0200
+
+jbackpack (201006250956) unstable; urgency=low
+
+  * added support for public-key authentication for sshfs
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 25 Jun 2010 09:56:40 +0200
+
+jbackpack (201006241207) unstable; urgency=low
+
+  * added "shutdown when done", fixed "restoring all files"
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 24 Jun 2010 12:07:42 +0200
+
+jbackpack (201006231920) unstable; urgency=low
+
+  * fixed deadlock, improved logging
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 23 Jun 2010 19:20:56 +0200
+
+jbackpack (201006231509) unstable; urgency=low
+
+  * added installation helper for Windows
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 23 Jun 2010 15:09:46 +0200
+
+jbackpack (201006221745) unstable; urgency=low
+
+  * fixed restoring on Windows
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 22 Jun 2010 17:45:12 +0200
+
+jbackpack (201006221312) unstable; urgency=low
+
+  * added logging
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 22 Jun 2010 13:12:20 +0200
+
+jbackpack (201006221140) unstable; urgency=low
+
+  * animated icons for [en/de]cryption
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 22 Jun 2010 11:40:03 +0200
+
+jbackpack (201006220930) unstable; urgency=low
+
+  * many improvements regarding remote [en/de]cryption
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 22 Jun 2010 09:30:15 +0200
+
+jbackpack (201006181740) unstable; urgency=low
+
+  * some more checks and progress dialogs
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 18 Jun 2010 17:40:31 +0200
+
+jbackpack (201006150909) unstable; urgency=low
+
+  * fixed system files
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 15 Jun 2010 09:09:38 +0200
+
+jbackpack (201006041619) unstable; urgency=low
+
+  * encryption works now, renamed package
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 15 Jun 2010 08:09:17 +0200
+
+jrdiff-backup (201006041618) unstable; urgency=low
+
+  * added "new profile" menu entry
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 04 Jun 2010 16:18:24 +0200
+
+jrdiff-backup (201006021610) unstable; urgency=low
+
+  * chroot remote destination directories
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 02 Jun 2010 16:10:27 +0200
+
+jrdiff-backup (201006011403) unstable; urgency=low
+
+  * fixed timestamp detection, added hidden files filtering when restoring
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 01 Jun 2010 14:03:07 +0200
+
+jrdiff-backup (201005281925) unstable; urgency=low
+
+  * do not add .svn directories to deb package
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 28 May 2010 19:25:25 +0200
+
+jrdiff-backup (201005281837) unstable; urgency=low
+
+  * fixed handling of hidden files
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 28 May 2010 18:37:43 +0200
+
+jrdiff-backup (201005251522) unstable; urgency=low
+
+  * updated support for sshfs
+
+ -- Ronny Standtke <ronny@ronny-laptop.adm.ds.fhnw.ch>  Tue, 25 May 2010 15:22:50 +0200
+
+jrdiff-backup (201005251104) unstable; urgency=low
+
+  * also show hidden files in file selection dialogs
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 25 May 2010 11:04:10 +0200
+
+jrdiff-backup (201005211332) unstable; urgency=low
+
+  * added warning that files could be overwritten before restoring files
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 21 May 2010 13:32:58 +0200
+
+jrdiff-backup (201005211254) unstable; urgency=low
+
+  * fixed desktop file to also work in GNOME
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 21 May 2010 12:54:21 +0200
+
+jrdiff-backup (201005211118) unstable; urgency=low
+
+  * Initial release
+
+ -- Ronny Standtke <Ronny.Standtke@gmx.net>  Fri, 21 May 2010 11:18:56 +0200
