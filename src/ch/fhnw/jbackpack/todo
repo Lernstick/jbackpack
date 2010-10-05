@@ -58,3 +58,5 @@
     export DERBY_HOME=/home/archiv/java/derby/db-derby-10.6.1.0-bin/
     java -jar $DERBY_HOME/lib/derbyrun.jar ij
     CONNECT 'jdbc:derby:jbackpack;create=true';
+
+scp jbackpack-0.9.jar* ronnystandtke@dl.sv.nongnu.org:/releases/jbackpack/
