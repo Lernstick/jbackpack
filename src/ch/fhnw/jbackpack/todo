@@ -52,11 +52,16 @@
 - encryption does not work with remote root directories
   (only works with subdirectories in writable parent directories)
 
---------------------------------------------------------------------------------
 
-- command line database access (no bug, just an information...)
+------------------------------ Java Bugs ---------------------------------------
+http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6970857
+
+
+------------------------------ Information -------------------------------------
+command line database access:
     export DERBY_HOME=/home/archiv/java/derby/db-derby-10.6.1.0-bin/
     java -jar $DERBY_HOME/lib/derbyrun.jar ij
     CONNECT 'jdbc:derby:jbackpack;create=true';
 
-scp jbackpack-0.9.jar* ronnystandtke@dl.sv.nongnu.org:/releases/jbackpack/
+release upload:
+    scp jbackpack-0.9.jar* ronnystandtke@dl.sv.nongnu.org:/releases/jbackpack/
