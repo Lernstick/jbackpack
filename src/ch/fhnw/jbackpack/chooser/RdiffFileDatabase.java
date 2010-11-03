@@ -482,7 +482,7 @@ public class RdiffFileDatabase {
         for (Long timestampToAdd : timestampsToAdd) {
             if (LOGGER.isLoggable(Level.INFO)) {
                 LOGGER.log(Level.INFO, "inserting increment timestamp of {0}",
-                        DATE_FORMAT.format(new Date(timestampToAdd)));
+                        DATE_FORMAT.format(new Date(timestampToAdd * 1000)));
             }
             Statement statement = connection.createStatement();
             statement.executeUpdate("INSERT INTO " + INCREMENT_TIMESTAMPS_TABLE
@@ -1224,7 +1224,13 @@ public class RdiffFileDatabase {
         ResultSet resultSet = statement.executeQuery("SELECT "
                 + TIMESTAMP_COLUMN + " FROM " + MIRROR_TIMESTAMP_TABLE);
         if (resultSet.next()) {
-            return (resultSet.getLong(TIMESTAMP_COLUMN));
+            long databaseMirrorTimeStamp = resultSet.getLong(TIMESTAMP_COLUMN);
+            if (LOGGER.isLoggable(Level.INFO)) {
+                Date date = new Date(databaseMirrorTimeStamp * 1000);
+                LOGGER.log(Level.INFO, "database mirror timestamp: {0}",
+                        DATE_FORMAT.format(date));
+            }
+            return databaseMirrorTimeStamp;
         }
         statement.close();
         return null;
