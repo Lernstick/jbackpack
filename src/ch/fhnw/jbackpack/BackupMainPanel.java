@@ -4580,12 +4580,11 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             try {
                 if (get()) {
 
-                    long now = System.currentTimeMillis();
-                    long time = now - start;
-
                     // update timestamp for JBackpack reminder
+                    long now = System.currentTimeMillis();
                     preferences.putLong(JBackpack.LAST_BACKUP, now);
                     try {
+                        LOGGER.log(Level.INFO, "flushing preferences");
                         preferences.flush();
                     } catch (BackingStoreException ex) {
                         LOGGER.log(Level.SEVERE, null, ex);
@@ -4594,7 +4593,10 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                     // automatic deletion of certain increments
                     autoDeletion(destinationDirectory);
 
+                    // automatic system shutdown (if selected)
                     checkForShutdown();
+
+                    long time = now - start;
                     String timeString = timeFormat.format(new Date(time));
                     Map<String, String> backupSessionStatistics =
                             rdiffBackupRestore.getBackupSessionStatistics(

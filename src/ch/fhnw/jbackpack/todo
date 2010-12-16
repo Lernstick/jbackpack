@@ -15,11 +15,19 @@
 
 - improve increment browser
     - file preview
+        - (optional) filechooser accessory
+        - button: "Preview" (for all selected files, read-only!)
+        - multiple selection: show highlighted file in accessory
+        - directory selection: disable preview button
     - file search
         - file name
         - file type
         - file size
+            - exact size
+            - size range
         - modification time
+            - exact timestamp
+            - timestamp range
         - content
 
 - support for other remote file systems
