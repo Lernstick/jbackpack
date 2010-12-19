@@ -60,6 +60,14 @@ src/ch/fhnw/jbackpack/icons/encryption_animation.gif
 -------------------
 
 usr/share/icons/jbackpack.png
+    This file was downloaded from
+    http://www.iconarchive.com/show/blend-icons-by-laurent-baumann/Drive-Backup-icon.html
+    Author:	Laurent Baumann
+    Homepage:	http://lbaumann.com/
+    License:	CC Attribution-Noncommercial-Share Alike 3.0
+
+-------------------
+
 src/ch/fhnw/jbackpack/icons/** (except all icons mentioned above)
     These files are taken from the KDE oxygen icons collection.
     Author: The KDE development team <kde-core-devel@kde.org>

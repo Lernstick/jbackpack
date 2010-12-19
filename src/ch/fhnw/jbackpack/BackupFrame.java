@@ -71,7 +71,7 @@ public class BackupFrame extends javax.swing.JFrame {
      * the path to the icon ressource
      */
     public static final String ICON_PATH =
-            "/ch/fhnw/jbackpack/icons/32x32/kdat_backup.png";
+            "/ch/fhnw/jbackpack/icons/48x48/Drive-Backup-icon.png";
     private static final Logger LOGGER = Logger.getLogger(
             BackupFrame.class.getName());
     private static final Logger UTIL_LOGGER = Logger.getLogger(
