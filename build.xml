@@ -78,7 +78,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             mainclass="ch.fhnw.jbackpack.JBackpack"
             jvmversion="1.6+"
             developmentregion="de"
-            icon="kdat_backup.icns"
+            icon="jbackpack.icns"
             />
         <exec executable="hdiutil">
             <arg line="unmount /Volumes/JBackpack"/>

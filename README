@@ -49,16 +49,16 @@ dmg_background.xcf
 encryption.xcf
 encryption_frames.xcf
 encryption_layers.xcf
-kdat_backup.icns
+icon.svg
+jbackpack.icns
+src/ch/fhnw/jbackpack/icons/128x128/icon.png
+src/ch/fhnw/jbackpack/icons/16x16/icon.png
+src/ch/fhnw/jbackpack/icons/256x256/icon.png
+src/ch/fhnw/jbackpack/icons/32x32/icon.png
+src/ch/fhnw/jbackpack/icons/512x512/icon.png
 src/ch/fhnw/jbackpack/icons/Splash.png
 src/ch/fhnw/jbackpack/icons/decryption_animation.gif
 src/ch/fhnw/jbackpack/icons/encryption_animation.gif
-icon.svg
-src/ch/fhnw/jbackpack/icons/16x16/icon.png
-src/ch/fhnw/jbackpack/icons/32x32/icon.png
-src/ch/fhnw/jbackpack/icons/128x128/icon.png
-src/ch/fhnw/jbackpack/icons/256x256/icon.png
-src/ch/fhnw/jbackpack/icons/512x512/icon.png
 usr/share/icons/jbackpack.png
     These files are icons or animations especially created for JBackpack.
     Author: Ronny Standtke <ronny.standtke@gmx.net>
