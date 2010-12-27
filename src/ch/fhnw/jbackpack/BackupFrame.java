@@ -71,7 +71,7 @@ public class BackupFrame extends javax.swing.JFrame {
      * the path to the icon ressource
      */
     public static final String ICON_PATH =
-            "/ch/fhnw/jbackpack/icons/48x48/Drive-Backup-icon.png";
+            "/ch/fhnw/jbackpack/icons/32x32/icon.png";
     private static final Logger LOGGER = Logger.getLogger(
             BackupFrame.class.getName());
     private static final Logger UTIL_LOGGER = Logger.getLogger(
@@ -169,11 +169,21 @@ public class BackupFrame extends javax.swing.JFrame {
                     "BackupFrame.aboutMenuItem.mnemonic").charAt(0));
         }
 
-        ImageIcon icon = new ImageIcon(getClass().getResource(ICON_PATH));
-        Image image = icon.getImage();
-        setIconImage(image);
+        List<Image> icons = new ArrayList<Image>();
+        icons.add(new ImageIcon(getClass().getResource(
+                "/ch/fhnw/jbackpack/icons/16x16/icon.png")).getImage());
+        icons.add(new ImageIcon(getClass().getResource(
+                "/ch/fhnw/jbackpack/icons/32x32/icon.png")).getImage());
+        Image dockImage = new ImageIcon(getClass().getResource(
+                "/ch/fhnw/jbackpack/icons/128x128/icon.png")).getImage();
+        icons.add(dockImage);
+        icons.add(new ImageIcon(getClass().getResource(
+                "/ch/fhnw/jbackpack/icons/256x256/icon.png")).getImage());
+        icons.add(new ImageIcon(getClass().getResource(
+                "/ch/fhnw/jbackpack/icons/512x512/icon.png")).getImage());
+        setIconImages(icons);
 
-        setupOSXApplication(image);
+        setupOSXApplication(dockImage);
 
         init();
 

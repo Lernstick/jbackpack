@@ -53,18 +53,16 @@ kdat_backup.icns
 src/ch/fhnw/jbackpack/icons/Splash.png
 src/ch/fhnw/jbackpack/icons/decryption_animation.gif
 src/ch/fhnw/jbackpack/icons/encryption_animation.gif
+icon.svg
+src/ch/fhnw/jbackpack/icons/16x16/icon.png
+src/ch/fhnw/jbackpack/icons/32x32/icon.png
+src/ch/fhnw/jbackpack/icons/128x128/icon.png
+src/ch/fhnw/jbackpack/icons/256x256/icon.png
+src/ch/fhnw/jbackpack/icons/512x512/icon.png
+usr/share/icons/jbackpack.png
     These files are icons or animations especially created for JBackpack.
     Author: Ronny Standtke <ronny.standtke@gmx.net>
     License: GPL
-
--------------------
-
-usr/share/icons/jbackpack.png
-    This file was downloaded from
-    http://www.iconarchive.com/show/blend-icons-by-laurent-baumann/Drive-Backup-icon.html
-    Author:	Laurent Baumann
-    Homepage:	http://lbaumann.com/
-    License:	CC Attribution-Noncommercial-Share Alike 3.0
 
 -------------------
 
