@@ -76,6 +76,34 @@ public class RdiffBackupRestore {
     private File excludesFile;
 
     /**
+     * quotes the given <code>path</code> so that it can be used in rdiff-backup
+     * exclude and include statements in backup operations
+     * @param baseDirectory the base directory of this path
+     * @param path the path to quote
+     * @return the quoted path
+     */
+    public static String quoteBackup(String baseDirectory, String path) {
+        if (CurrentOperatingSystem.OS == OperatingSystem.Windows) {
+            /**
+             * Only Windows paths are affected because they contain "\" as path
+             * separator which collides with "\" also being the escape character
+             * for the regular expressions in rdiff-backup's exclude and include
+             * statements.
+             * The following rules apply on Windows:
+             * - the backslashes in the base directory must be escaped
+             *   ("\" -> "\\")
+             * - the backslashes in the remainder must be converted to slashes
+             *   ("\" -> "/")
+             */
+            String remainder = path.substring(baseDirectory.length());
+            baseDirectory = baseDirectory.replace("\\", "\\\\");
+            remainder = remainder.replace("\\", "/");
+            path = baseDirectory + remainder;
+        }
+        return path;
+    }
+
+    /**
      * backs up the selected files via a file system
      * @param source the directory to backup
      * @param destination the backup destination
@@ -252,14 +280,6 @@ public class RdiffBackupRestore {
                 new MyPropertyChangeListener());
 
         String restorePath = restoreDirectory.getPath();
-        // make sure that it ends with "/", otherwise rdiff-backup fails under
-        // certain conditions (especially on Windows...)
-        if (!restorePath.endsWith("/")) {
-            // do NOT(!) use File.separatorChar, because on Windows this
-            // means "\", which rdiff-backup treats as escape character
-            // which makes rdiff-backup fail...
-            restorePath += '/';
-        }
 
         String includes = null;
         String excludes = null;
@@ -285,13 +305,14 @@ public class RdiffBackupRestore {
                         }
                     }
                 }
-                stringBuilder.append(quote(restorePath, true));
+                stringBuilder.append(quoteRestore(restorePath));
+                stringBuilder.append('/');
                 if (selectedFile.getParentFile() == null) {
                     // special handling for file system roots
                     stringBuilder.append("*");
                 } else {
                     String absolutePath = selectedFile.getAbsolutePath();
-                    stringBuilder.append(quote(absolutePath, true));
+                    stringBuilder.append(quoteRestore(absolutePath));
                 }
                 if (i != length - 1) {
                     stringBuilder.append(LINE_SEPARATOR);
@@ -300,7 +321,7 @@ public class RdiffBackupRestore {
             includes = stringBuilder.toString();
 
             // exclude everything else
-            excludes = quote(restorePath, true) + "**";
+            excludes = quoteRestore(restorePath) + "/**";
 
             includesFile = File.createTempFile("jbackpack_includes_", null);
             excludesFile = File.createTempFile("jbackpack_excludes_", null);
@@ -312,7 +333,7 @@ public class RdiffBackupRestore {
         commandList.add("-r");
         commandList.add(rdiffTimestamp);
         commandList.add(backupDirectory.getPath());
-        commandList.add(quote(restorePath, false));
+        commandList.add(quoteRestorePath(restorePath));
         String[] commandArray = new String[commandList.size()];
         commandArray = commandList.toArray(commandArray);
         // do NOT(!) store stdOut, it very often leads to:
@@ -506,10 +527,8 @@ public class RdiffBackupRestore {
         }
 
         String sourcePath = source.getPath();
-        if ((CurrentOperatingSystem.OS == OperatingSystem.Windows)
-                && sourcePath.endsWith("\\")) {
-            // paths that end with a "\" have to be completed with a "/"
-            // for more details see:
+        if (CurrentOperatingSystem.OS == OperatingSystem.Windows) {
+            // Windows needs a path workaround. For more details see:
             // http://wiki.rdiff-backup.org/wiki/index.php/BackupToFromWindowsToLinux#Path_Workarounds
             sourcePath += '/';
         }
@@ -525,28 +544,6 @@ public class RdiffBackupRestore {
         if ((excludesFile != null) && (!excludesFile.delete())) {
             LOGGER.log(Level.WARNING, "could not delete {0}", excludesFile);
         }
-    }
-
-    private String quote(String string, boolean quoteBackSlash) {
-        if (CurrentOperatingSystem.OS == OperatingSystem.Windows) {
-            string = string.replace("\\", "/");
-            if (string.startsWith("//")) {
-                // this is a network path, e.g.
-                // "\\VBOXSVR\root\tmp\rdiff-backup-test\source"
-                // rdiff-backup wants to have it like this:
-                // "\\VBOXSVR/root/tmp/rdiff-backup-test/source"
-                string = string.replace("//",
-                        quoteBackSlash ? "\\\\\\\\" : "\\\\");
-            } else {
-                // this is a normal drive letter path, e.g.
-                // "C:\tmp\rdiff-backup-test\source"
-                // rdiff-backup wants to have it like this:
-                // "C:\/tmp/rdiff-backup-test/source"
-                string = string.replace(":",
-                        quoteBackSlash ? ":\\\\" : ":\\");
-            }
-        }
-        return string;
     }
 
     private List<String> createCommandList(String tempDirPath,
@@ -621,6 +618,54 @@ public class RdiffBackupRestore {
                 }
             }
         }
+    }
+
+    private static String quoteRestorePath(String restorePath) {
+        if (CurrentOperatingSystem.OS == OperatingSystem.Windows) {
+            restorePath = restorePath.replace("\\", "/");
+            if (restorePath.startsWith("//")) {
+                // this is a network path, e.g.
+                // "\\VBOXSVR\root\tmp\rdiff-backup-test\source"
+                // rdiff-backup wants to have it like this:
+                // "\\VBOXSVR/root/tmp/rdiff-backup-test/source"
+                restorePath = restorePath.replace("//", "\\\\");
+            } else {
+                // this is a normal drive letter path, e.g.
+                // "C:\tmp\rdiff-backup-test\source"
+                // rdiff-backup wants to have it like this:
+                // "C:\/tmp/rdiff-backup-test/source"
+                restorePath = restorePath.replace(":", ":\\");
+            }
+        }
+        // make sure that it ends with "/", otherwise rdiff-backup fails under
+        // certain conditions (especially on Windows...)
+        if (!restorePath.endsWith("/")) {
+            // do NOT(!) use File.separatorChar, because on Windows this
+            // means "\", which rdiff-backup treats as escape character
+            // which makes rdiff-backup fail...
+            restorePath += '/';
+        }
+        return restorePath;
+    }
+
+    private static String quoteRestore(String restorePath) {
+        if (CurrentOperatingSystem.OS == OperatingSystem.Windows) {
+            restorePath = restorePath.replace("\\", "/");
+            if (restorePath.startsWith("//")) {
+                // this is a network path, e.g.
+                // "\\VBOXSVR\root\tmp\rdiff-backup-test\source"
+                // rdiff-backup wants to have it like this:
+                // "\\VBOXSVR/root/tmp/rdiff-backup-test/source"
+                restorePath = restorePath.replace("//", "\\\\\\\\");
+            } else {
+                // this is a normal drive letter path, e.g.
+                // "C:\tmp\rdiff-backup-test\source"
+                // rdiff-backup wants to have it like this:
+                // "C:\/tmp/rdiff-backup-test/source"
+                restorePath = restorePath.replace(":", ":\\\\");
+            }
+        }
+        return restorePath;
     }
 
     private class MyPropertyChangeListener implements PropertyChangeListener {

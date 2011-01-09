@@ -4207,7 +4207,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     }
 
     private void addSelectedFiles(String fileChooserDialogTitle,
-            File currentDirectory, JTextArea list) {
+            File baseDirectory, JTextArea list) {
         final JFileChooser fileChooser = new JFileChooser();
         fileChooser.addPropertyChangeListener(new PropertyChangeListener() {
 
@@ -4226,7 +4226,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         fileChooser.addChoosableFileFilter(NO_HIDDEN_FILES_SWING_FILE_FILTER);
         fileChooser.setFileFilter(NO_HIDDEN_FILES_SWING_FILE_FILTER);
         fileChooser.setMultiSelectionEnabled(true);
-        fileChooser.setCurrentDirectory(currentDirectory);
+        fileChooser.setCurrentDirectory(baseDirectory);
         fileChooser.setApproveButtonText(BUNDLE.getString("Choose"));
         if (JFileChooser.APPROVE_OPTION
                 == fileChooser.showOpenDialog(parentFrame)) {
@@ -4239,7 +4239,9 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                         document.insertString(length, LINE_SEPARATOR, null);
                         length = document.getLength();
                     }
-                    document.insertString(length, selectedFile.getPath(), null);
+                    String path = RdiffBackupRestore.quoteBackup(
+                            baseDirectory.getPath(), selectedFile.getPath());
+                    document.insertString(length, path, null);
                 } catch (BadLocationException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 }
