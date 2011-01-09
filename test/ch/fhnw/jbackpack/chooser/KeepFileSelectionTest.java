@@ -112,7 +112,7 @@ public class KeepFileSelectionTest extends TestCase {
                     Thread.sleep(100);
                 }
             }
-            Thread.sleep(1000);
+            Thread.sleep(2000);
 
             assertEquals("file selection was not kept",
                     CurrentOperatingSystem.OS == OperatingSystem.Windows

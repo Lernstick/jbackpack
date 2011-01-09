@@ -504,7 +504,17 @@ public class RdiffBackupRestore {
         if (!compressFiles) {
             commandList.add("--no-compression");
         }
-        commandList.add(source.getPath());
+
+        String sourcePath = source.getPath();
+        if ((CurrentOperatingSystem.OS == OperatingSystem.Windows)
+                && sourcePath.endsWith("\\")) {
+            // paths that end with a "\" have to be completed with a "/"
+            // for more details see:
+            // http://wiki.rdiff-backup.org/wiki/index.php/BackupToFromWindowsToLinux#Path_Workarounds
+            sourcePath += '/';
+        }
+
+        commandList.add(sourcePath);
         return commandList;
     }
 

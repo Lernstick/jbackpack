@@ -34,8 +34,6 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import screenshots.Screenshots;
 
@@ -47,42 +45,6 @@ public class RdiffBackupRestoreTest extends TestCase {
 
     private static final Logger LOGGER = Logger.getLogger(
             RdiffBackupRestoreTest.class.getName());
-    private static File tmpDir;
-    private static File backupDir;
-    private static File backupSrc;
-    private static ArrayList<String> content = new ArrayList<String>();
-
-    /**
-     * prepares the unit test environment
-     * @throws Exception
-     */
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-        tmpDir = File.createTempFile(RdiffBackupRestoreTest.class.getName(), null);
-        backupDir = new File(tmpDir, "backup");
-        backupDir.mkdirs();
-        backupSrc = new File(tmpDir, "bs");
-        backupSrc.mkdirs();
-        content.add("t1");
-        content.add("t1/f2");
-        content.add("t1/f2/f1");
-        for (String f : content) {
-            new File(backupSrc + "/" + f).mkdirs();
-        }
-        content.add("t1/f2/f1/f0");
-
-        new File(backupSrc + "/t1/f2/f1/f0").createNewFile();
-    }
-
-    /**
-     * unit test cleanup
-     * @throws Exception
-     */
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-        FileTools.recursiveDelete(backupDir);
-        FileTools.recursiveDelete(backupSrc);
-    }
 
     /**
      * test counting of restore files
