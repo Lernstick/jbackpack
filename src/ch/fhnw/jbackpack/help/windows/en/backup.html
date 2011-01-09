@@ -30,7 +30,7 @@
             backup tab:
             </p>
 <div class="figure">
-<a name="id3737471"></a><p class="title"><b>Figure 3.1. Backup</b></p>
+<a name="id2991051"></a><p class="title"><b>Figure 3.1. Backup</b></p>
 <div class="figure-contents"><div><img src="Backup.png" alt="Backup"></div></div>
 </div>
 <p><br class="figure-break">
@@ -38,38 +38,57 @@
             at the top.
         </p>
 <p>
-            <a class="indexterm" name="id3739712"></a>
+            <a class="indexterm" name="id2990835"></a>
             The only option activated by default is
             <span class="quote">“<span class="quote">Compress files</span>”</span>. File compression can save a
             considerable amount of storage space in your destination directory
             but also slows down the backup and restore process.
         </p>
 <p>
-            <a class="indexterm" name="id2771580"></a>
+            <a class="indexterm" name="id3910150"></a>
             You can also configure JBackpack to remind you to backup your data
             at a given interval.
         </p>
 <p>
-            <a class="indexterm" name="id3739684"></a>
+            <a class="indexterm" name="id3910394"></a>
             If you do not want to backup <span class="emphasis"><em>all</em></span> the data of
             your source directory, you can select the checkbox
             <span class="quote">“<span class="quote">Exclude files</span>”</span>. This enables another set of options:
             </p>
 <div class="figure">
-<a name="id3739109"></a><p class="title"><b>Figure 3.2. Excludes</b></p>
+<a name="id3910217"></a><p class="title"><b>Figure 3.2. Excludes</b></p>
 <div class="figure-contents"><div><img src="Excludes.png" alt="Excludes"></div></div>
 </div>
 <p><br class="figure-break">
         </p>
 <p>
-            In the file patterns textarea you can type in paths of files or
-            directories you want to exclude. The button on the right hand side
+            In the file patterns textarea you can define files or directories
+            you want to exclude. Die file patterns are regular expressions (see
+            <a class="ulink" href="http://en.wikipedia.org/wiki/Regular_expression" target="_top">http://en.wikipedia.org/wiki/Regular_expression</a>).
+            The button on the right hand side
             (with the big green <span class="quote">“<span class="quote">plus</span>”</span> icon) opens a filechooser
             that simplifies selecting and adding files and directories you want
             to exclude.
         </p>
 <p>
-            <a class="indexterm" name="id3739579"></a>
+            On Windows you have to follow two special rules because there the
+            file separator is a backslash (<span class="quote">“<span class="quote">\</span>”</span>) and this is also
+            the escape character for the just mentioned regular expressions:
+                </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+                        In the part of the path that is equal to the source
+                        directory, the backslashes have to be doubled.
+                    </p></li>
+<li class="listitem"><p>
+                        In the remainder the backslashes have to be replaced by
+                        normal slashes (<span class="quote">“<span class="quote">/</span>”</span>).
+                    </p></li>
+</ul></div>
+<p>
+        </p>
+<p>
+            <a class="indexterm" name="id3910460"></a>
             You can also make exceptions from the exclusions. This is very
             helpful in more complicated backup settings, like in the following
             example. Assume that you have this directory structure:
@@ -91,10 +110,10 @@
             have to configure
             <code class="computeroutput">C:\Documents and Settings\</code> as the
             source directory, add
-            <code class="computeroutput">C:\Documents and Settings\</code> as
+            <code class="computeroutput">C:\\Documents and Settings</code> as
             excluded file pattern and add
-            <code class="computeroutput">C:\Documents and Settings\Alice\</code> and
-            <code class="computeroutput">C:\Documents and Settings\Bob\</code> to
+            <code class="computeroutput">C:\\Documents and Settings/Alice</code> and
+            <code class="computeroutput">C:\\Documents and Settings/Bob</code> to
             the exceptions.
         </p>
 <p>
@@ -109,19 +128,19 @@
                     directory
                 </p></li>
 <li class="listitem"><p>
-                    <a class="indexterm" name="id3740014"></a>
+                    <a class="indexterm" name="id3910745"></a>
                     if it is a symbolic link
                 </p></li>
 <li class="listitem"><p>
-                    <a class="indexterm" name="id3737659"></a>
+                    <a class="indexterm" name="id2991038"></a>
                     if it is a device file
                 </p></li>
 <li class="listitem"><p>
-                    <a class="indexterm" name="id3739915"></a>
+                    <a class="indexterm" name="id3909930"></a>
                     if it is a socket
                 </p></li>
 <li class="listitem"><p>
-                    <a class="indexterm" name="id3740054"></a>
+                    <a class="indexterm" name="id3910780"></a>
                     if it is a named pipe
                 </p></li>
 </ul></div>
@@ -135,7 +154,7 @@
             information:
             </p>
 <div class="figure">
-<a name="id3739703"></a><p class="title"><b>Figure 3.3. Running backup</b></p>
+<a name="id3910640"></a><p class="title"><b>Figure 3.3. Running backup</b></p>
 <div class="figure-contents"><div><img src="Running_Backup.png" alt="Running backup"></div></div>
 </div>
 <p><br class="figure-break">
@@ -153,18 +172,18 @@
                 </p></li>
 </ul></div>
 <p>
-            <a class="indexterm" name="id3740134"></a>
+            <a class="indexterm" name="id3910315"></a>
             You can also choose to shutdown the computer when the backup
             operation is finished. You have to have administrative privileges
             and provide your password. You can also cancel the backup operation.
         </p>
 <p>
-            <a class="indexterm" name="id3739846"></a>
+            <a class="indexterm" name="id2991083"></a>
             When the backup operation finishes, the following summary is
             displayed:
             </p>
 <div class="figure">
-<a name="id3739938"></a><p class="title"><b>Figure 3.4. Backup summary</b></p>
+<a name="id3910669"></a><p class="title"><b>Figure 3.4. Backup summary</b></p>
 <div class="figure-contents"><div><img src="Backup_Statistics.png" alt="Backup summary"></div></div>
 </div>
 <p><br class="figure-break">

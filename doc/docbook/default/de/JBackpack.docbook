@@ -314,12 +314,33 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             </figure>
         </para>
         <para>
-            Im Dateimuster-Textfeld können Sie Pfade von Dateien oder
-            Verzeichnissen angeben, die Sie ausschließen wollen. Der Knopf
-            rechts vom Textfeld (mit dem großen grünen
+            Im Dateimuster-Textfeld können Sie Dateien oder Verzeichnissen
+            angeben, die Sie ausschließen wollen. Die Dateimuster sind reguläre
+            Ausdrücke (siehe
+            <ulink url="http://de.wikipedia.org/wiki/Regul%C3%A4rer_Ausdruck"
+            >http://de.wikipedia.org/wiki/Regul%C3%A4rer_Ausdruck</ulink>).
+            Der Knopf rechts vom Textfeld (mit dem großen grünen
             <quote>Plus</quote>-Symbol) öffnet eine Dateiauswahl, die die
             Auswahl und das Hinzufügen von Dateien und Verzeichnissen
             vereinfacht.
+        </para>
+        <para os="windows">
+            Unter Windows sind zwei Sonderregeln zu beachten, da dort der
+            Dateitrenner ein umgekehrter Schrägstrich (<quote>\</quote>) ist und
+            dieser auch als Maskierungszeichen für die soeben erwähnten
+            regulären Ausdrücke verwendet wird:
+                <itemizedlist>
+                    <listitem><para>
+                        In dem Teil eines Pfades, das dem Quellverzeichnis
+                        entspricht, müssen die umgekehrten Schrägstriche
+                        verdoppelt werden.
+                    </para></listitem>
+                    <listitem><para>
+                        Im verbleibenden Teil müssen die umgekehrten
+                        Schrägstriche durch normale Schrägstriche
+                        (<quote>/</quote>) ersetzt werden.
+                    </para></listitem>
+                </itemizedlist>
         </para>
         <para os="linux">
             <indexterm>
@@ -401,11 +422,11 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             sichern wollen, müssen Sie
             <computeroutput>C:\Dokumente und Einstellungen\</computeroutput> als
             Quellverzeichnis einstellen,
-            <computeroutput>C:\Dokumente und Einstellungen\</computeroutput>
+            <computeroutput>C:\\Dokumente und Einstellungen</computeroutput>
             ausschließen und
-            <computeroutput>C:\Dokumente und Einstellungen\Anton\</computeroutput>
+            <computeroutput>C:\\Dokumente und Einstellungen/Anton</computeroutput>
             und
-            <computeroutput>C:\Dokumente und Einstellungen\Barbara\</computeroutput>
+            <computeroutput>C:\\Dokumente und Einstellungen/Barbara</computeroutput>
             als Ausnahmen hinzufügen.
         </para>
         <para>

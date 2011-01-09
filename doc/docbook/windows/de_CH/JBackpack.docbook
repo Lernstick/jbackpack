@@ -2,12 +2,30 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd">
 
+<!--
+Copyright (C) 2010 imedias
+
+This file is part of JBackpack.
+
+JBackpack is free software; you can redistribute it and/or modify it under the
+terms of the GNU Lesser General Public License as published by the Free Software
+Foundation; either version 3 of the License, or (at your option) any later
+version.
+
+JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License along
+with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <book id="JBackpack" lang="de">
 
     <bookinfo>
         <title>JBackpack-Handbuch</title>
         <date>2010-07-31</date>
-        <releaseinfo>Version 0.8.16</releaseinfo>
+        <releaseinfo>Version 0.9.1</releaseinfo>
         <abstract>
             <para>
                 <application>JBackpack</application> ist ein Programm für die
@@ -296,12 +314,33 @@
             </figure>
         </para>
         <para>
-            Im Dateimuster-Textfeld können Sie Pfade von Dateien oder
-            Verzeichnissen angeben, die Sie ausschliessen wollen. Der Knopf
-            rechts vom Textfeld (mit dem grossen grünen
+            Im Dateimuster-Textfeld können Sie Dateien oder Verzeichnissen
+            angeben, die Sie ausschliessen wollen. Die Dateimuster sind reguläre
+            Ausdrücke (siehe
+            <ulink url="http://de.wikipedia.org/wiki/Regul%C3%A4rer_Ausdruck"
+            >http://de.wikipedia.org/wiki/Regul%C3%A4rer_Ausdruck</ulink>).
+            Der Knopf rechts vom Textfeld (mit dem grossen grünen
             <quote>Plus</quote>-Symbol) öffnet eine Dateiauswahl, die die
             Auswahl und das Hinzufügen von Dateien und Verzeichnissen
             vereinfacht.
+        </para>
+        <para os="windows">
+            Unter Windows sind zwei Sonderregeln zu beachten, da dort der
+            Dateitrenner ein umgekehrter Schrägstrich (<quote>\</quote>) ist und
+            dieser auch als Maskierungszeichen für die soeben erwähnten
+            regulären Ausdrücke verwendet wird:
+                <itemizedlist>
+                    <listitem><para>
+                        In dem Teil eines Pfades, das dem Quellverzeichnis
+                        entspricht, müssen die umgekehrten Schrägstriche
+                        verdoppelt werden.
+                    </para></listitem>
+                    <listitem><para>
+                        Im verbleibenden Teil müssen die umgekehrten
+                        Schrägstriche durch normale Schrägstriche
+                        (<quote>/</quote>) ersetzt werden.
+                    </para></listitem>
+                </itemizedlist>
         </para>
         <para os="linux">
             <indexterm>
@@ -383,11 +422,11 @@
             sichern wollen, müssen Sie
             <computeroutput>C:\Dokumente und Einstellungen\</computeroutput> als
             Quellverzeichnis einstellen,
-            <computeroutput>C:\Dokumente und Einstellungen\</computeroutput>
+            <computeroutput>C:\\Dokumente und Einstellungen</computeroutput>
             ausschliessen und
-            <computeroutput>C:\Dokumente und Einstellungen\Anton\</computeroutput>
+            <computeroutput>C:\\Dokumente und Einstellungen/Anton</computeroutput>
             und
-            <computeroutput>C:\Dokumente und Einstellungen\Barbara\</computeroutput>
+            <computeroutput>C:\\Dokumente und Einstellungen/Barbara</computeroutput>
             als Ausnahmen hinzufügen.
         </para>
         <para>

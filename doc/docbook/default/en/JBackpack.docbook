@@ -296,11 +296,29 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             </figure>
         </para>
         <para>
-            In the file patterns textarea you can type in paths of files or
-            directories you want to exclude. The button on the right hand side
+            In the file patterns textarea you can define files or directories
+            you want to exclude. Die file patterns are regular expressions (see
+            <ulink url="http://en.wikipedia.org/wiki/Regular_expression"
+            >http://en.wikipedia.org/wiki/Regular_expression</ulink>).
+            The button on the right hand side
             (with the big green <quote>plus</quote> icon) opens a filechooser
             that simplifies selecting and adding files and directories you want
             to exclude.
+        </para>
+        <para os="windows">
+            On Windows you have to follow two special rules because there the
+            file separator is a backslash (<quote>\</quote>) and this is also
+            the escape character for the just mentioned regular expressions:
+                <itemizedlist>
+                    <listitem><para>
+                        In the part of the path that is equal to the source
+                        directory, the backslashes have to be doubled.
+                    </para></listitem>
+                    <listitem><para>
+                        In the remainder the backslashes have to be replaced by
+                        normal slashes (<quote>/</quote>).
+                    </para></listitem>
+                </itemizedlist>
         </para>
         <para os="linux">
             <indexterm>
@@ -373,10 +391,10 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             have to configure
             <computeroutput>C:\Documents and Settings\</computeroutput> as the
             source directory, add
-            <computeroutput>C:\Documents and Settings\</computeroutput> as
+            <computeroutput>C:\\Documents and Settings</computeroutput> as
             excluded file pattern and add
-            <computeroutput>C:\Documents and Settings\Alice\</computeroutput> and
-            <computeroutput>C:\Documents and Settings\Bob\</computeroutput> to
+            <computeroutput>C:\\Documents and Settings/Alice</computeroutput> and
+            <computeroutput>C:\\Documents and Settings/Bob</computeroutput> to
             the exceptions.
         </para>
         <para>

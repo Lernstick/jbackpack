@@ -30,7 +30,7 @@
             Reiter <span class="quote">„<span class="quote">Datensicherung</span>“</span> wechseln:
             </p>
 <div class="figure">
-<a name="id3968202"></a><p class="title"><b>Abbildung 3.1. Datensicherung</b></p>
+<a name="id3727946"></a><p class="title"><b>Abbildung 3.1. Datensicherung</b></p>
 <div class="figure-contents"><div><img src="Datensicherung.png" alt="Datensicherung"></div></div>
 </div>
 <p><br class="figure-break">
@@ -38,40 +38,62 @@
             <span class="quote">„<span class="quote">Daten sichern</span>“</span>-Knopfes starten.
         </p>
 <p>
-            <a class="indexterm" name="id2970948"></a>
+            <a class="indexterm" name="id3727529"></a>
             Die einzige Option, die standardmäßig aktiviert ist, ist
             <span class="quote">„<span class="quote">Dateien komprimieren</span>“</span>. Die Komprimierung kann
             erheblich Speicherplatz einsparen, verlangsamt allerdings auch die
             Datensicherung und Wiederherstellung.
         </p>
 <p>
-            <a class="indexterm" name="id3966281"></a>
+            <a class="indexterm" name="id3728051"></a>
             Sie können JBackpack auch so einstellen, dass Sie in regelmäßigen
             Abständen daran erinnert werden, Ihre Daten zu sichern.
         </p>
 <p>
-            <a class="indexterm" name="id2970991"></a>
+            <a class="indexterm" name="id3728058"></a>
             Wenn Sie nicht <span class="emphasis"><em>alle</em></span> Daten aus dem
             Quellverzeichnis sichern wollen, können Sie das Kästchen
             <span class="quote">„<span class="quote">Dateien ausschließen</span>“</span> anwählen. Dies öffnet weitere
             Optionen:
             </p>
 <div class="figure">
-<a name="id3968412"></a><p class="title"><b>Abbildung 3.2. Dateien ausschließen</b></p>
+<a name="id3727957"></a><p class="title"><b>Abbildung 3.2. Dateien ausschließen</b></p>
 <div class="figure-contents"><div><img src="DateienAusschliessen.png" alt="Dateien ausschließen"></div></div>
 </div>
 <p><br class="figure-break">
         </p>
 <p>
-            Im Dateimuster-Textfeld können Sie Pfade von Dateien oder
-            Verzeichnissen angeben, die Sie ausschließen wollen. Der Knopf
-            rechts vom Textfeld (mit dem großen grünen
+            Im Dateimuster-Textfeld können Sie Dateien oder Verzeichnissen
+            angeben, die Sie ausschließen wollen. Die Dateimuster sind reguläre
+            Ausdrücke (siehe
+            <a class="ulink" href="http://de.wikipedia.org/wiki/Regul%C3%A4rer_Ausdruck" target="_top">http://de.wikipedia.org/wiki/Regul%C3%A4rer_Ausdruck</a>).
+            Der Knopf rechts vom Textfeld (mit dem großen grünen
             <span class="quote">„<span class="quote">Plus</span>“</span>-Symbol) öffnet eine Dateiauswahl, die die
             Auswahl und das Hinzufügen von Dateien und Verzeichnissen
             vereinfacht.
         </p>
 <p>
-            <a class="indexterm" name="id3967984"></a>
+            Unter Windows sind zwei Sonderregeln zu beachten, da dort der
+            Dateitrenner ein umgekehrter Schrägstrich (<span class="quote">„<span class="quote">\</span>“</span>) ist und
+            dieser auch als Maskierungszeichen für die soeben erwähnten
+            regulären Ausdrücke verwendet wird:
+                </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+                        In dem Teil eines Pfades, das dem Quellverzeichnis
+                        entspricht, müssen die umgekehrten Schrägstriche
+                        verdoppelt werden.
+                    </p></li>
+<li class="listitem"><p>
+                        Im verbleibenden Teil müssen die umgekehrten
+                        Schrägstriche durch normale Schrägstriche
+                        (<span class="quote">„<span class="quote">/</span>“</span>) ersetzt werden.
+                    </p></li>
+</ul></div>
+<p>
+        </p>
+<p>
+            <a class="indexterm" name="id3728230"></a>
             Sie können auch Ausnahmen bei den ausgeschlossenen Dateien und
             Verzeichnissen machen. Dies ist insbesondere bei komplexeren
             Datensicherungssituationen interessant. Ein Beispiel soll dies
@@ -96,11 +118,11 @@
             sichern wollen, müssen Sie
             <code class="computeroutput">C:\Dokumente und Einstellungen\</code> als
             Quellverzeichnis einstellen,
-            <code class="computeroutput">C:\Dokumente und Einstellungen\</code>
+            <code class="computeroutput">C:\\Dokumente und Einstellungen</code>
             ausschließen und
-            <code class="computeroutput">C:\Dokumente und Einstellungen\Anton\</code>
+            <code class="computeroutput">C:\\Dokumente und Einstellungen/Anton</code>
             und
-            <code class="computeroutput">C:\Dokumente und Einstellungen\Barbara\</code>
+            <code class="computeroutput">C:\\Dokumente und Einstellungen/Barbara</code>
             als Ausnahmen hinzufügen.
         </p>
 <p>
@@ -115,19 +137,19 @@
                     ob sie auf dem Dateisystem des Quellverzeichnisses liegt
                 </p></li>
 <li class="listitem"><p>
-                    <a class="indexterm" name="id3968784"></a>
+                    <a class="indexterm" name="id3728444"></a>
                     ob es ein symbolischer Link ist
                 </p></li>
 <li class="listitem"><p>
-                    <a class="indexterm" name="id3966400"></a>
+                    <a class="indexterm" name="id3726113"></a>
                     ob es eine Gerätedatei ist
                 </p></li>
 <li class="listitem"><p>
-                    <a class="indexterm" name="id3968684"></a>
+                    <a class="indexterm" name="id3728364"></a>
                     ob es ein Socket ist
                 </p></li>
 <li class="listitem"><p>
-                    <a class="indexterm" name="id3968824"></a>
+                    <a class="indexterm" name="id3728479"></a>
                     ob es eine benannte Pipe ist
                 </p></li>
 </ul></div>
@@ -141,7 +163,7 @@
             Fortschrittsinformationen:
             </p>
 <div class="figure">
-<a name="id3968561"></a><p class="title"><b>Abbildung 3.3. Laufende Datensicherung</b></p>
+<a name="id3727798"></a><p class="title"><b>Abbildung 3.3. Laufende Datensicherung</b></p>
 <div class="figure-contents"><div><img src="../de/Laufende_Datensicherung.png" alt="Laufende Datensicherung"></div></div>
 </div>
 <p><br class="figure-break">
@@ -159,19 +181,19 @@
                 </p></li>
 </ul></div>
 <p>
-            <a class="indexterm" name="id3968915"></a>
+            <a class="indexterm" name="id3728548"></a>
             Sie können auch wählen, dass der Computer nach der Datensicherung
             heruntergefahren wird. Sie müssen dazu über Administratorenrechte
             verfügen und Ihr Passwort eingeben. Sie können die Datensicherung
             auch abbrechen.
         </p>
 <p>
-            <a class="indexterm" name="id3968610"></a>
+            <a class="indexterm" name="id3728204"></a>
             Wenn die Datensicherung beendet ist, wird folgende Zusammenfassung
             angezeigt:
             </p>
 <div class="figure">
-<a name="id3968707"></a><p class="title"><b>Abbildung 3.4. Zusammenfassung der Datensicherung</b></p>
+<a name="id3728374"></a><p class="title"><b>Abbildung 3.4. Zusammenfassung der Datensicherung</b></p>
 <div class="figure-contents"><div><img src="Datensicherungsstatistik.png" alt="Zusammenfassung der Datensicherung"></div></div>
 </div>
 <p><br class="figure-break">

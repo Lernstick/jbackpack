@@ -2,12 +2,30 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd">
 
+<!--
+Copyright (C) 2010 imedias
+
+This file is part of JBackpack.
+
+JBackpack is free software; you can redistribute it and/or modify it under the
+terms of the GNU Lesser General Public License as published by the Free Software
+Foundation; either version 3 of the License, or (at your option) any later
+version.
+
+JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License along
+with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <book id="JBackpack" lang="en">
 
     <bookinfo>
         <title>JBackpack Manual</title>
         <date>2010-07-31</date>
-        <releaseinfo>Version 0.8.16</releaseinfo>
+        <releaseinfo>Version 0.9.1</releaseinfo>
         <abstract>
             <para>
                 <application>JBackpack</application> is a personal backup
@@ -278,11 +296,29 @@
             </figure>
         </para>
         <para>
-            In the file patterns textarea you can type in paths of files or
-            directories you want to exclude. The button on the right hand side
+            In the file patterns textarea you can define files or directories
+            you want to exclude. Die file patterns are regular expressions (see
+            <ulink url="http://en.wikipedia.org/wiki/Regular_expression"
+            >http://en.wikipedia.org/wiki/Regular_expression</ulink>).
+            The button on the right hand side
             (with the big green <quote>plus</quote> icon) opens a filechooser
             that simplifies selecting and adding files and directories you want
             to exclude.
+        </para>
+        <para os="windows">
+            On Windows you have to follow two special rules because there the
+            file separator is a backslash (<quote>\</quote>) and this is also
+            the escape character for the just mentioned regular expressions:
+                <itemizedlist>
+                    <listitem><para>
+                        In the part of the path that is equal to the source
+                        directory, the backslashes have to be doubled.
+                    </para></listitem>
+                    <listitem><para>
+                        In the remainder the backslashes have to be replaced by
+                        normal slashes (<quote>/</quote>).
+                    </para></listitem>
+                </itemizedlist>
         </para>
         <para os="linux">
             <indexterm>
@@ -355,10 +391,10 @@
             have to configure
             <computeroutput>C:\Documents and Settings\</computeroutput> as the
             source directory, add
-            <computeroutput>C:\Documents and Settings\</computeroutput> as
+            <computeroutput>C:\\Documents and Settings</computeroutput> as
             excluded file pattern and add
-            <computeroutput>C:\Documents and Settings\Alice\</computeroutput> and
-            <computeroutput>C:\Documents and Settings\Bob\</computeroutput> to
+            <computeroutput>C:\\Documents and Settings/Alice</computeroutput> and
+            <computeroutput>C:\\Documents and Settings/Bob</computeroutput> to
             the exceptions.
         </para>
         <para>
