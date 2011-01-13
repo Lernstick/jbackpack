@@ -185,6 +185,10 @@ public class JBackpack {
             });
 
         } else {
+            Logger.getLogger(JBackpack.class.getName()).log(
+                    Level.INFO,
+                    "return value of \"rdiff-backup --version\": {0}",
+                    returnValue);
             ResourceBundle bundle = ResourceBundle.getBundle(
                     "ch/fhnw/jbackpack/Strings");
             switch (CurrentOperatingSystem.OS) {
