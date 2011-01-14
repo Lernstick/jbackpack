@@ -183,21 +183,31 @@ public class RdiffChooserPanel
             return;
         }
 
-        if (!FileTools.canWrite(testFile)) {
-            dirCheckError("Error_Directory_Read-Only");
-            return;
-        }
-
+//        if (!FileTools.canWrite(testFile)) {
+//            dirCheckError("Error_Directory_Read-Only");
+//            return;
+//        }
+//
         File rdiffBackupDataDir = new File(testFile, "rdiff-backup-data");
-        if (rdiffBackupDataDir.exists()
-                && (!rdiffBackupDataDir.canRead()
-                || !rdiffBackupDataDir.canWrite())) {
-            if (LOGGER.isLoggable(Level.INFO)) {
-                LOGGER.log(Level.INFO, "can not access {0}{1}rdiff-backup-data",
-                        new Object[]{testFile, File.separatorChar});
+        if (rdiffBackupDataDir.exists()) {
+            if (!rdiffBackupDataDir.canRead()) {
+                if (LOGGER.isLoggable(Level.INFO)) {
+                    LOGGER.log(Level.INFO,
+                            "can not read {0}{1}rdiff-backup-data",
+                            new Object[]{testFile, File.separatorChar});
+                }
+                dirCheckError("Error_Read-Only", rdiffBackupDataDir);
+                return;
             }
-            dirCheckError("Error_Accessing_Backup");
-            return;
+            if (!rdiffBackupDataDir.canExecute()) {
+                if (LOGGER.isLoggable(Level.INFO)) {
+                    LOGGER.log(Level.INFO,
+                            "can not enter directory {0}{1}rdiff-backup-data",
+                            new Object[]{testFile, File.separatorChar});
+                }
+                dirCheckError("Error_No_Execute_Dir", rdiffBackupDataDir);
+                return;
+            }
         }
 
         // check directory for errors
@@ -618,13 +628,16 @@ public class RdiffChooserPanel
         cardLayout.show(this, "noRdiffDirectoryPanel");
     }
 
-    private void dirCheckError(String messageKey) {
-        dirCheckUnsuccessful("OptionPane.errorIcon", messageKey);
+    private void dirCheckError(String messageKey, Object... arguments) {
+        dirCheckUnsuccessful("OptionPane.errorIcon", messageKey, arguments);
     }
 
-    private void dirCheckUnsuccessful(String iconKey, String messageKey) {
+    private void dirCheckUnsuccessful(
+            String iconKey, String messageKey, Object... arguments) {
         noRdiffDirectoryLabel.setIcon(UIManager.getIcon(iconKey));
-        noRdiffDirectoryLabel.setText(BUNDLE.getString(messageKey));
+        String message = BUNDLE.getString(messageKey);
+        message = MessageFormat.format(message, arguments);
+        noRdiffDirectoryLabel.setText(message);
         cardLayout.show(this, "noRdiffDirectoryPanel");
     }
 
@@ -917,8 +930,43 @@ public class RdiffChooserPanel
                 if (get()) {
                     dialogHandler.hide();
                     if (returnValue == 0) {
+                        String databasePath = null;
+
+                        // check that database directory can be created
+                        File rdiffBackupDataDir =
+                                new File(directory, "rdiff-backup-data");
+                        if (FileTools.canWrite(rdiffBackupDataDir)) {
+                            databasePath = rdiffBackupDataDir.getPath()
+                                    + File.separatorChar + "jbackpack";
+                        } else {
+                            // show warning, offer using temporary directory
+                            String message = BUNDLE.getString(
+                                    "Warning_Temporary_Database");
+                            message = MessageFormat.format(
+                                    message, rdiffBackupDataDir);
+                            int selected = JOptionPane.showConfirmDialog(
+                                    parentWindow, message,
+                                    BUNDLE.getString("Warning"),
+                                    JOptionPane.YES_NO_OPTION);
+                            if (selected == JOptionPane.YES_OPTION) {
+                                try {
+                                    databasePath =
+                                            FileTools.createTempDirectory(
+                                            "jbackpack", null).getPath()
+                                            + File.separatorChar + "jbackpack";
+                                } catch (IOException ex) {
+                                    LOGGER.log(Level.WARNING, null, ex);
+                                    dirCheckError("Error_Database");
+                                    return;
+                                }
+                            } else {
+                                dirCheckError("Error_Database");
+                                return;
+                            }
+                        }
+
                         DatabaseSyncer databaseSyncer = new DatabaseSyncer(
-                                directory, rdiffBackupListOutput);
+                                directory, databasePath, rdiffBackupListOutput);
                         LOGGER.fine("scheduling DatabaseSyncer for execution");
                         databaseSyncer.execute();
                     } else {
@@ -980,14 +1028,16 @@ public class RdiffChooserPanel
 
     private class DatabaseSyncer extends SwingWorker<Boolean, Object> {
 
-        private final File directory;
+        private final File backupDirectory;
+        private final String databasePath;
         private final List<String> rdiffBackupListOutput;
         private final DatabaseSyncDialog dialog;
         private final ModalDialogHandler dialogHandler;
 
-        public DatabaseSyncer(
-                File directory, List<String> rdiffBackupListOutput) {
-            this.directory = directory;
+        public DatabaseSyncer(File backupDirectory, String databasePath,
+                List<String> rdiffBackupListOutput) {
+            this.backupDirectory = backupDirectory;
+            this.databasePath = databasePath;
             this.rdiffBackupListOutput = rdiffBackupListOutput;
             dialog = new DatabaseSyncDialog(parentWindow);
             dialogHandler = new ModalDialogHandler(dialog);
@@ -997,7 +1047,7 @@ public class RdiffChooserPanel
         @Override
         protected Boolean doInBackground() {
             rdiffFileDatabase = RdiffFileDatabase.getInstance(
-                    directory, rdiffBackupListOutput);
+                    backupDirectory, databasePath, rdiffBackupListOutput);
             if (rdiffFileDatabase.isConnected()) {
                 dialog.setDatabase(rdiffFileDatabase);
                 try {
@@ -1019,7 +1069,7 @@ public class RdiffChooserPanel
                 if (get()) {
                     if (increments.isEmpty()) {
                         LOGGER.log(Level.WARNING,
-                                "no increments found in {0}", directory);
+                                "no increments found in {0}", backupDirectory);
                         dirCheckInfo("Warning_No_Backup_Directory");
                     } else {
                         backupsList.clearSelection();
@@ -1032,6 +1082,8 @@ public class RdiffChooserPanel
                 } else {
                     if (rdiffFileDatabase.isAnotherInstanceRunning()) {
                         dirCheckError("Error_Database_In_Use");
+                    } else {
+                        dirCheckError("Error_Database");
                     }
                 }
             } catch (InterruptedException ex) {

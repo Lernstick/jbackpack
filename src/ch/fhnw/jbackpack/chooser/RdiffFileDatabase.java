@@ -188,13 +188,15 @@ public class RdiffFileDatabase {
     /**
      * Creates a new RdiffFileDatabase
      * @param backupDirectory the backup directory
+     * @param databasePath the path to the database
      * @param rdiffBackupListOutput the output of calling
      * "rdiff-backup --parsable-output -l <backupDirectory>"
      * @return a new RdiffFileDatabase
      */
-    public static RdiffFileDatabase getInstance(
-            File backupDirectory, List<String> rdiffBackupListOutput) {
-        return new RdiffFileDatabase(backupDirectory, rdiffBackupListOutput);
+    public static RdiffFileDatabase getInstance(File backupDirectory,
+            String databasePath, List<String> rdiffBackupListOutput) {
+        return new RdiffFileDatabase(
+                backupDirectory, databasePath, rdiffBackupListOutput);
     }
 
     /**
@@ -207,11 +209,13 @@ public class RdiffFileDatabase {
         processExecutor.executeProcess(true, true, "rdiff-backup",
                 "--parsable-output", "-l", backupDirectory.getPath());
         List<String> output = processExecutor.getStdOutList();
-        return new RdiffFileDatabase(backupDirectory, output);
+        String databasePath = backupDirectory.getPath() + File.separatorChar
+                + "rdiff-backup-data" + File.separatorChar + "jbackpack";
+        return new RdiffFileDatabase(backupDirectory, databasePath, output);
     }
 
-    private RdiffFileDatabase(
-            File backupDirectory, List<String> rdiffBackupListOutput) {
+    private RdiffFileDatabase(File backupDirectory, String databasePath,
+            List<String> rdiffBackupListOutput) {
 
         this.backupDirectory = backupDirectory;
         this.rdiffBackupListOutput = rdiffBackupListOutput;
@@ -222,8 +226,6 @@ public class RdiffFileDatabase {
         System.setProperty("derby.storage.pageSize", "32768");
         System.setProperty("derby.stream.error.method",
                 "ch.fhnw.jbackpack.chooser.RdiffFileDatabase.disableDerbyLogFile");
-        String databasePath = backupDirectory.getPath() + File.separatorChar
-                + "rdiff-backup-data" + File.separatorChar + "jbackpack";
         String driver = "org.apache.derby.jdbc.EmbeddedDriver";
         String connectionURL = "jdbc:derby:" + databasePath + ";create=true";
 

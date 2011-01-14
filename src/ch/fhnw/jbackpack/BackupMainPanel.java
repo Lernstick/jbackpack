@@ -831,20 +831,6 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             return false;
         }
 
-        // rdiff-backup checks
-        File rdiffBackupDataDir =
-                new File(destinationDirectory, "rdiff-backup-data");
-        if (rdiffBackupDataDir.exists()
-                && (!rdiffBackupDataDir.canRead()
-                || !FileTools.canWrite(rdiffBackupDataDir))) {
-            if (LOGGER.isLoggable(Level.INFO)) {
-                LOGGER.log(Level.INFO, "can not access {0}{1}rdiff-backup-data",
-                        new Object[]{destinationDirectory, File.separatorChar});
-            }
-            showErrorPanels("Error_Accessing_Backup");
-            return false;
-        }
-
         commonDestinationOK = true;
         return true;
     }
@@ -3847,6 +3833,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             showRestoreErrorPanel(BUNDLE.getString("Error_Source_Read-Only"));
             return false;
         }
+
         // check that user can change permissions of this directory
         if (sourceDirectory.setWritable(false)) {
             sourceDirectory.setWritable(true);
@@ -3872,6 +3859,21 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 return false;
             }
         }
+
+        // rdiff-backup checks
+        File rdiffBackupDataDir =
+                new File(destinationDirectory, "rdiff-backup-data");
+        if (rdiffBackupDataDir.exists()
+                && (!rdiffBackupDataDir.canRead()
+                || !FileTools.canWrite(rdiffBackupDataDir))) {
+            if (LOGGER.isLoggable(Level.INFO)) {
+                LOGGER.log(Level.INFO, "can not access {0}{1}rdiff-backup-data",
+                        new Object[]{destinationDirectory, File.separatorChar});
+            }
+            showBackupErrorPanel(BUNDLE.getString("Error_Accessing_Backup"));
+            return false;
+        }
+
         return true;
     }
 
