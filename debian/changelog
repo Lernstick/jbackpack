@@ -1,14 +1,24 @@
+jbackpack (0.9.1-1) unstable; urgency=low
+
+  * support for temporary databases
+  * added fixes and workarounds for Windows
+  * updated documentation
+  * show error message when encfs setup failed
+  * log return value of failed calls to "rdiff-backup --version"
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Sat, 15 Jan 2011 20:40:30 +0100
+
 jbackpack (0.9-2) unstable; urgency=low
 
   * updated application icon
 
- -- Ronny Standtke <ronny@ronny-laptop>  Sun, 19 Dec 2010 19:26:30 +0100
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Sun, 19 Dec 2010 19:26:30 +0100
 
 jbackpack (0.9-1) unstable; urgency=low
 
   * fixed some legal stuff
 
- -- Ronny Standtke <ronny@onnies>  Sun, 03 Oct 2010 17:16:10 +0200
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Sun, 03 Oct 2010 17:16:10 +0200
 
 jbackpack (0.9) unstable; urgency=low
 
