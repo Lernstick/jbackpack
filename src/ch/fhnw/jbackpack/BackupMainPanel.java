@@ -3557,6 +3557,10 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             if (!FileTools.isEncFS(tmpCipherPath)) {
                 LOGGER.log(Level.WARNING,
                         "failed to setup encfs in {0}", tmpCipherPath);
+                JOptionPane.showMessageDialog(parentFrame,
+                        BUNDLE.getString("Encryption_Failed"),
+                        BUNDLE.getString("Error"),
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
