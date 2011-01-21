@@ -4345,7 +4345,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 if (sshPublicKeyRadioButton.isSelected()) {
                     // collect output for error reporting
                     int returnValue = processExecutor.executeProcess(true,
-                            true, "sshfs", "-o", "workaround=rename,idmap=user",
+                            true, "sshfs", "-o", "ServerAliveInterval=15",
+                            "-o", "workaround=rename,idmap=user",
                             userHostDir, mountPoint);
                     return (returnValue == 0);
 
