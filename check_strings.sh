@@ -5,7 +5,7 @@ do
 	while read LINE
 	do
 		KEY=$(echo ${LINE} | awk -F= '{ print $1 }')
-		find -name "*.java" | xargs grep -q "\"${KEY}\""
+		find -name "*.java" -print0 | xargs -0 grep -q "\"${KEY}\""
 		if [ $? != 0 ]
 		then
 			echo "KEY \"${KEY}\" not found"

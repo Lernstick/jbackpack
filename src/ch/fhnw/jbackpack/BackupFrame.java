@@ -100,7 +100,7 @@ public class BackupFrame extends javax.swing.JFrame {
         int logLevelOrdinal = preferences.getInt(
                 LOGGING_LEVEL, LogLevel.INFO.ordinal());
 
-        // do not use default handler
+        // do not use parent handler
         // (otherwise we would get many double log entries on the console)
         GLOBAL_LOGGER.setUseParentHandlers(false);
         UTIL_LOGGER.setUseParentHandlers(false);
