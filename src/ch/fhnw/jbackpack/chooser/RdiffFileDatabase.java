@@ -596,7 +596,7 @@ public class RdiffFileDatabase {
                 String name = mirrorFiles.getString(NAME_COLUMN);
                 String type = mirrorFiles.getString(TYPE_COLUMN);
                 long size = mirrorFiles.getLong(SIZE_COLUMN);
-                long modtime = mirrorFiles.getLong(MODTIME_COLUMN);
+                long modtime = mirrorFiles.getLong(MODTIME_COLUMN) * 1000;
                 files.add(new RdiffFile(this, increment, directory, name,
                         size, modtime, "dir".equals(type)));
             }
@@ -823,7 +823,7 @@ public class RdiffFileDatabase {
             } else {
                 // add/update file
                 long size = resultSet.getLong(SIZE_COLUMN);
-                long modtime = resultSet.getLong(MODTIME_COLUMN);
+                long modtime = resultSet.getLong(MODTIME_COLUMN) * 1000;
                 boolean updated = false;
                 for (int i = 0, j = files.size(); i < j; i++) {
                     RdiffFile file = files.get(i);

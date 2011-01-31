@@ -60,7 +60,8 @@ public class RdiffFile extends File {
      * @param parent the parent of this file
      * @param name the name of this file
      * @param length the size of this file
-     * @param modTime the modification time of this file
+     * @param modTime the modification time of this file given in milliseconds
+     * since epoch
      * @param directory if <code>true</code>, this file is a directory
      */
     public RdiffFile(RdiffFileDatabase rdiffFileDatabase, Increment increment,
