@@ -1232,6 +1232,7 @@ public class RdiffFileDatabase {
                 LOGGER.log(Level.INFO, "database mirror timestamp: {0}",
                         DATE_FORMAT.format(date));
             }
+            statement.close();
             return databaseMirrorTimeStamp;
         }
         statement.close();
