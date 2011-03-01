@@ -18,15 +18,11 @@
  */
 package ch.fhnw.jbackpack.chooser;
 
-import ch.fhnw.util.CurrentOperatingSystem;
-import ch.fhnw.util.OperatingSystem;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,26 +33,13 @@ import java.util.logging.Logger;
  */
 public class Increment {
 
-    /**
-     * the date format used for the increment files postfix
-     */
-    public final static DateFormat DATE_FORMAT;
     private final static Logger LOGGER =
             Logger.getLogger(Increment.class.getName());
     private final Increment youngerIncrement;
     private final File backupDirectory;
-    private final Date timestamp;
-    private final String rdiffDateString;
+    private final RdiffTimestamp timestamp;
     private final RdiffFile rdiffRoot;
     private Long size;
-
-    static {
-        String rdiffDateformatString = "yyyy-MM-dd'T'HH:mm:ss";
-        String pattern = CurrentOperatingSystem.OS == OperatingSystem.Windows
-                ? rdiffDateformatString.replaceAll(":", ";058")
-                : rdiffDateformatString;
-        DATE_FORMAT = new SimpleDateFormat(pattern);
-    }
 
     /**
      * creates a new Increment
@@ -65,14 +48,12 @@ public class Increment {
      * @param rdiffFileDatabase the rdiff file database
      * @param backupDirectory the backup directory of this increment
      */
-    public Increment(Increment youngerIncrement, Date timestamp,
+    public Increment(Increment youngerIncrement, RdiffTimestamp timestamp,
             RdiffFileDatabase rdiffFileDatabase, File backupDirectory) {
 
         this.youngerIncrement = youngerIncrement;
         this.timestamp = timestamp;
         this.backupDirectory = backupDirectory;
-
-        rdiffDateString = DATE_FORMAT.format(timestamp);
 
         /**
          * some notes about size information:
@@ -122,7 +103,7 @@ public class Increment {
      * @return the timestamp of this increment
      */
     public Date getTimestamp() {
-        return timestamp;
+        return new Date(timestamp.getTimestamp());
     }
 
     /**
@@ -131,7 +112,7 @@ public class Increment {
      * @return the timestamp string as rdiff-backup expects it
      */
     public String getRdiffTimestamp() {
-        return String.valueOf(timestamp.getTime() / 1000);
+        return String.valueOf(timestamp.getTimestamp() / 1000);
     }
 
     /**
@@ -165,7 +146,7 @@ public class Increment {
      */
     public final long getSessionStatisticsValue(String key) {
         File statisticsFile = getRdiffBackupFile(backupDirectory.getPath(),
-                "session_statistics." + rdiffDateString);
+                "session_statistics." + timestamp.getFilestamp());
         if (statisticsFile == null) {
             return 0;
         }

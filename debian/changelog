@@ -1,3 +1,13 @@
+jbackpack (0.9.2-1) unstable; urgency=low
+
+  * fixed timestamp <-> filename mapping
+  * support for temporary backup databases
+  * show error message when encfs setup failed
+  * use ServerAliveInterval for sshfs to prevent connection timeouts
+  * fixed database compression
+
+ -- Ronny Standtke <ronny@ronny-laptop>  Tue, 01 Mar 2011 13:05:40 +0100
+
 jbackpack (0.9.1-1) unstable; urgency=low
 
   * support for temporary databases
