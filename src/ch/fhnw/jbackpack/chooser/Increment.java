@@ -103,7 +103,7 @@ public class Increment {
      * @return the timestamp of this increment
      */
     public Date getTimestamp() {
-        return new Date(timestamp.getTimestamp());
+        return timestamp.getTimestamp();
     }
 
     /**
@@ -112,7 +112,7 @@ public class Increment {
      * @return the timestamp string as rdiff-backup expects it
      */
     public String getRdiffTimestamp() {
-        return String.valueOf(timestamp.getTimestamp() / 1000);
+        return String.valueOf(timestamp.getTimestamp().getTime() / 1000);
     }
 
     /**

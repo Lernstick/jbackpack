@@ -18,16 +18,23 @@
  */
 package ch.fhnw.jbackpack.chooser;
 
+import java.util.Date;
+
 /**
  * A rdiff-backup timestamp
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class RdiffTimestamp {
 
-    private final long timestamp;
+    private final Date timestamp;
     private final String filestamp;
 
-    public RdiffTimestamp(long timestamp, String filestamp) {
+    /**
+     * creates a new RdiffTimestamp
+     * @param timestamp the timestamp
+     * @param filestamp the filename suffix used for this timestamp
+     */
+    public RdiffTimestamp(Date timestamp, String filestamp) {
         this.timestamp = timestamp;
         this.filestamp = filestamp;
     }
@@ -36,7 +43,7 @@ public class RdiffTimestamp {
      * returns the timestamp
      * @return the timestamp
      */
-    public long getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 

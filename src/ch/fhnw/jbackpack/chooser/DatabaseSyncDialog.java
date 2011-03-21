@@ -302,8 +302,11 @@ public class DatabaseSyncDialog extends javax.swing.JDialog {
 
     private void updateProgressBar(JProgressBar progressbar) {
         int maxIncrementCounter = database.getMaxIncrementCounter();
-        long currentTimestamp = database.getCurrentTimestamp();
-        String dateString = DATE_FORMAT.format(new Date(currentTimestamp));
+        Date currentTimestamp = database.getCurrentTimestamp();
+        if (currentTimestamp == null) {
+            return;
+        }
+        String dateString = DATE_FORMAT.format(currentTimestamp);
         if (maxIncrementCounter == 0) {
             progressbar.setString(dateString);
         } else {

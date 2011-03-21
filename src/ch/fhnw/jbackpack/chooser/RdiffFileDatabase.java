@@ -181,7 +181,7 @@ public class RdiffFileDatabase {
     private int incrementCounter;
     private long directoryCounter;
     private long fileCounter;
-    private long currentTimestamp;
+    private Date currentTimestamp;
     private String currentPath;
     private String currentName;
     private boolean connectionSucceeded;
@@ -374,24 +374,24 @@ public class RdiffFileDatabase {
         // check if mirror is up-to-date
         boolean deleteMirror = false;
         boolean insertMirror = false;
-        long fileSystemMirrorTimestamp =
+        Date fileSystemMirrorTimestamp =
                 fileSystemTimestamps.get(0).getTimestamp();
-        Long databaseMirrorTimestamp = getDatabaseMirrorTimestamp();
+        Date databaseMirrorTimestamp = getDatabaseMirrorTimestamp();
         deleteMirror = (databaseMirrorTimestamp != null)
-                && (fileSystemMirrorTimestamp != databaseMirrorTimestamp);
+                && (!fileSystemMirrorTimestamp.equals(databaseMirrorTimestamp));
         insertMirror = (databaseMirrorTimestamp == null)
-                || (fileSystemMirrorTimestamp != databaseMirrorTimestamp);
+                || (!fileSystemMirrorTimestamp.equals(databaseMirrorTimestamp));
 
         // determine list of increments in database to delete
-        List<Long> databaseIncrementTimestamps =
+        List<Date> databaseIncrementTimestamps =
                 getDatabaseIncrementTimestamps();
-        List<Long> timestampsToDelete = new ArrayList<Long>();
-        for (Long databaseTimestamp : databaseIncrementTimestamps) {
+        List<Date> timestampsToDelete = new ArrayList<Date>();
+        for (Date databaseTimestamp : databaseIncrementTimestamps) {
             boolean delete = true;
             for (int i = 1, size = fileSystemTimestamps.size(); i < size; i++) {
-                long fileSystemTimestamp =
+                Date fileSystemTimestamp =
                         fileSystemTimestamps.get(i).getTimestamp();
-                if (databaseTimestamp == fileSystemTimestamp) {
+                if (databaseTimestamp.equals(fileSystemTimestamp)) {
                     delete = false;
                     break;
                 }
@@ -405,10 +405,10 @@ public class RdiffFileDatabase {
         List<RdiffTimestamp> timestampsToAdd = new ArrayList<RdiffTimestamp>();
         for (int i = 1, size = fileSystemTimestamps.size(); i < size; i++) {
             RdiffTimestamp rdiffTimestamp = fileSystemTimestamps.get(i);
-            long timestamp = rdiffTimestamp.getTimestamp();
+            Date timestamp = rdiffTimestamp.getTimestamp();
             boolean add = true;
-            for (Long databaseTimestamp : databaseIncrementTimestamps) {
-                if (databaseTimestamp == timestamp) {
+            for (Date databaseTimestamp : databaseIncrementTimestamps) {
+                if (databaseTimestamp.equals(timestamp)) {
                     add = false;
                     break;
                 }
@@ -462,8 +462,9 @@ public class RdiffFileDatabase {
         if (insertMirror) {
             LOGGER.info("inserting new mirror timestamp");
             Statement statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO " + MIRROR_TIMESTAMP_TABLE
-                    + " VALUES(" + fileSystemMirrorTimestamp + ")");
+            statement.executeUpdate("INSERT INTO "
+                    + MIRROR_TIMESTAMP_TABLE + " VALUES("
+                    + (fileSystemMirrorTimestamp.getTime() / 1000) + ")");
             statement.close();
 
             LOGGER.info("adding file system root into mirror directories");
@@ -493,8 +494,9 @@ public class RdiffFileDatabase {
                         timestampToAdd.getFilestamp());
             }
             Statement statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO " + INCREMENT_TIMESTAMPS_TABLE
-                    + " VALUES(" + timestampToAdd.getTimestamp() + ")");
+            statement.executeUpdate("INSERT INTO "
+                    + INCREMENT_TIMESTAMPS_TABLE + " VALUES("
+                    + (timestampToAdd.getTimestamp().getTime() / 1000) + ")");
             statement.close();
 
             incrementDirectoryIdCache.clear();
@@ -548,9 +550,9 @@ public class RdiffFileDatabase {
      * @return the list of increments
      */
     public List<Increment> getIncrements() {
-        List<Long> timestamps = new ArrayList<Long>();
+        List<Date> timestamps = new ArrayList<Date>();
         try {
-            Long databaseMirrorTimestamp = getDatabaseMirrorTimestamp();
+            Date databaseMirrorTimestamp = getDatabaseMirrorTimestamp();
             if (databaseMirrorTimestamp != null) {
                 timestamps.add(databaseMirrorTimestamp);
             }
@@ -562,10 +564,10 @@ public class RdiffFileDatabase {
 
         Increment youngerIncrement = null;
         List<Increment> increments = new ArrayList<Increment>();
-        for (Long timestamp : timestamps) {
+        for (Date timestamp : timestamps) {
             RdiffTimestamp rdiffTimestamp = null;
             for (RdiffTimestamp fileSystemTimestamp : fileSystemTimestamps) {
-                if (fileSystemTimestamp.getTimestamp() == timestamp) {
+                if (fileSystemTimestamp.getTimestamp().equals(timestamp)) {
                     rdiffTimestamp = fileSystemTimestamp;
                 }
             }
@@ -660,7 +662,7 @@ public class RdiffFileDatabase {
      * returns the currently parsed timestamp while syncing the database
      * @return the currently parsed timestamp while syncing the database
      */
-    public long getCurrentTimestamp() {
+    public Date getCurrentTimestamp() {
         return currentTimestamp;
     }
 
@@ -761,7 +763,7 @@ public class RdiffFileDatabase {
         return directoryID;
     }
 
-    private long getIncrementDirID(long timestamp, String[] directories)
+    private long getIncrementDirID(Date timestamp, String[] directories)
             throws SQLException {
         long directoryID = getIncrementDirID(timestamp, 0, "");
         for (String directory : directories) {
@@ -777,10 +779,10 @@ public class RdiffFileDatabase {
         return directoryID;
     }
 
-    private long getIncrementDirID(long timestamp, long parentID, String path)
+    private long getIncrementDirID(Date timestamp, long parentID, String path)
             throws SQLException {
         long directoryID = 0;
-        getIncrementDirIDStatement.setLong(1, timestamp);
+        getIncrementDirIDStatement.setLong(1, timestamp.getTime() / 1000);
         getIncrementDirIDStatement.setLong(2, parentID);
         getIncrementDirIDStatement.setString(3, path);
         ResultSet resultSet = getIncrementDirIDStatement.executeQuery();
@@ -805,12 +807,11 @@ public class RdiffFileDatabase {
         }
 
         long directoryID = 0;
-        long timestampLong = timestamp.getTime();
         if (directoryPath.isEmpty()) {
-            directoryID = getIncrementDirID(timestampLong, 0, "");
+            directoryID = getIncrementDirID(timestamp, 0, "");
         } else {
             String[] directories = directoryPath.split(QUOTED_SEPARATOR);
-            directoryID = getIncrementDirID(timestampLong, directories);
+            directoryID = getIncrementDirID(timestamp, directories);
         }
 
         getIncrementFilesStatement.setLong(1, directoryID);
@@ -872,7 +873,7 @@ public class RdiffFileDatabase {
 
         long start = System.currentTimeMillis();
         incrementCounter++;
-        long timestamp = rdiffTimestamp.getTimestamp();
+        Date timestamp = rdiffTimestamp.getTimestamp();
         String filestamp = rdiffTimestamp.getFilestamp();
         currentTimestamp = timestamp;
         connection.setAutoCommit(false);
@@ -939,7 +940,7 @@ public class RdiffFileDatabase {
         }
     }
 
-    private void processParsedFile(long timestamp,
+    private void processParsedFile(Date timestamp,
             String path, String type, long size, long modTime,
             PreparedStatement insertMirrorDirStatement,
             PreparedStatement insertMirrorFileStatement,
@@ -1049,7 +1050,7 @@ public class RdiffFileDatabase {
         return directoryID;
     }
 
-    private long insertIncrementDir(long timestamp,
+    private long insertIncrementDir(Date timestamp,
             PreparedStatement insertIncrementDirStatement) throws SQLException {
 
         long directoryID = getOrAddIncrementDir(
@@ -1112,12 +1113,12 @@ public class RdiffFileDatabase {
         return directoryID;
     }
 
-    private long getOrAddIncrementDir(long timestamp, long parentID,
+    private long getOrAddIncrementDir(Date timestamp, long parentID,
             String directory, PreparedStatement insertIncrementDirStatement)
             throws SQLException {
         long directoryID = getIncrementDirID(timestamp, parentID, directory);
         if (directoryID == 0) {
-            insertIncrementDirStatement.setLong(1, timestamp);
+            insertIncrementDirStatement.setLong(1, timestamp.getTime() / 1000);
             insertIncrementDirStatement.setLong(2, parentID);
             insertIncrementDirStatement.setString(3, directory);
             int rowCount = insertIncrementDirStatement.executeUpdate();
@@ -1135,7 +1136,7 @@ public class RdiffFileDatabase {
         return directoryID;
     }
 
-    private void trimIncrements(List<Long> timestampsToDelete)
+    private void trimIncrements(List<Date> timestampsToDelete)
             throws SQLException {
 
         long trimStart = System.currentTimeMillis();
@@ -1154,22 +1155,23 @@ public class RdiffFileDatabase {
                 "DELETE FROM " + INCREMENT_DIRECTORIES_TABLE
                 + " WHERE " + TIMESTAMP_COLUMN + "=?");
 
-        for (Long timestampToDelete : timestampsToDelete) {
+        for (Date timestampToDelete : timestampsToDelete) {
             LOGGER.log(Level.INFO, "deleting increment timestamp {0}",
-                    DATE_FORMAT.format(new Date(timestampToDelete * 1000)));
+                    DATE_FORMAT.format(timestampToDelete));
             incrementCounter++;
-            deleteTimestampStatement.setLong(1, timestampToDelete);
+            long rdiffTimestamp = timestampToDelete.getTime() / 1000;
+            deleteTimestampStatement.setLong(1, rdiffTimestamp);
             int rowCount = deleteTimestampStatement.executeUpdate();
             if (rowCount != 1) {
                 LOGGER.log(Level.WARNING,
                         "could not remove timestamp {0} from database",
-                        DATE_FORMAT.format(new Date(timestampToDelete * 1000)));
+                        DATE_FORMAT.format(timestampToDelete));
             }
 
             // delete files before directories!!!
             // (otherwise it would be impossible to find the directory IDs)
             long start = System.currentTimeMillis();
-            deleteFilesStatement.setLong(1, timestampToDelete);
+            deleteFilesStatement.setLong(1, rdiffTimestamp);
             rowCount = deleteFilesStatement.executeUpdate();
             if (LOGGER.isLoggable(Level.INFO)) {
                 long time = System.currentTimeMillis() - start;
@@ -1177,7 +1179,7 @@ public class RdiffFileDatabase {
                         new Object[]{rowCount, time});
             }
             start = System.currentTimeMillis();
-            deleteDirectoriesStatement.setLong(1, timestampToDelete);
+            deleteDirectoriesStatement.setLong(1, rdiffTimestamp);
             rowCount = deleteDirectoriesStatement.executeUpdate();
             if (LOGGER.isLoggable(Level.INFO)) {
                 long time = System.currentTimeMillis() - start;
@@ -1250,7 +1252,7 @@ public class RdiffFileDatabase {
                                 String fileName = statisticsFile.getName();
                                 String fileStamp = fileName.split("\\.")[1];
                                 rdiffTimestamps.add(new RdiffTimestamp(
-                                        timestamp * 1000, fileStamp));
+                                        new Date(timestamp * 1000), fileStamp));
                             }
                         }
                     }
@@ -1276,16 +1278,16 @@ public class RdiffFileDatabase {
         return rdiffTimestamps;
     }
 
-    private Long getDatabaseMirrorTimestamp() throws SQLException {
+    private Date getDatabaseMirrorTimestamp() throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT "
                 + TIMESTAMP_COLUMN + " FROM " + MIRROR_TIMESTAMP_TABLE);
         if (resultSet.next()) {
-            long databaseMirrorTimeStamp = resultSet.getLong(TIMESTAMP_COLUMN);
+            Date databaseMirrorTimeStamp = new Date(
+                    resultSet.getLong(TIMESTAMP_COLUMN) * 1000);
             if (LOGGER.isLoggable(Level.INFO)) {
-                Date date = new Date(databaseMirrorTimeStamp * 1000);
                 LOGGER.log(Level.INFO, "database mirror timestamp: {0}",
-                        DATE_FORMAT.format(date));
+                        DATE_FORMAT.format(databaseMirrorTimeStamp));
             }
             statement.close();
             return databaseMirrorTimeStamp;
@@ -1294,11 +1296,11 @@ public class RdiffFileDatabase {
         return null;
     }
 
-    private List<Long> getDatabaseIncrementTimestamps() throws SQLException {
-        List<Long> timestamps = new ArrayList<Long>();
+    private List<Date> getDatabaseIncrementTimestamps() throws SQLException {
+        List<Date> timestamps = new ArrayList<Date>();
         ResultSet resultSet = getIncrementsStatement.executeQuery();
         while (resultSet.next()) {
-            timestamps.add(resultSet.getLong(TIMESTAMP_COLUMN));
+            timestamps.add(new Date(resultSet.getLong(TIMESTAMP_COLUMN) * 1000));
         }
         resultSet.close();
         return timestamps;
