@@ -71,15 +71,16 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         <taskdef
             name="jarbundler"
             classname="net.sourceforge.jarbundler.JarBundler"
-            classpath="/usr/share/ant/lib/jarbundler-2.1.0.jar"/>
-        <jarbundler dir="dist"
+            classpath="libs/jarbundler-2.2.0.jar"/>
+        <jarbundler
+            dir="dist"
             name="JBackpack"
             jar="dist/JBackpack.jar"
             mainclass="ch.fhnw.jbackpack.JBackpack"
             jvmversion="1.6+"
-            developmentregion="de"
-            icon="jbackpack.icns"
-            />
+            icon="jbackpack.icns">
+            <resourcefileset dir="jarbundler"/>
+        </jarbundler>
         <exec executable="hdiutil">
             <arg line="unmount /Volumes/JBackpack"/>
         </exec>
@@ -243,7 +244,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             <param name="plaf" value="windows"/>
             <param name="profile.os" value="windows"/>
         </antcall>
-        
+
         <echo>All documentation generated. Must rebuild project now...</echo>
         <antcall target="clean"/>
         <antcall target="compile"/>
