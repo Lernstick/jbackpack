@@ -57,12 +57,10 @@ public class AutoStarter {
             new File(USER_HOME + "/.kde/Autostart");
     private static final File FREE_DESKTOP_AUTOSTART_DIR =
             new File(USER_HOME + "/.config/autostart");
-    private static final File OSX_SCRIPT_DIR = new File(USER_HOME,
-            "Library/Scripts/Applications/JBackpack");
     private static final File OSX_LAUNCH_AGENTS_DIR =
             new File(USER_HOME, "Library/LaunchAgents");
-    private static final File OSX_LAUNCH_AGENTS_FILE =
-            new File(OSX_LAUNCH_AGENTS_DIR, "ch.fhnw.jbackpack.plist");
+    private final File osxScriptDir;
+    private final File osxLaunchAgentsFile;
     private final URL codeBase;
     private final String startCommand;
     private final boolean isIDE_Start;
@@ -70,10 +68,21 @@ public class AutoStarter {
     /**
      * creates a new Autostarter
      * @param jnlpFileName the JNLP file name
-     * @param osxDocName the application name for the Mac OS X dock
+     * @param osxDockName the application name for the Mac OS X dock
+     * @param osxScriptsDirName the name of the OS X scripts directory
+     * @param osxLaunchAgentsFileName the name of the OS X LauchAgent file
      * @param options the application command line options
      */
-    public AutoStarter(String jnlpFileName, String osxDocName, String options) {
+    public AutoStarter(String jnlpFileName, String osxDockName,
+            String osxScriptsDirName, String osxLaunchAgentsFileName,
+            String options) {
+
+        // assemble some OS X specific variables
+        osxScriptDir = new File(USER_HOME,
+                "Library/Scripts/Applications/" + osxScriptsDirName);
+        osxLaunchAgentsFile = new File(OSX_LAUNCH_AGENTS_DIR,
+                osxLaunchAgentsFileName + ".plist");
+
         // test, if we are running from Java Web Start or not
         BasicService basicService = null;
         try {
@@ -100,7 +109,7 @@ public class AutoStarter {
                     if (appIndex == -1) {
                         // started via JAR
                         startCommand =
-                                "java -Xdock:name=" + osxDocName
+                                "java -Xdock:name=" + osxDockName
                                 + " -jar \"" + pathToJAR + "\""
                                 + ((options == null) ? "" : ' ' + options);
                     } else {
@@ -308,7 +317,7 @@ public class AutoStarter {
             case Mac_OS_X:
                 enableMacOSXAutostart();
                 break;
-                
+
             default:
                 errorMessage = CurrentOperatingSystem.OS + unsupported;
         }
@@ -404,18 +413,18 @@ public class AutoStarter {
 
     private void enableMacOSXAutostart() {
         // create start script
-        if (!OSX_SCRIPT_DIR.exists() && !OSX_SCRIPT_DIR.mkdirs()) {
-            LOGGER.log(Level.WARNING, "could not create {0}", OSX_SCRIPT_DIR);
+        if (!osxScriptDir.exists() && !osxScriptDir.mkdirs()) {
+            LOGGER.log(Level.WARNING, "could not create {0}", osxScriptDir);
             return;
         }
-        File script = new File(OSX_SCRIPT_DIR, "Reminder");
+        File scriptFile = new File(osxScriptDir, "autostart.sh");
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(script);
+            fileWriter = new FileWriter(scriptFile);
             fileWriter.write("#!/bin/sh" + LINE_SEPARATOR
                     + startCommand);
             fileWriter.close();
-            script.setExecutable(true);
+            scriptFile.setExecutable(true);
 
             // add script to lauchagent
             if (!OSX_LAUNCH_AGENTS_DIR.exists()
@@ -424,16 +433,16 @@ public class AutoStarter {
                         "could not create {0}", OSX_LAUNCH_AGENTS_DIR);
                 return;
             }
-            fileWriter = new FileWriter(OSX_LAUNCH_AGENTS_FILE);
+            fileWriter = new FileWriter(osxLaunchAgentsFile);
             fileWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + LINE_SEPARATOR
                     + "<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">" + LINE_SEPARATOR
                     + "<plist version=\"1.0\">" + LINE_SEPARATOR
                     + "<dict>" + LINE_SEPARATOR
                     + "\t<key>Label</key>" + LINE_SEPARATOR
-                    + "\t<string>ch.fhnw.jbackpack</string>" + LINE_SEPARATOR
+                    + "\t<string>autostart</string>" + LINE_SEPARATOR
                     + "\t<key>ProgramArguments</key>" + LINE_SEPARATOR
                     + "\t<array>" + LINE_SEPARATOR
-                    + "\t\t<string>" + USER_HOME + "/Library/Scripts/Applications/JBackpack/Reminder</string>" + LINE_SEPARATOR
+                    + "\t\t<string>" + scriptFile + "</string>" + LINE_SEPARATOR
                     + "\t</array>" + LINE_SEPARATOR
                     + "\t<key>RunAtLoad</key>" + LINE_SEPARATOR
                     + "\t<true/>" + LINE_SEPARATOR
@@ -452,13 +461,13 @@ public class AutoStarter {
         }
     }
 
-    private static void disableMACOSXAutostart() {
+    private void disableMACOSXAutostart() {
         try {
-            FileTools.recursiveDelete(OSX_SCRIPT_DIR);
+            FileTools.recursiveDelete(osxScriptDir);
         } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "could not delete " + OSX_SCRIPT_DIR, ex);
+            LOGGER.log(Level.WARNING, "could not delete " + osxScriptDir, ex);
         }
-        deleteIfExists(OSX_LAUNCH_AGENTS_FILE);
+        deleteIfExists(osxLaunchAgentsFile);
     }
 
     private String enableLinuxAutostart(String iconSource,
