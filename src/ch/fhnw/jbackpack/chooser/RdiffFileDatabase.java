@@ -233,7 +233,7 @@ public class RdiffFileDatabase {
         String connectionURL = "jdbc:derby:" + databasePath + ";create=true";
 
         try {
-            Class.forName(driver);
+            Class.forName(driver).newInstance();
 
             LOGGER.log(Level.INFO, "connecting to database {0}", databasePath);
 
@@ -329,7 +329,12 @@ public class RdiffFileDatabase {
                 ex = ex.getNextException();
             }
             anotherInstanceRunning = "XSDB6".equals(ex.getSQLState());
+
         } catch (ClassNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

@@ -2729,6 +2729,14 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             sshLogin(false);
         } else {
             try {
+                // close connection to database (if any)
+                RdiffFileDatabase rdiffFileDatabase =
+                    rdiffChooserPanel.getRdiffFileDatabase();
+                if (rdiffFileDatabase != null) {
+                    rdiffFileDatabase.close();
+                }
+                
+                // umount
                 String mountPoint = getSshfsMountPoint();
                 if ((mountPoint != null)
                         && FileTools.umountFUSE(new File(mountPoint), true)) {
@@ -2762,6 +2770,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         int selectedIndex = mainTabbedPane.getSelectedIndex();
         switch (selectedIndex) {
             case 0:
+                // backup tab
                 String sourcePath = backupSourceTextField.getText();
                 File sourceDirectory = new File(sourcePath);
                 if (checkSourceCommon(sourcePath, sourceDirectory)
@@ -2774,6 +2783,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 break;
 
             case 1:
+                // restore tab
                 sourcePath = backupSourceTextField.getText();
                 sourceDirectory = new File(sourcePath);
                 if (!checkSourceCommon(sourcePath, sourceDirectory)
@@ -2787,12 +2797,14 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 break;
 
             case 2:
+                // directories tab
                 // just some focus handling
                 directoriesTabFocusHandling();
                 break;
 
             case 3:
-                // nothing to do on the advanced settings tab...
+                // advanced settings tab
+                // (nothing to do here...)
                 break;
 
             default:
