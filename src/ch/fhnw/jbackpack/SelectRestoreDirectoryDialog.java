@@ -24,6 +24,7 @@ package ch.fhnw.jbackpack;
 
 import ch.fhnw.jbackpack.chooser.NoHiddenFilesSwingFileFilter;
 import ch.fhnw.util.FileTools;
+import java.awt.Dimension;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -61,6 +62,10 @@ public class SelectRestoreDirectoryDialog extends javax.swing.JDialog {
 
         pack();
         setLocationRelativeTo(parent);
+        
+        Dimension preferredSize = warningLabel.getPreferredSize();
+        warningLabel.setMaximumSize(preferredSize);
+        warningLabel.setMinimumSize(preferredSize);
     }
 
     /**
