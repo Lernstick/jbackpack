@@ -1,11 +1,14 @@
 jbackpack (0.9.2-1) unstable; urgency=low
 
+  * fixed localization on OS X
+  * fixed restore dialog
+  * fixed remote database handling
   * fixed timestamp <-> filename mapping
   * show error message when encfs setup failed
   * use ServerAliveInterval for sshfs to prevent connection timeouts
   * fixed database compression
 
- -- Ronny Standtke <ronny@ronny-laptop>  Tue, 01 Mar 2011 13:05:40 +0100
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Mon, 20 Jun 2011 13:43:10 +0200
 
 jbackpack (0.9.1-1) unstable; urgency=low
 
