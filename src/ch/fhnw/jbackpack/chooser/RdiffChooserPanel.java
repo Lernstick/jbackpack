@@ -23,10 +23,12 @@
 package ch.fhnw.jbackpack.chooser;
 
 import ch.fhnw.jbackpack.ProgressDialog;
+import ch.fhnw.jbackpack.RdiffBackupRestore;
 import ch.fhnw.util.FileTools;
 import ch.fhnw.util.ModalDialogHandler;
 import ch.fhnw.util.ProcessExecutor;
 import java.awt.CardLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.MouseEvent;
@@ -127,6 +129,33 @@ public class RdiffChooserPanel
         preferredSize.width = 280;
         backupsListScrollPane.setMinimumSize(preferredSize);
         backupsListScrollPane.setPreferredSize(preferredSize);
+    }
+
+    /**
+     * This method gets called when a bound property is changed.
+     * @param evt A PropertyChangeEvent object describing the event source and
+     * the property that has changed.
+     */
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("busy".equals(evt.getPropertyName())
+                && evt.getNewValue() == Boolean.FALSE) {
+            // the file loading thread is done
+            // -> try to restore previous file selection
+            File[] newFiles = fileChooser.getCurrentDirectory().listFiles();
+            Collection<File> newSelectedFilesCollection =
+                    new ArrayList<File>();
+            for (File newFile : newFiles) {
+                for (File oldSelectedFile : oldSelectedFiles) {
+                    if (newFile.getName().equals(oldSelectedFile.getName())) {
+                        newSelectedFilesCollection.add(newFile);
+                    }
+                }
+            }
+            File[] newSelectedFiles =
+                    newSelectedFilesCollection.toArray(
+                    new File[newSelectedFilesCollection.size()]);
+            fileChooser.setSelectedFiles(newSelectedFiles);
+        }
     }
 
     /**
@@ -307,6 +336,7 @@ public class RdiffChooserPanel
         selectIncrementLabel = new javax.swing.JLabel();
         fileChooser = new javax.swing.JFileChooser(rdiffFileSystemView);
         emptyPanel = new javax.swing.JPanel();
+        previewButton = new javax.swing.JButton();
         noRdiffDirectoryPanel = new javax.swing.JPanel();
         noRdiffDirectoryLabel = new javax.swing.JLabel();
 
@@ -519,6 +549,20 @@ public class RdiffChooserPanel
         gridBagConstraints.weighty = 1.0;
         filesPanel.add(filesCardPanel, gridBagConstraints);
 
+        previewButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/jbackpack/icons/16x16/previewer.png"))); // NOI18N
+        previewButton.setText(bundle.getString("RdiffChooserPanel.previewButton.text")); // NOI18N
+        previewButton.setEnabled(false);
+        previewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previewButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 5, 10);
+        filesPanel.add(previewButton, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
@@ -616,12 +660,32 @@ public class RdiffChooserPanel
 
     private void fileChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fileChooserPropertyChange
         String propertyName = evt.getPropertyName();
+
         if (JFileChooser.FILE_FILTER_CHANGED_PROPERTY.equals(propertyName)) {
             fileChooser.setFileHidingEnabled(
                     fileChooser.getFileFilter() == noHiddenFilesSwingFilter);
             fileChooser.rescanCurrentDirectory();
+
+        } else if (JFileChooser.SELECTED_FILES_CHANGED_PROPERTY.equals(
+                propertyName)) {
+            // update preview button enabled state
+            File[] selectedFiles = fileChooser.getSelectedFiles();
+            // make sure that the user diden't just choose some directories
+            boolean directorySelected = false;
+            for (File file : selectedFiles) {
+                if (file.isDirectory()) {
+                    directorySelected = true;
+                    break;
+                }
+            }
+            previewButton.setEnabled(
+                    !directorySelected && (selectedFiles.length > 0));
         }
     }//GEN-LAST:event_fileChooserPropertyChange
+
+    private void previewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewButtonActionPerformed
+        previewFiles();
+}//GEN-LAST:event_previewButtonActionPerformed
 
     private void dirCheckInfo(String messageKey) {
         dirCheckUnsuccessful("OptionPane.informationIcon", messageKey);
@@ -844,30 +908,62 @@ public class RdiffChooserPanel
     }
 
     /**
-     * This method gets called when a bound property is changed.
-     * @param evt A PropertyChangeEvent object describing the event source and
-     * the property that has changed.
+     * Restores selected files in a temporary directory and opens them in
+     * Read-Only mode.
      */
-    public void propertyChange(PropertyChangeEvent evt) {
-        if ("busy".equals(evt.getPropertyName())
-                && evt.getNewValue() == Boolean.FALSE) {
-            // the file loading thread is done
-            // -> try to restore previous file selection
-            File[] newFiles = fileChooser.getCurrentDirectory().listFiles();
-            Collection<File> newSelectedFilesCollection =
-                    new ArrayList<File>();
-            for (File newFile : newFiles) {
-                for (File oldSelectedFile : oldSelectedFiles) {
-                    if (newFile.getName().equals(oldSelectedFile.getName())) {
-                        newSelectedFilesCollection.add(newFile);
-                    }
+    private void previewFiles() {
+        try {
+            // use temporary directory to restore files for preview
+            // must *NOT* be java.io.tmpdir itself because rdiff-backup wants
+            // to chmod this directory, which usually fails for non-root users
+            String tmpPath = System.getProperty("java.io.tmpdir");
+            File restoreDirectory = FileTools.createTempDirectory(
+                    new File(tmpPath), "jbackpack_preview");
+            restoreDirectory.deleteOnExit();
+
+            RdiffBackupRestore rdiffBackupRestore = new RdiffBackupRestore();
+            RdiffFile[] selectedFiles = this.getSelectedFiles();
+            Increment increment = selectedFiles[0].getIncrement();
+
+            // restore all selected files
+            rdiffBackupRestore.restore(increment.getRdiffTimestamp(),
+                    selectedFiles, increment.getBackupDirectory(),
+                    restoreDirectory, tmpPath, false);
+
+            // open all restored files
+            Desktop desktop = Desktop.getDesktop();
+            for (File selectedFile : selectedFiles) {
+                File restoredFile = new File(restoreDirectory,
+                        selectedFile.getAbsolutePath());
+                restoredFile.setReadOnly();
+                restoredFile.deleteOnExit();
+                try {
+                    desktop.open(restoredFile);
+                } catch (IOException ex) {
+                    String errorMessage =
+                            BUNDLE.getString("Error_Preview_File_Log");
+                    errorMessage = MessageFormat.format(
+                            errorMessage, restoredFile.getName());
+                    LOGGER.log(Level.SEVERE, errorMessage, ex);
+                    errorMessage =
+                            BUNDLE.getString("Error_Preview_File_GUI");
+                    errorMessage = MessageFormat.format(
+                            errorMessage, restoredFile.getName(), ex);
+                    showError(errorMessage);
                 }
             }
-            File[] newSelectedFiles =
-                    newSelectedFilesCollection.toArray(
-                    new File[newSelectedFilesCollection.size()]);
-            fileChooser.setSelectedFiles(newSelectedFiles);
+
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            String errorMessage = BUNDLE.getString("Error_Preview");
+            errorMessage = MessageFormat.format(errorMessage, ex);
+            showError(errorMessage);
         }
+    }
+
+    private void showError(String errorMessage) {
+        JOptionPane.showMessageDialog(parentWindow, errorMessage,
+                BUNDLE.getString("Error"), JOptionPane.ERROR_MESSAGE);
     }
 
     private class IncrementModel extends DefaultListModel {
@@ -1113,6 +1209,7 @@ public class RdiffChooserPanel
     private javax.swing.JPanel filesPanel;
     private javax.swing.JLabel noRdiffDirectoryLabel;
     private javax.swing.JPanel noRdiffDirectoryPanel;
+    private javax.swing.JButton previewButton;
     private javax.swing.JPanel rdiffDirectoryPanel;
     private javax.swing.JLabel selectIncrementLabel;
     private javax.swing.JPanel selectIncrementPanel;
