@@ -4,14 +4,14 @@
   <tocitem target="JBackpack" text="JBackpack-Handbuch">
     <tocitem target="overview" text="Übersicht"/>
     <tocitem target="directories" text="Verzeichnisse">
-      <tocitem target="id3967832" text="Quellverzeichnis"/>
-      <tocitem target="id3050104" text="Datensicherungsverzeichnis"/>
+      <tocitem target="id1437399" text="Quellverzeichnis"/>
+      <tocitem target="id1437821" text="Datensicherungsverzeichnis"/>
     </tocitem>
     <tocitem target="backup" text="Datensicherung"/>
     <tocitem target="restore" text="Wiederherstellung"/>
     <tocitem target="advanced_settings" text="Erweiterte Einstellungen">
       <tocitem target="autodeletion" text="Automatisches Löschen alter Datensicherungen"/>
-      <tocitem target="id3970085" text="Temporäres Verzeichnis"/>
+      <tocitem target="id1438555" text="Temporäres Verzeichnis"/>
     </tocitem>
     <tocitem target="profiles" text="Arbeiten mit Profilen"/>
     <tocitem target="program_settings" text="Einstellungen"/>

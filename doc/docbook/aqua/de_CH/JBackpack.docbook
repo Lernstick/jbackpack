@@ -25,7 +25,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
     <bookinfo>
         <title>JBackpack-Handbuch</title>
         <date>2010-07-31</date>
-        <releaseinfo>Version 0.9.1</releaseinfo>
+        <releaseinfo>Version 0.9.3</releaseinfo>
         <abstract>
             <para>
                 <application>JBackpack</application> ist ein Programm für die
@@ -586,6 +586,13 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             Auf der oberen rechten Seite können Sie wählen, ob Sie entweder die
             gesamte Datensicherung oder nur ausgewählte Dateien wiederherstellen
             wollen.
+        </para>
+        <para>
+            Sie können sich ausgewählte Dateien über den
+            <quote>Vorschau</quote>-Knopf unter der Dateiliste ansehen. Die
+            ausgewählten Dateien werden dann in einem temporären Verzeichnis
+            nur-lesbar wiederhergestellt und mit einem passenden Programm zur
+            Vorschau geöffnet.
         </para>
         <para>
             Im unteren Fensterbereich können Sie die Wiederherstellung starten.

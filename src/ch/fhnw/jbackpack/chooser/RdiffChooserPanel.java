@@ -86,6 +86,8 @@ public class RdiffChooserPanel
             new RdiffFileSystemView();
     private final FileFilter noHiddenFilesSwingFilter =
             NoHiddenFilesSwingFileFilter.getInstance();
+    private final Desktop desktop;
+    private final boolean desktopIsSupported;
     private List<Increment> increments = new ArrayList<Increment>();
     private Window parentWindow;
     private String selectedDirectory;
@@ -123,6 +125,22 @@ public class RdiffChooserPanel
         Map<String, String> environment = new HashMap<String, String>();
         environment.put("LC_ALL", "C");
         processExecutor.setEnvironment(environment);
+
+        if (Desktop.isDesktopSupported()) {
+            desktop = Desktop.getDesktop();
+            desktopIsSupported = desktop.isSupported(Desktop.Action.OPEN);
+            if (!desktopIsSupported) {
+                LOGGER.warning("desktop \"open\" action is not supported");
+            }
+        } else {
+            desktop = null;
+            desktopIsSupported = false;
+            LOGGER.warning("desktop is not supported");
+        }
+        if (!desktopIsSupported) {
+            previewButton.setToolTipText(
+                    BUNDLE.getString("Preview_Disabled_Tooltip"));
+        }
 
         // some layout fixes that can only be done dynamically
         Dimension preferredSize = backupsListScrollPane.getPreferredSize();
@@ -666,20 +684,10 @@ public class RdiffChooserPanel
                     fileChooser.getFileFilter() == noHiddenFilesSwingFilter);
             fileChooser.rescanCurrentDirectory();
 
-        } else if (JFileChooser.SELECTED_FILES_CHANGED_PROPERTY.equals(
+        } else if (desktopIsSupported
+                && JFileChooser.SELECTED_FILES_CHANGED_PROPERTY.equals(
                 propertyName)) {
-            // update preview button enabled state
-            File[] selectedFiles = fileChooser.getSelectedFiles();
-            // make sure that the user diden't just choose some directories
-            boolean directorySelected = false;
-            for (File file : selectedFiles) {
-                if (file.isDirectory()) {
-                    directorySelected = true;
-                    break;
-                }
-            }
-            previewButton.setEnabled(
-                    !directorySelected && (selectedFiles.length > 0));
+            previewButton.setEnabled(fileChooser.getSelectedFiles().length > 0);
         }
     }//GEN-LAST:event_fileChooserPropertyChange
 
@@ -931,7 +939,6 @@ public class RdiffChooserPanel
                     restoreDirectory, tmpPath, false);
 
             // open all restored files
-            Desktop desktop = Desktop.getDesktop();
             for (File selectedFile : selectedFiles) {
                 File restoredFile = new File(restoreDirectory,
                         selectedFile.getAbsolutePath());

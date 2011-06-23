@@ -77,7 +77,7 @@ public final class Screenshots {
     /**
      * if true, the unit tests just create screenshots
      */
-    public static final boolean UPDATE_SCREENSHOTS = false;
+    public static final boolean UPDATE_SCREENSHOTS = true;
 
     private Screenshots() {
         // singleton

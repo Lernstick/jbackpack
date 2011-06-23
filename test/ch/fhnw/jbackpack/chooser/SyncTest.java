@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
 import org.junit.Test;
+import screenshots.Screenshots;
 
 /**
  * tests the database syncing
@@ -43,6 +44,9 @@ public class SyncTest extends TestCase {
      */
     @Test
     public void testSync() throws Exception {
+        
+        assertFalse("screenshots only", Screenshots.UPDATE_SCREENSHOTS);
+        
         // work in a temporary directory
         File tempDirectory = File.createTempFile(
                 TestEnvironment.class.getSimpleName(), null);

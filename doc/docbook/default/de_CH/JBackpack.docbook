@@ -588,6 +588,13 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             wollen.
         </para>
         <para>
+            Sie können sich ausgewählte Dateien über den
+            <quote>Vorschau</quote>-Knopf unter der Dateiliste ansehen. Die
+            ausgewählten Dateien werden dann in einem temporären Verzeichnis
+            nur-lesbar wiederhergestellt und mit einem passenden Programm zur
+            Vorschau geöffnet.
+        </para>
+        <para>
             Im unteren Fensterbereich können Sie die Wiederherstellung starten.
             Sie können die ausgewählten Dateien vor der Wiederherstellung zählen
             lassen. Das ermöglicht die Anzeige eines Fortschrittsbalkens während

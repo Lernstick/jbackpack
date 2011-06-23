@@ -547,6 +547,12 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             directories from the selected backup.
         </para>
         <para>
+            You can preview selected files by clicking the
+            <quote>Preview</quote> button below the file chooser. The selected
+            files will then be restored read-only into a temporary directory and
+            will be opened with the associated program for preview.
+        </para>
+        <para>
             At the bottom of the window you can start the restore operation. You
             can select to count the selected files before starting the restore
             operation. This makes it possible to display a progress bar during
