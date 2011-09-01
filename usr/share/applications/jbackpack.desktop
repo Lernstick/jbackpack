@@ -2,8 +2,9 @@
 Categories=System;
 Exec=/usr/bin/jbackpack
 Icon=/usr/share/icons/jbackpack.png
-Name=Backup & Restore
-Name[de]=Datensicherung & Wiederherstellung
+GenericName=Backup & Restore
+GenericName[de]=Datensicherung & Wiederherstellung
+Name=JBackpack
 StartupNotify=true
 StartupWMClass=sun-awt-X11-XFramePeer
 Type=Application
