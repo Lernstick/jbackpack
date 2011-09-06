@@ -2731,11 +2731,11 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             try {
                 // close connection to database (if any)
                 RdiffFileDatabase rdiffFileDatabase =
-                    rdiffChooserPanel.getRdiffFileDatabase();
+                        rdiffChooserPanel.getRdiffFileDatabase();
                 if (rdiffFileDatabase != null) {
                     rdiffFileDatabase.close();
                 }
-                
+
                 // umount
                 String mountPoint = getSshfsMountPoint();
                 if ((mountPoint != null)
@@ -3143,7 +3143,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             String packageName = JBackpack.class.getPackage().getName();
             String linuxIconFileName = USER_HOME + "/.java/.userPrefs/"
                     + packageName.replace(".", "/") + "/jbackpack.png";
-            AutoStarter autoStarter = new AutoStarter("jbackpack", 
+            AutoStarter autoStarter = new AutoStarter("jbackpack",
                     "JBackpack", "JBackpack", "JBackpack", "--reminder");
             showReminder = newShowReminder;
             if (showReminder) {

@@ -203,7 +203,6 @@ public class RdiffChooserPanel
 
         // check, if selectedDirectory is a rdiff-backup directory and show
         // the corresponding panels
-        //selectedDirectory = directoryTextField.getText();
         this.selectedDirectory = selectedDir;
         if ((selectedDir == null) || (selectedDir.length() == 0)) {
             dirCheckError("Error_No_Selection");
@@ -850,6 +849,9 @@ public class RdiffChooserPanel
                         }
                         incrementModel.changed();
                         backupsList.setSelectedIndex(increments.size() - 1);
+                        // update free space information
+                        FileTools.showSpaceInfo(new File(selectedDirectory),
+                                storageUsageProgressBar);
                     }
                 };
                 swingWorker.execute();
