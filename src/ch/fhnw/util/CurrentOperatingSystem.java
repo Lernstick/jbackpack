@@ -1,4 +1,4 @@
-/*
+/**
  * CurrentOperatingSystem.java
  *
  * Copyright (C) 2010 imedias
@@ -12,11 +12,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 24.07.2010, 12:52:57
  *
@@ -25,6 +25,7 @@ package ch.fhnw.util;
 
 /**
  * The currently running operating system
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class CurrentOperatingSystem {

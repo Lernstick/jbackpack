@@ -10,25 +10,22 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack.chooser;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * The increment of a rdiff-backup
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class Increment {
@@ -43,6 +40,7 @@ public class Increment {
 
     /**
      * creates a new Increment
+     *
      * @param youngerIncrement the younger Increment next to this Increment
      * @param timestamp the timestamp of this increment
      * @param rdiffFileDatabase the rdiff file database
@@ -55,17 +53,15 @@ public class Increment {
         this.timestamp = timestamp;
         this.backupDirectory = backupDirectory;
 
-        /**
-         * some notes about size information:
-         * ----------------------------------
-         *
-         * - the size of the current mirror is stored in the
-         *   "SourceFileSize" value of the mirror session statistics file
-         *
-         * - the size of an increment is stored in the
-         *   "IncrementFileSize" value of the session
-         *   statistics file of the *younger* increment
-         */
+        // some notes about size information:
+        // ----------------------------------
+        //
+        // - the size of the current mirror is stored in the
+        //   "SourceFileSize" value of the mirror session statistics file
+        //
+        // - the size of an increment is stored in the
+        //   "IncrementFileSize" value of the session statistics file of the
+        //   *younger* increment
         if (youngerIncrement == null) {
             // this is the current mirror
             size = Math.max(0,
@@ -81,9 +77,12 @@ public class Increment {
     }
 
     /**
-     * returns <code>true</code>, if this increment is the mirror,
+     * returns
+     * <code>true</code>, if this increment is the mirror,
      * <code>false</code> otherwise
-     * @return <code>true</code>, if this increment is the mirror,
+     *
+     * @return
+     * <code>true</code>, if this increment is the mirror,
      * <code>false</code> otherwise
      */
     public boolean isMirror() {
@@ -92,6 +91,7 @@ public class Increment {
 
     /**
      * returns the younger increment
+     *
      * @return the youngerincrement
      */
     public Increment getYoungerIncrement() {
@@ -100,6 +100,7 @@ public class Increment {
 
     /**
      * returns the timestamp of this increment
+     *
      * @return the timestamp of this increment
      */
     public Date getTimestamp() {
@@ -107,8 +108,9 @@ public class Increment {
     }
 
     /**
-     * returns the timestamp string as rdiff-backup expects it
-     * (seconds since epoch)
+     * returns the timestamp string as rdiff-backup expects it (seconds since
+     * epoch)
+     *
      * @return the timestamp string as rdiff-backup expects it
      */
     public String getRdiffTimestamp() {
@@ -117,6 +119,7 @@ public class Increment {
 
     /**
      * returns the size of this increment
+     *
      * @return the size of this increment
      */
     public Long getSize() {
@@ -125,6 +128,7 @@ public class Increment {
 
     /**
      * returns the rdiff file structure of this increment
+     *
      * @return the rdiff file structure of this increment
      */
     public RdiffFile getRdiffRoot() {
@@ -133,6 +137,7 @@ public class Increment {
 
     /**
      * returns the backup directory of this increment
+     *
      * @return the backup directory of this increment
      */
     public File getBackupDirectory() {
@@ -141,6 +146,7 @@ public class Increment {
 
     /**
      * returns a session statistics value of this increment
+     *
      * @param key the wanted session statistics key
      * @return a session statistics value of this increment
      */
@@ -195,6 +201,7 @@ public class Increment {
 
     /**
      * returns a file from a directory with a given prefix
+     *
      * @param backupDirectory
      * @param prefix
      * @return

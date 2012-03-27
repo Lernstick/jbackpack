@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
@@ -29,6 +29,7 @@ import javax.swing.SwingWorker;
 
 /**
  * A SwingWorker to use when cleaning up a failed decryption attempt
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class DecryptionCleanupSwingWorker extends SwingWorker<Void, Void> {
@@ -46,6 +47,7 @@ public class DecryptionCleanupSwingWorker extends SwingWorker<Void, Void> {
 
     /**
      * creates a new DecryptionCleanupSwingWorker
+     *
      * @param parentFrame the parent frame
      * @param tmpPlainPath the path to the temporary plaintext directory that
      * must be deleted
@@ -71,6 +73,7 @@ public class DecryptionCleanupSwingWorker extends SwingWorker<Void, Void> {
 
     /**
      * removes the plaintext directory in a background thread
+     *
      * @return
      */
     @Override

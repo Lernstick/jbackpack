@@ -10,19 +10,15 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
-import ch.fhnw.util.CurrentOperatingSystem;
-import ch.fhnw.util.FileTools;
-import ch.fhnw.util.ModalDialogHandler;
-import ch.fhnw.util.OperatingSystem;
-import ch.fhnw.util.ProcessExecutor;
+import ch.fhnw.util.*;
 import java.awt.Frame;
 import java.io.File;
 import java.util.ResourceBundle;
@@ -35,6 +31,7 @@ import javax.swing.SwingWorker;
 
 /**
  * a SwingWorker to use when encrypting a directory
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class EncryptionSwingWorker extends SwingWorker<Boolean, Void> {
@@ -58,6 +55,7 @@ public class EncryptionSwingWorker extends SwingWorker<Boolean, Void> {
 
     /**
      * creates a new EncryptionSwingWorker
+     *
      * @param parentFrame the parent frame
      * @param backupMainPanel the BackupMainPanel
      * @param destinationPath the path of the current destination directory
@@ -87,13 +85,14 @@ public class EncryptionSwingWorker extends SwingWorker<Boolean, Void> {
 
     /**
      * execute the encryption in a background thread
+     *
      * @return
      */
     @Override
     protected Boolean doInBackground() {
         // do not store stdout but store stderr for logging purposes in case of
         // error
-        int returnValue = 0;
+        int returnValue;
         if (CurrentOperatingSystem.OS == OperatingSystem.Linux) {
             // "-a" does not work when running on Linux and the destination
             // directory is located on a NTFS partition

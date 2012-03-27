@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
@@ -32,6 +32,7 @@ import javax.swing.SwingWorker;
 
 /**
  * A SwingWorker used for checking a remote server
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public abstract class ServerCheckSwingWorker
@@ -59,6 +60,7 @@ public abstract class ServerCheckSwingWorker
 
     /**
      * creates a new ServerCheckSwingWorker
+     *
      * @param parent the parent window
      * @param user the username on the remote host
      * @param host the name of the remote host
@@ -85,14 +87,17 @@ public abstract class ServerCheckSwingWorker
 
     /**
      * runs the operation
-     * @param remoteSupport if <code>true</code>, the server has remote support
-     * for rdiff-backup
+     *
+     * @param remoteSupport if
+     * <code>true</code>, the server has remote support for rdiff-backup
      */
     protected abstract void runOperation(boolean remoteSupport);
 
     /**
      * executes the server check in a background thread
-     * @return <code>true</code>, if the server supports rdiff-backup,
+     *
+     * @return
+     * <code>true</code>, if the server supports rdiff-backup,
      * <code>false</code> otherwise
      */
     @Override

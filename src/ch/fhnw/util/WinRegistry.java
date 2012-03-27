@@ -1,4 +1,4 @@
-/*
+/**
  * WinRegistry.java
  *
  * Copyright (C) 2010 imedias
@@ -12,28 +12,24 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 25. Februar 2006, 18:30
  *
  */
 package ch.fhnw.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * A class for some Windows registry manipulations
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class WinRegistry {
@@ -43,6 +39,7 @@ public class WinRegistry {
 
     /**
      * returns a value from the registry
+     *
      * @param tree the tree path
      * @param key the key
      * @return the value of the given key from the registry
@@ -111,6 +108,7 @@ public class WinRegistry {
 
     /**
      * sets a value in the winregistry tree
+     *
      * @param tree the tree path
      * @param key the key value
      * @param value the value
@@ -168,6 +166,7 @@ public class WinRegistry {
 
     /**
      * removes a key from the registry
+     *
      * @param tree the tree
      * @param key the key
      * @return the regedit error message or <tt>null</tt> if there was none

@@ -28,7 +28,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
              basedir="build/classes/"
              excludes="ch/fhnw/jbackpack/todo">
             <zipfileset src="libs/derby.jar" excludes="META-INF/**"/>
-            <zipfileset src="${file.reference.javaws.jar}" excludes="META-INF/**"/>
+            <zipfileset src="${file.reference.netx.jar}" excludes="META-INF/**"/>
             <zipfileset src="libs/jh.jar" excludes="META-INF/**"/>
             <manifest>
                 <attribute name="Main-Class" value="ch.fhnw.jbackpack.JBackpack"/>

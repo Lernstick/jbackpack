@@ -1,4 +1,4 @@
-/*
+/**
  * Screenshots.java
  *
  * Copyright (C) 2010 imedias
@@ -12,11 +12,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 29. Oktober 2006, 08:41
  *
@@ -39,32 +39,11 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.prefs.Preferences;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.UIManager;
+import javax.swing.*;
 import org.netbeans.jemmy.ClassReference;
-import org.netbeans.jemmy.operators.JButtonOperator;
-import org.netbeans.jemmy.operators.JCheckBoxOperator;
-import org.netbeans.jemmy.operators.JComponentOperator;
-import org.netbeans.jemmy.operators.JDialogOperator;
-import org.netbeans.jemmy.operators.JFrameOperator;
-import org.netbeans.jemmy.operators.JLabelOperator;
-import org.netbeans.jemmy.operators.JListOperator;
-import org.netbeans.jemmy.operators.JMenuOperator;
-import org.netbeans.jemmy.operators.JPasswordFieldOperator;
-import org.netbeans.jemmy.operators.JProgressBarOperator;
-import org.netbeans.jemmy.operators.JRadioButtonOperator;
-import org.netbeans.jemmy.operators.JTabbedPaneOperator;
-import org.netbeans.jemmy.operators.JTextFieldOperator;
+import org.netbeans.jemmy.operators.*;
 import org.netbeans.jemmy.util.NameComponentChooser;
 import org.netbeans.jemmy.util.PNGEncoder;
 
@@ -85,6 +64,7 @@ public final class Screenshots {
 
     /**
      * creates all screenshots
+     *
      * @param locale the locale to use
      * @param screenshotPath the path where to store the screenshots
      * @param backupSourcePath the backup source path
@@ -95,7 +75,7 @@ public final class Screenshots {
      * @param sshScreenshotFileName the filename for the ssh screenshot
      * @param sshLoggedInFileName the filename for the logged in screenshot
      * @param smbShare the name of the SMB share to show
-     * @param smbScreenshotFileName  the filename for the smb screenshot
+     * @param smbScreenshotFileName the filename for the smb screenshot
      * @param encryptionFileName the filename for the encryption screenshot
      * @param encryptionControlFileName the filename for the encryption control
      * screenshot
@@ -523,7 +503,7 @@ public final class Screenshots {
         }
 
         // program settings screenshots
-        String logFilePrefix = null;
+        String logFilePrefix;
         if (CurrentOperatingSystem.OS == OperatingSystem.Windows) {
             logFilePrefix = windowsTempDir;
         } else {

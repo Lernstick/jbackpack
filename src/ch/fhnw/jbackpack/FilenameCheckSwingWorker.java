@@ -33,6 +33,7 @@ import javax.swing.SwingWorker;
 
 /**
  * A Swingworker for checking plaintext directories before encryption
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class FilenameCheckSwingWorker extends SwingWorker<Integer, Void> {
@@ -45,6 +46,7 @@ public class FilenameCheckSwingWorker extends SwingWorker<Integer, Void> {
 
     /**
      * creates a new EncryptionCheckSwingWorker
+     *
      * @param parentFrame the parent frame
      * @param directory
      */
@@ -57,7 +59,8 @@ public class FilenameCheckSwingWorker extends SwingWorker<Integer, Void> {
 
     /**
      * runs the file name check in a background thread
-     * @return
+     *
+     * @return the maximum possible file name length
      */
     @Override
     protected Integer doInBackground() {
@@ -95,6 +98,7 @@ public class FilenameCheckSwingWorker extends SwingWorker<Integer, Void> {
 
     /**
      * updates the information in the progress dialog
+     *
      * @param chunks
      */
     @Override

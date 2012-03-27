@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.util;
 
@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * A Transferable for putting files into the clipboard
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class FileTransferable implements Transferable {
@@ -42,6 +43,7 @@ public class FileTransferable implements Transferable {
      * can be provided in. The array should be ordered according to preference
      * for providing the data (from most richly descriptive to least
      * descriptive).
+     *
      * @return an array of data flavors in which this data can be transferred
      */
     public DataFlavor[] getTransferDataFlavors() {
@@ -51,6 +53,7 @@ public class FileTransferable implements Transferable {
     /**
      * Returns whether or not the specified data flavor is supported for this
      * object.
+     *
      * @param flavor the requested flavor for the data
      * @return boolean indicating whether or not the data flavor is supported
      */
@@ -62,7 +65,8 @@ public class FileTransferable implements Transferable {
      * Returns an object which represents the data to be transferred. The class
      * of the object returned is defined by the representation class of the
      * flavor.
-     * @param flavor the requested flavor for the data 
+     *
+     * @param flavor the requested flavor for the data
      * @return an object which represents the data to be transferred. The class
      * of the object returned is defined by the representation class of the
      * flavor.
@@ -78,6 +82,7 @@ public class FileTransferable implements Transferable {
 
     /**
      * adds a file
+     *
      * @param file the file to add
      */
     public void addFile(File file) {
@@ -86,6 +91,7 @@ public class FileTransferable implements Transferable {
 
     /**
      * copies the file to the clipboard
+     *
      * @param file the file to copy to the clipboard
      */
     public static void copy(File file) {

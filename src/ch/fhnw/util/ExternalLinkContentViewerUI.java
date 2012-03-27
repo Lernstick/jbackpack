@@ -1,4 +1,4 @@
-/*
+/**
  * ExternalLinkContentViewerUI.java
  *
  * Copyright (C) 2010 imedias
@@ -12,11 +12,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 04.08.2010, 18:24:31
  */
@@ -45,6 +45,7 @@ public class ExternalLinkContentViewerUI extends BasicContentViewerUI {
 
     /**
      * creates a new ExternalLinkContentViewerUI
+     *
      * @param viewer the JHelpContentViewer
      */
     public ExternalLinkContentViewerUI(JHelpContentViewer viewer) {
@@ -53,6 +54,7 @@ public class ExternalLinkContentViewerUI extends BasicContentViewerUI {
 
     /**
      * creates the UI
+     *
      * @param component the component
      * @return the UI
      */

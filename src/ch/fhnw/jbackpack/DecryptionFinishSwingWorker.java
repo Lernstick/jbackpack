@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
@@ -32,6 +32,7 @@ import javax.swing.SwingWorker;
 
 /**
  * A SwingWorker to use for finishing the decryptionn of a destination directory
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class DecryptionFinishSwingWorker extends SwingWorker<Boolean, Void> {
@@ -51,6 +52,7 @@ public class DecryptionFinishSwingWorker extends SwingWorker<Boolean, Void> {
 
     /**
      * creates a new DecryptionFinishSwingWorker
+     *
      * @param parentFrame the parent frame
      * @param backupMainPanel the BackupMainPanel
      * @param cipherDir the encfs ciphertext directory
@@ -81,6 +83,7 @@ public class DecryptionFinishSwingWorker extends SwingWorker<Boolean, Void> {
 
     /**
      * runs the decryption cleanup in a background thread
+     *
      * @return
      */
     @Override

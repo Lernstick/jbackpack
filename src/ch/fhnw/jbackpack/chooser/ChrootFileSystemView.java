@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack.chooser;
 
@@ -25,6 +25,7 @@ import javax.swing.filechooser.FileSystemView;
 
 /**
  * A FileSystemView that "chroot"s into a certain directory
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class ChrootFileSystemView extends FileSystemView {
@@ -36,6 +37,7 @@ public class ChrootFileSystemView extends FileSystemView {
 
     /**
      * creates a new ChrootFileSystemView
+     *
      * @param root the directory to "chroot" into
      * @param rootDisplayName the display name of the root
      */
@@ -60,6 +62,7 @@ public class ChrootFileSystemView extends FileSystemView {
 
     /**
      * returns the home directory
+     *
      * @return the home directory
      */
     @Override

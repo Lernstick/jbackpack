@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.util;
 
@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * a tool class for checking a plaintext directory before encryption
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class PlainDirChecker {
@@ -39,6 +40,7 @@ public class PlainDirChecker {
 
     /**
      * creates a new PlainDirChecker
+     *
      * @param maxFilenameLength the maximum file name length
      */
     public PlainDirChecker(int maxFilenameLength) {
@@ -48,6 +50,7 @@ public class PlainDirChecker {
 
     /**
      * recursively calculates the size of a file/directory
+     *
      * @param file the file/directory to check recursively
      * @throws IOException if an I/O exception occurs
      */
@@ -84,6 +87,7 @@ public class PlainDirChecker {
 
     /**
      * returns the intermediate, current sum of observed file sizes
+     *
      * @return the intermediate, current sum of observed file sizes
      */
     public long getCurrentSize() {
@@ -92,6 +96,7 @@ public class PlainDirChecker {
 
     /**
      * returns the number of already checked files
+     *
      * @return the number of already checked files
      */
     public long getFileCounter() {
@@ -100,6 +105,7 @@ public class PlainDirChecker {
 
     /**
      * returns the list of files with too long filenames
+     *
      * @return the list of files with too long filenames
      */
     public List<File> getTooLongFiles() {
@@ -108,6 +114,7 @@ public class PlainDirChecker {
 
     /**
      * returns the currently checked file
+     *
      * @return the currently checked file
      */
     public File getCurrentFile() {

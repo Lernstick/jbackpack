@@ -1,4 +1,4 @@
-/*
+/**
  * ModalDialogHandler.java
  *
  * Copyright (C) 2010 imedias
@@ -12,11 +12,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 30.08.2010, 08:57:49
  */
@@ -34,6 +34,7 @@ import javax.swing.JDialog;
 
 /**
  * A tool class for handling concurrent showing/hiding of modal dialogs
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class ModalDialogHandler {
@@ -49,6 +50,7 @@ public class ModalDialogHandler {
 
     /**
      * creates a new ModalDialogHandler
+     *
      * @param dialog the dialog to show/hide
      */
     public ModalDialogHandler(JDialog dialog) {

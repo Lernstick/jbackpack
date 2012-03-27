@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack.chooser;
 
@@ -30,6 +30,7 @@ import screenshots.Screenshots;
 
 /**
  * tests the database syncing
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class SyncTest extends TestCase {
@@ -40,13 +41,14 @@ public class SyncTest extends TestCase {
     //private final static Logger
     /**
      * tests database syncing
+     *
      * @throws Exception if an exception occurs
      */
     @Test
     public void testSync() throws Exception {
-        
+
         assertFalse("screenshots only", Screenshots.UPDATE_SCREENSHOTS);
-        
+
         // work in a temporary directory
         File tempDirectory = File.createTempFile(
                 TestEnvironment.class.getSimpleName(), null);

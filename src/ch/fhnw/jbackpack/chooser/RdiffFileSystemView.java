@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack.chooser;
 
@@ -32,6 +32,7 @@ import javax.swing.filechooser.FileSystemView;
 
 /**
  * A FileSystemView for rdiff-backup directories
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class RdiffFileSystemView extends FileSystemView {
@@ -51,6 +52,7 @@ public class RdiffFileSystemView extends FileSystemView {
 
     /**
      * sets the root of this RdiffFileSystemView
+     *
      * @param root the root of this RdiffFileSystemView
      */
     public void setRoot(RdiffFile root) {
@@ -127,10 +129,10 @@ public class RdiffFileSystemView extends FileSystemView {
                 }
 
             } else if (path.endsWith(DOTDOT_SUFFIX)) {
-                String childPath = null;
                 int previousSeparatorIndex =
                         path.lastIndexOf(File.separatorChar,
                         path.length() - DOTDOT_SUFFIX.length() - 1);
+                String childPath;
                 if (previousSeparatorIndex < 1) {
                     childPath = "/";
                 } else {
@@ -207,6 +209,7 @@ public class RdiffFileSystemView extends FileSystemView {
 
     /**
      * returns the root directory of this rdiff-backup directory
+     *
      * @return the root directory of this rdiff-backup directory
      */
     @Override
@@ -373,6 +376,7 @@ public class RdiffFileSystemView extends FileSystemView {
 
     /**
      * returns the name of a root file
+     *
      * @param root the root file
      * @return the name of the root file
      */

@@ -38,7 +38,9 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer {
 
     private final List<Icon> icons;
 
-    /** Creates a new instance of MyListCellRenderer
+    /**
+     * Creates a new instance of MyListCellRenderer
+     *
      * @param icons the list of icons
      */
     public MyListCellRenderer(List<Icon> icons) {

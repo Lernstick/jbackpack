@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack.chooser;
 
@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
 
 /**
  * A file in a rdiff-backup directory
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class RdiffFile extends File {
@@ -55,6 +56,7 @@ public class RdiffFile extends File {
 
     /**
      * creates a new RdiffFile
+     *
      * @param rdiffFileDatabase the rdiff file database
      * @param increment the increment of this RdiffFile
      * @param parent the parent of this file
@@ -62,7 +64,8 @@ public class RdiffFile extends File {
      * @param length the size of this file
      * @param modTime the modification time of this file given in milliseconds
      * since epoch
-     * @param directory if <code>true</code>, this file is a directory
+     * @param directory if
+     * <code>true</code>, this file is a directory
      */
     public RdiffFile(RdiffFileDatabase rdiffFileDatabase, Increment increment,
             RdiffFile parent, String name, long length, long modTime,
@@ -227,6 +230,7 @@ public class RdiffFile extends File {
 
     /**
      * canonicalizes a path
+     *
      * @param path the path to canonicalize
      * @return the canonicalized path
      */
@@ -247,8 +251,7 @@ public class RdiffFile extends File {
         // handle intermediate ".."
         // e.g. in Unix "/home/../bin"
         String doubleDot = separatorChar + ".." + separatorChar;
-        for (int index = 0;
-                (index = path.indexOf(doubleDot)) != -1;) {
+        for (int index; (index = path.indexOf(doubleDot)) != -1;) {
             // compute prefix to keep
             String prefix = "";
             int previousSeparatorIndex =
@@ -606,12 +609,10 @@ public class RdiffFile extends File {
 
     @Override
     public String toString() {
-        /**
-         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         * ! logging here leads to deadlocks between the AWT-EventQueue !
-         * ! and the Basic L&F File Loading Thread                      !
-         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         */
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // ! logging here leads to deadlocks between the AWT-EventQueue !
+        // ! and the Basic L&F File Loading Thread                      !
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //        if (LOGGER.isLoggable(Level.FINEST)) {
 //            LOGGER.log(Level.FINEST, "{0}: returning \"{1}\"",
 //                    new Object[]{absolutePath, absolutePath});
@@ -642,6 +643,7 @@ public class RdiffFile extends File {
 
     /**
      * returns the increment of this RdiffFile
+     *
      * @return the increment of this RdiffFile
      */
     public Increment getIncrement() {
@@ -650,6 +652,7 @@ public class RdiffFile extends File {
 
     /**
      * returns the "." file of this directory
+     *
      * @return the "." file of this directory
      * @throws IOException if an I/O exception occurs
      */
@@ -660,6 +663,7 @@ public class RdiffFile extends File {
 
     /**
      * returns the ".." file of this directory
+     *
      * @return the ".." file of this directory
      * @throws IOException if an I/O exception occurs
      */
@@ -675,6 +679,7 @@ public class RdiffFile extends File {
 
     /**
      * returns the parent RdiffFile
+     *
      * @return the parent RdiffFile
      */
     public RdiffFile getParentRdiffFile() {
@@ -684,6 +689,7 @@ public class RdiffFile extends File {
     /**
      * returns a file in this directory with the longest common match with a
      * given path
+     *
      * @param path the given path
      * @return the file in this directory with the longest common match with a
      * given path
@@ -741,6 +747,7 @@ public class RdiffFile extends File {
 
     /**
      * returns a child with a given path
+     *
      * @param path the path
      * @return a child with a given path
      * @throws IOException if an I/O exception occurs

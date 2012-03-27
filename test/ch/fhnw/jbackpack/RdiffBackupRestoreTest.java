@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.ConsoleHandler;
@@ -48,6 +47,7 @@ public class RdiffBackupRestoreTest extends TestCase {
 
     /**
      * test counting of restore files
+     *
      * @throws Exception if an exception occurs
      */
     @Test
@@ -127,12 +127,11 @@ public class RdiffBackupRestoreTest extends TestCase {
             Thread.sleep(2000);
 
             // get increment data
-            List<Increment> increments = new ArrayList<Increment>();
             File backupDirectory = new File(backupDirectoryPath);
             RdiffFileDatabase rdiffFileDatabase =
                     RdiffFileDatabase.getInstance(backupDirectory);
             rdiffFileDatabase.sync();
-            increments = rdiffFileDatabase.getIncrements();
+            List<Increment> increments = rdiffFileDatabase.getIncrements();
 
             // test mirror
             Increment increment = increments.get(0);
@@ -165,6 +164,7 @@ public class RdiffBackupRestoreTest extends TestCase {
 
     /**
      * test restore operation
+     *
      * @throws IOException if an I/O exception occurs
      * @throws SQLException if an SQL exception occurs
      */
@@ -224,11 +224,10 @@ public class RdiffBackupRestoreTest extends TestCase {
         deleteFile(sourceDir);
 
         // get increment data
-        List<Increment> increments = new ArrayList<Increment>();
         RdiffFileDatabase rdiffFileDatabase =
                 RdiffFileDatabase.getInstance(backupDirectory);
         rdiffFileDatabase.sync();
-        increments = rdiffFileDatabase.getIncrements();
+        List<Increment> increments = rdiffFileDatabase.getIncrements();
 
         Increment increment = increments.get(0);
 

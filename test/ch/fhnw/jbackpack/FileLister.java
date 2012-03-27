@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,12 +43,11 @@ public class FileLister {
         ProcessExecutor processExecutor = new ProcessExecutor();
         processExecutor.executeProcess(
                 "rdiff-backup", "--parsable-output", "-l", backupDirectoryPath);
-        List<Increment> increments = new ArrayList<Increment>();
         File backupDirectory = new File(backupDirectoryPath);
         RdiffFileDatabase rdiffFileDatabase =
                 RdiffFileDatabase.getInstance(backupDirectory);
         rdiffFileDatabase.sync();
-        increments = rdiffFileDatabase.getIncrements();
+        List<Increment> increments = rdiffFileDatabase.getIncrements();
         Increment increment = increments.get(1);
         File root = increment.getRdiffRoot();
 

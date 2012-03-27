@@ -1,4 +1,4 @@
-/*
+/**
  * GermanScreenshotTest.java
  *
  * Copyright (C) 2010 imedias
@@ -12,11 +12,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 29. Oktober 2006, 08:41
  *
@@ -31,6 +31,7 @@ import junit.framework.TestCase;
 
 /**
  * creates the German screenshots
+ *
  * @author Ronny.Standtke@gmx.net
  */
 public class GermanScreenshotTest extends TestCase {
@@ -40,6 +41,7 @@ public class GermanScreenshotTest extends TestCase {
 
     /**
      * creates the German screenshots
+     *
      * @throws Exception if an exception occurs
      */
     public void testDoScreenShots() throws Exception {

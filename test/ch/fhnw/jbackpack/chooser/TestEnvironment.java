@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack.chooser;
 
@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 
 /**
  * collects some properties of a test environment
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class TestEnvironment {
@@ -47,6 +48,7 @@ public class TestEnvironment {
 
     /**
      * creates a new TestEnvironment
+     *
      * @throws IOException if an I/O exception occurs
      * @throws SQLException if syncing the file database fails
      */
@@ -135,6 +137,7 @@ public class TestEnvironment {
 
     /**
      * returns the tempDirectory
+     *
      * @return the tempDirectory
      */
     public File getTempDirectory() {
@@ -143,6 +146,7 @@ public class TestEnvironment {
 
     /**
      * returns the backupDirectory
+     *
      * @return the backupDirectory
      */
     public File getBackupDirectory() {
@@ -151,6 +155,7 @@ public class TestEnvironment {
 
     /**
      * returns the increments
+     *
      * @return the increments
      */
     public List<Increment> getIncrements() {
@@ -159,6 +164,7 @@ public class TestEnvironment {
 
     /**
      * returns the fileSize
+     *
      * @return the fileSize
      */
     public int getFileSize() {

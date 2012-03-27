@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack.chooser;
 
@@ -33,12 +33,14 @@ import screenshots.Screenshots;
 
 /**
  * tests directory selection
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class KeepFileSelectionTest extends TestCase {
 
     /**
      * test that selecting an empty directory is allowed
+     *
      * @throws Exception if exception occurs
      */
     @Test
@@ -74,8 +76,8 @@ public class KeepFileSelectionTest extends TestCase {
                     new JFileChooserOperator(dialogOperator);
 
             // wait until GUI filled up the increments list
-            File currentDirectory = null;
             int maxCounter = 0;
+            File currentDirectory;
             while (true) {
                 currentDirectory = fileChooserOperator.getCurrentDirectory();
                 maxCounter++;
@@ -100,7 +102,7 @@ public class KeepFileSelectionTest extends TestCase {
             Increment increment =
                     (Increment) backupsListOperator.getSelectedValue();
             maxCounter = 0;
-            RdiffFile nextCurrentDirectory = null;
+            RdiffFile nextCurrentDirectory;
             while (true) {
                 nextCurrentDirectory =
                         (RdiffFile) fileChooserOperator.getCurrentDirectory();

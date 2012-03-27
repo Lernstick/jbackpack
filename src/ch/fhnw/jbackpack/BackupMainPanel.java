@@ -22,64 +22,26 @@
  */
 package ch.fhnw.jbackpack;
 
-import ch.fhnw.jbackpack.chooser.ChrootFileSystemView;
-import ch.fhnw.jbackpack.chooser.Increment;
-import ch.fhnw.jbackpack.chooser.NoHiddenFilesSwingFileFilter;
-import ch.fhnw.jbackpack.chooser.RdiffFile;
-import ch.fhnw.jbackpack.chooser.RdiffFileDatabase;
-import ch.fhnw.jbackpack.chooser.SelectBackupDirectoryDialog;
-import ch.fhnw.util.AutoStarter;
-import ch.fhnw.util.CurrentOperatingSystem;
-import ch.fhnw.util.FileTools;
-import ch.fhnw.util.ModalDialogHandler;
-import ch.fhnw.util.OperatingSystem;
-import ch.fhnw.util.ProcessExecutor;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.FileDialog;
-import java.awt.Frame;
-import java.awt.LayoutManager;
+import ch.fhnw.jbackpack.chooser.*;
+import ch.fhnw.util.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
-import java.text.ChoiceFormat;
-import java.text.DateFormat;
-import java.text.MessageFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
+import java.text.*;
 import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.Timer;
-import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
@@ -296,7 +258,9 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     private boolean showReminder;
     private int reminderTimeout;
 
-    /** Creates new form BackupMainPanel */
+    /**
+     * Creates new form BackupMainPanel
+     */
     public BackupMainPanel() {
 
         // prepare processExecutor to always use the POSIX locale
@@ -439,6 +403,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
     /**
      * sets the parent frame
+     *
      * @param parentFrame the parent frame
      */
     public void setParentFrame(Frame parentFrame) {
@@ -449,6 +414,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     /**
      * Gives notification that there was an insert into the document. The range
      * given by the DocumentEvent bounds the freshly inserted region.
+     *
      * @param e the document event
      */
     public void insertUpdate(DocumentEvent e) {
@@ -459,6 +425,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
      * Gives notification that a portion of the document has been removed. The
      * range is given in terms of what the view last saw (that is, before
      * updating sticky positions).
+     *
      * @param e the document event
      */
     public void removeUpdate(DocumentEvent e) {
@@ -467,6 +434,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
     /**
      * Gives notification that an attribute or set of attributes changed.
+     *
      * @param e the document event
      */
     public void changedUpdate(DocumentEvent e) {
@@ -674,6 +642,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
     /**
      * returns the encfs mountpoint
+     *
      * @return the encfs mountpoint
      */
     public String getEncfsMountPoint() {
@@ -682,6 +651,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
     /**
      * sets the encfs mountpoint
+     *
      * @param encfsMountPoint the encfs mountpoint to set
      */
     public void setEncfsMountPoint(String encfsMountPoint) {
@@ -690,6 +660,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
     /**
      * sets the encryptionn state of the destination
+     *
      * @param destinationEncrypted if <tt>true</tt>, the destination is
      * encrypted, otherwise non-encrypted
      */
@@ -699,6 +670,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
     /**
      * executes common checks for the destination directory
+     *
      * @return <tt>true</tt> if all checks succeeded, <tt>false</tt> otherwise
      */
     public boolean checkDestinationCommon() {
@@ -708,12 +680,11 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         commonDestinationOK = false;
         destinationEncrypted = false;
 
-        /**
-         * the order of the following checks matters!
-         * 1) check SSHFS
-         * 2) check ENCFS
-         * 3) all the rest...
-         */
+        // the order of the following checks matters!
+        // 1) check SSHFS
+        // 2) check ENCFS
+        // 3) all the rest...
+
         // sshfs checks
         if (sshRadioButton.isSelected()) {
             if (!sshfsMounted) {
@@ -837,8 +808,10 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
     /**
      * tries to unlock the destination directory if it is ecnrypted and locked
-     * @param switchToBackup if <code>true</code>, the GUI switches to the
-     * backup tab when unlocking was successful
+     *
+     * @param switchToBackup if
+     * <code>true</code>, the GUI switches to the backup tab when unlocking was
+     * successful
      */
     public void maybeUnlock(boolean switchToBackup) {
         if (destinationEncrypted && (encfsMountPoint == null)) {
@@ -849,10 +822,11 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
     /**
      * runs the backup process
+     *
      * @param minFileSize the minimal file size
      * @param maxFileSize the maximal file size
-     * @param directSSH if <code>true</code>, SSH is used directly, not via
-     * a virtual file system
+     * @param directSSH if
+     * <code>true</code>, SSH is used directly, not via a virtual file system
      * @param sshPassword the SSH password
      */
     public void runBackup(Long minFileSize, Long maxFileSize,
@@ -880,6 +854,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     /**
      * returns <tt>true</tt> if the user selected to show a warning dialog, when
      * the destination directory is not encrypted<tt>false</tt> otherwise
+     *
      * @return <tt>true</tt> if the user selected to show a warning dialog, when
      * the destination directory is not encrypted<tt>false</tt> otherwise
      */
@@ -888,8 +863,9 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     }
 
     /**
-     * defines if the user selected to show a warning dialog, when
-     * the destination directory is not encrypted
+     * defines if the user selected to show a warning dialog, when the
+     * destination directory is not encrypted
+     *
      * @param plainBackupWarning <tt>true</tt> if the user selected to show a
      * warning dialog, when the destination directory is not encrypted
      * <tt>false</tt> otherwise
@@ -898,10 +874,10 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         this.plainBackupWarning = plainBackupWarning;
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -3379,7 +3355,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
         if (autoDeleteAgeCheckBox.isSelected()) {
             int age = ((Number) autoDeleteAgeSpinner.getValue()).intValue();
-            String unit = null;
+            String unit;
             int selectedIndex = autoDeleteAgeComboBox.getSelectedIndex();
             switch (selectedIndex) {
                 case 0:
@@ -3422,8 +3398,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 size += increment.getSize();
                 if (size > maxSize) {
                     // delete increments
-                    String rdiffTimestamp = null;
                     boolean showMirrorWarning = false;
+                    String rdiffTimestamp;
                     if (i == 0) {
                         rdiffTimestamp = increment.getRdiffTimestamp();
                         showMirrorWarning = true;
@@ -3864,7 +3840,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
     private boolean checkDestinationBackup() {
         String destinationPath = getBackupDestination();
-        File destinationDirectory = null;
+        File destinationDirectory;
         if (destinationPath == null) {
             return false;
         } else {

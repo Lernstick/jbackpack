@@ -10,31 +10,18 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack.chooser;
 
 import ch.fhnw.util.FileTools;
 import ch.fhnw.util.ProcessExecutor;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.*;
+import java.sql.*;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -190,6 +177,7 @@ public class RdiffFileDatabase {
 
     /**
      * Creates a new RdiffFileDatabase
+     *
      * @param backupDirectory the backup directory
      * @param databasePath the path to the database
      * @param rdiffBackupListOutput the output of calling
@@ -204,6 +192,7 @@ public class RdiffFileDatabase {
 
     /**
      * Creates a new RdiffFileDatabase
+     *
      * @param backupDirectory the backup directory
      * @return a new RdiffFileDatabase
      */
@@ -340,20 +329,28 @@ public class RdiffFileDatabase {
     }
 
     /**
-     * returns <code>true</code>, if the connection to the database was
-     * established, <code>false</code> otherwise
-     * @return <code>true</code>, if the connection to the database was
-     * established, <code>false</code> otherwise
+     * returns
+     * <code>true</code>, if the connection to the database was established,
+     * <code>false</code> otherwise
+     *
+     * @return
+     * <code>true</code>, if the connection to the database was established,
+     * <code>false</code> otherwise
      */
     public boolean isConnected() {
         return connectionSucceeded;
     }
 
     /**
-     * returns <code>true</code>, if another instance of derby is already
-     * accessing the database, <code>false</code> otherwise
-     * @return <code>true</code>, if another instance of derby is already
-     * accessing the database, <code>false</code> otherwise
+     * returns
+     * <code>true</code>, if another instance of derby is already accessing the
+     * database,
+     * <code>false</code> otherwise
+     *
+     * @return
+     * <code>true</code>, if another instance of derby is already accessing the
+     * database,
+     * <code>false</code> otherwise
      */
     public boolean isAnotherInstanceRunning() {
         return anotherInstanceRunning;
@@ -361,6 +358,7 @@ public class RdiffFileDatabase {
 
     /**
      * syncs the database with the file system
+     *
      * @throws SQLException if an SQL exception occurs
      * @throws IOException if an I/O exception occurs
      */
@@ -377,14 +375,12 @@ public class RdiffFileDatabase {
         }
 
         // check if mirror is up-to-date
-        boolean deleteMirror = false;
-        boolean insertMirror = false;
         Date fileSystemMirrorTimestamp =
                 fileSystemTimestamps.get(0).getTimestamp();
         Date databaseMirrorTimestamp = getDatabaseMirrorTimestamp();
-        deleteMirror = (databaseMirrorTimestamp != null)
+        boolean deleteMirror = (databaseMirrorTimestamp != null)
                 && (!fileSystemMirrorTimestamp.equals(databaseMirrorTimestamp));
-        insertMirror = (databaseMirrorTimestamp == null)
+        boolean insertMirror = (databaseMirrorTimestamp == null)
                 || (!fileSystemMirrorTimestamp.equals(databaseMirrorTimestamp));
 
         // determine list of increments in database to delete
@@ -544,6 +540,7 @@ public class RdiffFileDatabase {
 
     /**
      * returns the sync state of the database
+     *
      * @return the sync state of the database
      */
     public SyncState getSyncState() {
@@ -552,6 +549,7 @@ public class RdiffFileDatabase {
 
     /**
      * returns the list of increments
+     *
      * @return the list of increments
      */
     public List<Increment> getIncrements() {
@@ -586,6 +584,7 @@ public class RdiffFileDatabase {
 
     /**
      * returns a list of files of a given increment in a given directory
+     *
      * @param increment the increment
      * @param directory the directory
      * @return a list of files
@@ -598,8 +597,8 @@ public class RdiffFileDatabase {
         List<RdiffFile> files = new ArrayList<RdiffFile>();
         try {
             // determine path and directory ID
-            String path = null;
-            long directoryID = 0;
+            String path;
+            long directoryID;
             if (directory.getParentFile() == null) {
                 path = "";
                 directoryID = 1;
@@ -649,6 +648,7 @@ public class RdiffFileDatabase {
 
     /**
      * returns the maximum number of increments to sync
+     *
      * @return the maximum number of increments to sync
      */
     public int getMaxIncrementCounter() {
@@ -657,6 +657,7 @@ public class RdiffFileDatabase {
 
     /**
      * returns the number of the currently synced increment
+     *
      * @return the number of the currently synced increment
      */
     public int getIncrementCounter() {
@@ -665,6 +666,7 @@ public class RdiffFileDatabase {
 
     /**
      * returns the currently parsed timestamp while syncing the database
+     *
      * @return the currently parsed timestamp while syncing the database
      */
     public Date getCurrentTimestamp() {
@@ -673,6 +675,7 @@ public class RdiffFileDatabase {
 
     /**
      * returns the number of processed directories while syncing the database
+     *
      * @return the number of processed directories while syncing the database
      */
     public long getDirectoryCounter() {
@@ -681,6 +684,7 @@ public class RdiffFileDatabase {
 
     /**
      * returns the number of processed files while syncing the database
+     *
      * @return the number of processed files while syncing the database
      */
     public long getFileCounter() {
@@ -689,6 +693,7 @@ public class RdiffFileDatabase {
 
     /**
      * returns the currently processed file while syncing the database
+     *
      * @return the currently processed file while syncing the database
      */
     public String getCurrentFile() {
@@ -729,6 +734,7 @@ public class RdiffFileDatabase {
     /**
      * returns a dummy outputstream that can be used to disable the derby log
      * file
+     *
      * @return a dummy outputstream
      */
     public static OutputStream disableDerbyLogFile() {
@@ -811,7 +817,7 @@ public class RdiffFileDatabase {
                     new Object[]{timestamp, directoryPath});
         }
 
-        long directoryID = 0;
+        long directoryID;
         if (directoryPath.isEmpty()) {
             directoryID = getIncrementDirID(timestamp, 0, "");
         } else {
@@ -901,7 +907,7 @@ public class RdiffFileDatabase {
             String type = null;
             long size = 0;
             long modTime = 0;
-            for (String line = null; (line = reader.readLine()) != null;) {
+            for (String line; (line = reader.readLine()) != null;) {
                 if (line.startsWith("File ")) {
                     if (path != null) {
                         // process previous file

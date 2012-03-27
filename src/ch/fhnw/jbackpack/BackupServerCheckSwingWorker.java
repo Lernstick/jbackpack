@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package ch.fhnw.jbackpack;
@@ -23,6 +23,7 @@ import java.awt.Window;
 
 /**
  * A SwingWorker used for checking a remote server
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class BackupServerCheckSwingWorker extends ServerCheckSwingWorker {
@@ -33,6 +34,7 @@ public class BackupServerCheckSwingWorker extends ServerCheckSwingWorker {
 
     /**
      * creates a new BackupServerCheckSwingWorker
+     *
      * @param parent the parent window
      * @param user the username on the remote host
      * @param host the name of the remote host

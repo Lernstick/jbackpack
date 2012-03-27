@@ -10,19 +10,15 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
-import ch.fhnw.util.CurrentOperatingSystem;
-import ch.fhnw.util.FileTools;
-import ch.fhnw.util.ModalDialogHandler;
-import ch.fhnw.util.OperatingSystem;
-import ch.fhnw.util.ProcessExecutor;
+import ch.fhnw.util.*;
 import java.awt.Frame;
 import java.io.File;
 import java.util.ResourceBundle;
@@ -33,6 +29,7 @@ import javax.swing.SwingWorker;
 
 /**
  * A SwingWorker for decrypting a destination directory
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class DecryptionSwingWorker extends SwingWorker<Void, Void> {
@@ -52,6 +49,7 @@ public class DecryptionSwingWorker extends SwingWorker<Void, Void> {
 
     /**
      * creates a new DecryptionSwingWorker
+     *
      * @param parentFrame the parent frame
      * @param backupMainPanel the BackupMainPanel
      * @param cipherDir the encfs ciphertext directory
@@ -76,6 +74,7 @@ public class DecryptionSwingWorker extends SwingWorker<Void, Void> {
 
     /**
      * executes the decryption in a background thread
+     *
      * @return
      */
     @Override
@@ -87,7 +86,7 @@ public class DecryptionSwingWorker extends SwingWorker<Void, Void> {
 
         // decrypt all existing files by copying everything into temporary
         // plainDir
-        int returnValue = 0;
+        int returnValue;
         if (CurrentOperatingSystem.OS == OperatingSystem.Linux) {
             // "-a" does not work when running on Linux and the destination
             // directory is located on a NTFS partition

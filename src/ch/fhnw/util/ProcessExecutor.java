@@ -1,4 +1,4 @@
-/*
+/**
  * ProcessExecutor.java
  *
  * Copyright (C) 2010 imedias
@@ -12,11 +12,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 31. August 2003, 14:32
  */
@@ -25,12 +25,7 @@ package ch.fhnw.util;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +34,7 @@ import java.util.logging.Logger;
 
 /**
  * A class that provides an easy interface for executing processes
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class ProcessExecutor {
@@ -61,6 +57,7 @@ public class ProcessExecutor {
 
     /**
      * adds a PropertyChangeListener
+     *
      * @param listener the PropertyChangeListener to add
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -69,6 +66,7 @@ public class ProcessExecutor {
 
     /**
      * removes a PropertyChangeListener
+     *
      * @param listener the PropertyChangeListener to remove
      */
     public void removePropertyChangeListener(
@@ -78,8 +76,9 @@ public class ProcessExecutor {
 
     /**
      * executes a script without storing the script execution output
+     *
      * @param script the script contents
-     * @param parameters  the script parameters
+     * @param parameters the script parameters
      * @return the return value of the script execution
      * @throws IOException if the script could not be written to a temp file
      */
@@ -90,10 +89,11 @@ public class ProcessExecutor {
 
     /**
      * executes a script
-     * @param storeStdOut if <tt>true</tt>, the program stdout will be stored
-     * in an internal list
-     * @param storeStdErr if <tt>true</tt>, the program stderr will be stored
-     * in an internal list
+     *
+     * @param storeStdOut if <tt>true</tt>, the program stdout will be stored in
+     * an internal list
+     * @param storeStdErr if <tt>true</tt>, the program stderr will be stored in
+     * an internal list
      * @param script the script contents
      * @param parameters the script parameters
      * @return the return value of the script execution
@@ -120,6 +120,7 @@ public class ProcessExecutor {
 
     /**
      * creates a script
+     *
      * @param script the script contents
      * @return the script file
      * @throws IOException if an I/O exception occurs
@@ -142,6 +143,7 @@ public class ProcessExecutor {
 
     /**
      * executes the given command without storing the program output
+     *
      * @param commandArray the command and parameters
      * @return the exit value of the command
      */
@@ -151,6 +153,7 @@ public class ProcessExecutor {
 
     /**
      * sets the environment for process execution
+     *
      * @param environment the environment for process execution
      */
     public void setEnvironment(Map<String, String> environment) {
@@ -159,10 +162,11 @@ public class ProcessExecutor {
 
     /**
      * executes the given command
-     * @param storeStdOut if <tt>true</tt>, the program stdout will be stored
-     * in an internal list
-     * @param storeStdErr if <tt>true</tt>, the program stderr will be stored
-     * in an internal list
+     *
+     * @param storeStdOut if <tt>true</tt>, the program stdout will be stored in
+     * an internal list
+     * @param storeStdErr if <tt>true</tt>, the program stderr will be stored in
+     * an internal list
      * @param commandArray the command and parameters
      * @return the exit value of the command
      */
@@ -217,6 +221,7 @@ public class ProcessExecutor {
 
     /**
      * returns the program output as a single string (with linebreaks)
+     *
      * @return the program output
      */
     public String getOutput() {
@@ -225,6 +230,7 @@ public class ProcessExecutor {
 
     /**
      * returns the standard output
+     *
      * @return the standard output
      */
     public String getStdOut() {
@@ -233,6 +239,7 @@ public class ProcessExecutor {
 
     /**
      * returns the standard output list
+     *
      * @return the standard output list
      */
     public List<String> getStdOutList() {
@@ -241,6 +248,7 @@ public class ProcessExecutor {
 
     /**
      * returns the standard error
+     *
      * @return the standard error
      */
     public String getStdErr() {
@@ -249,6 +257,7 @@ public class ProcessExecutor {
 
     /**
      * returns the standard error list
+     *
      * @return the standard error list
      */
     public List<String> getStdErrList() {

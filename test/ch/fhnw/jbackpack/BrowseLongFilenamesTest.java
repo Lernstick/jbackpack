@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
@@ -25,7 +25,6 @@ import ch.fhnw.util.FileTools;
 import ch.fhnw.util.OperatingSystem;
 import java.awt.Frame;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -34,17 +33,13 @@ import java.util.prefs.Preferences;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.netbeans.jemmy.ClassReference;
-import org.netbeans.jemmy.operators.JButtonOperator;
-import org.netbeans.jemmy.operators.JComponentOperator;
-import org.netbeans.jemmy.operators.JDialogOperator;
-import org.netbeans.jemmy.operators.JFrameOperator;
-import org.netbeans.jemmy.operators.JPasswordFieldOperator;
-import org.netbeans.jemmy.operators.JTabbedPaneOperator;
+import org.netbeans.jemmy.operators.*;
 import org.netbeans.jemmy.util.NameComponentChooser;
 import screenshots.Screenshots;
 
 /**
  * tests decrypting a directory
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class BrowseLongFilenamesTest extends TestCase {
@@ -57,6 +52,7 @@ public class BrowseLongFilenamesTest extends TestCase {
 
     /**
      * tests decrypting a directory
+     *
      * @throws Exception if an exception occurs
      */
     @Test
@@ -176,12 +172,11 @@ public class BrowseLongFilenamesTest extends TestCase {
                 frameOperator, new NameComponentChooser("backupMainPanel"));
         BackupMainPanel backupMainPanel =
                 (BackupMainPanel) backupMainPanelOperator.getSource();
-        List<Increment> increments = new ArrayList<Increment>();
         File backupDirectory = new File(backupMainPanel.getEncfsMountPoint());
         RdiffFileDatabase rdiffFileDatabase =
                 RdiffFileDatabase.getInstance(backupDirectory);
         rdiffFileDatabase.sync();
-        increments = rdiffFileDatabase.getIncrements();
+        List<Increment> increments = rdiffFileDatabase.getIncrements();
         Increment mirror = increments.get(0);
         int fileCount = mirror.getRdiffRoot().listFiles().length;
 

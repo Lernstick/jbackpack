@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.util;
 
@@ -35,6 +35,7 @@ import javax.swing.JProgressBar;
 
 /**
  * some file tools
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class FileTools {
@@ -51,8 +52,10 @@ public class FileTools {
 
     /**
      * checks if a directory is writable
+     *
      * @param directory the directory to check
-     * @return <code>true</code>, if the directory is writable,
+     * @return
+     * <code>true</code>, if the directory is writable,
      * <code>false</code> otherwise
      */
     public static boolean canWrite(File directory) {
@@ -73,6 +76,7 @@ public class FileTools {
 
     /**
      * mounts an SMB share on Windows
+     *
      * @param host the host
      * @param share the share
      * @param user the user
@@ -113,6 +117,7 @@ public class FileTools {
 
     /**
      * mounts an SMB share on Linux
+     *
      * @param host the host
      * @param share the share
      * @param user the user
@@ -173,6 +178,7 @@ public class FileTools {
 
     /**
      * mounts an SMB share on Mac OS X
+     *
      * @param host the host
      * @param share the share
      * @param user the user
@@ -216,10 +222,14 @@ public class FileTools {
 
     /**
      * checks if a directory is a subdirectory of another directory
+     *
      * @param superDir the super directory
      * @param subDir the sub directory
-     * @return <code>true</code>, if <code>subDir</code> is a subdirectory of
-     * <code>superDir</code>, <code>false</code> otherwise
+     * @return
+     * <code>true</code>, if
+     * <code>subDir</code> is a subdirectory of
+     * <code>superDir</code>,
+     * <code>false</code> otherwise
      * @throws IOException if an I/O exception occurs
      */
     public static boolean isSubDir(File superDir, File subDir)
@@ -236,6 +246,7 @@ public class FileTools {
 
     /**
      * shows space information about a given file on a progressbar
+     *
      * @param file a given file
      * @param progressBar the progressbar where to display the space information
      * about the given file
@@ -264,9 +275,12 @@ public class FileTools {
 
     /**
      * recusively deletes a file
+     *
      * @param file the file to delete
-     * @return <code>true</code> if and only if the file or directory is
-     *          successfully deleted; <code>false</code> otherwise
+     * @return
+     * <code>true</code> if and only if the file or directory is successfully
+     * deleted;
+     * <code>false</code> otherwise
      * @throws IOException if an I/O exception occurs
      */
     public static boolean recursiveDelete(File file) throws IOException {
@@ -284,6 +298,7 @@ public class FileTools {
 
     /**
      * returns the string representation of a given data volume
+     *
      * @param bytes the datavolume given in Byte
      * @param fractionDigits the number of fraction digits to display
      * @return the string representation of a given data volume
@@ -314,9 +329,10 @@ public class FileTools {
 
     /**
      * checks, if space information is available for a given file
+     *
      * @param file the file to check
-     * @return <tt>true</tt>, if space information is available,
-     * <tt>false</tt> otherwise
+     * @return <tt>true</tt>, if space information is available, <tt>false</tt>
+     * otherwise
      */
     public static boolean isSpaceKnown(File file) {
         long usableSpace = file.getUsableSpace();
@@ -327,6 +343,7 @@ public class FileTools {
 
     /**
      * checks if a file is a symlink
+     *
      * @param file the file to check
      * @return <tt>true</tt>, if <tt>file</tt> is a symlink, <tt>false</tt>
      * otherwise
@@ -346,6 +363,7 @@ public class FileTools {
     /**
      * returns the encfs mount point of a given search string or <tt>null</tt>,
      * if the mount point can not be determined
+     *
      * @param searchString a string that the encfs mountpoint must contain
      * @return the mount point of a device or <tt>null</tt>, if the mount point
      * can not be determined
@@ -388,6 +406,7 @@ public class FileTools {
 
     /**
      * umounts via sudo
+     *
      * @param mountPoint the mountpoint to umount
      * @param sudoPassword the sudo password
      * @return the return value of the umount operation
@@ -415,8 +434,10 @@ public class FileTools {
 
     /**
      * umounts a drive on Windows
+     *
      * @param drive the drive letter and the colons, e.g. "Z:"
-     * @return the return value of the "net use &lt;drive letter&gt; /delete command
+     * @return the return value of the "net use &lt;drive letter&gt; /delete
+     * command
      * @throws IOException
      */
     public static boolean umountWin(String drive) throws IOException {
@@ -437,6 +458,7 @@ public class FileTools {
 
     /**
      * umounts a FUSE filesystem
+     *
      * @param mountPoint the mountpoint to umount
      * @param delete if <tt>true</tt>, the mountpoint will be deleted if it is
      * empty
@@ -480,6 +502,7 @@ public class FileTools {
 
     /**
      * deletes a directory when it is empty
+     *
      * @param directory the directory
      * @return <tt>true</tt> if the directory was deleted, <tt>false</tt>
      * otherwise
@@ -501,11 +524,12 @@ public class FileTools {
 
     /**
      * mounts an encrypted filesystem
+     *
      * @param cipherDir the directory where only ciphertext is visible
      * @param plainDir the directory where plaintext is visible
      * @param password the encryption password
-     * @return <tt>true</tt> if mounting was successfull,
-     * <tt>false</tt> otherwise
+     * @return <tt>true</tt> if mounting was successfull, <tt>false</tt>
+     * otherwise
      * @throws IOException
      */
     public static boolean mountEncFs(String cipherDir, String plainDir,
@@ -539,6 +563,7 @@ public class FileTools {
 
     /**
      * checks if a given directory is encrypted with encfs
+     *
      * @param directory the directory to check
      * @return <tt>true</tt>, if a given directory is encrypted with encfs,
      * <tt>false</tt> otherwise
@@ -551,6 +576,7 @@ public class FileTools {
 
     /**
      * reads a file line by line
+     *
      * @param file the file to read
      * @return the list of lines in this file
      * @throws IOException if an I/O exception occurs
@@ -568,6 +594,7 @@ public class FileTools {
 
     /**
      * creates a temporary directory
+     *
      * @param prefix the directory prefix
      * @param suffix the directory suffix
      * @return a temporary directory
@@ -588,6 +615,7 @@ public class FileTools {
 
     /**
      * creates a temporary directory
+     *
      * @param parentDir the parent directory
      * @param name the name of the temporary directory
      * @return the temporary directory
@@ -608,6 +636,7 @@ public class FileTools {
 
     /**
      * creates a usable mountpoint in a given directory with a preferred name
+     *
      * @param directory the parent directory of the mountpoint
      * @param name the preferred name of the mountpoint
      * @return a usable mountpoint in a given directory
@@ -653,10 +682,13 @@ public class FileTools {
     }
 
     /**
-     * returns <code>true</code> if a given path is a currently used mountpoint,
+     * returns
+     * <code>true</code> if a given path is a currently used mountpoint,
      * <code>false</code> othwerwise
+     *
      * @param path the path to check
-     * @return <code>true</code> if a given path is a currently used mountpoint,
+     * @return
+     * <code>true</code> if a given path is a currently used mountpoint,
      * <code>false</code> othwerwise
      * @throws IOException if an I/O exception occurs
      */
@@ -694,6 +726,7 @@ public class FileTools {
     /**
      * returns the mount point of a device or <tt>null</tt>, if the mount point
      * can not be determined
+     *
      * @param device the device to search for
      * @return the mount point of a device or <tt>null</tt>, if the mount point
      * can not be determined
@@ -748,6 +781,7 @@ public class FileTools {
 
     /**
      * checks, if a certain device is mounted
+     *
      * @param device the device to check
      * @return <tt>true</tt> if the device is mounted, <tt>false</tt> otherwise
      * @throws IOException if an I/O exception occurs

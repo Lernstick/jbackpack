@@ -39,6 +39,7 @@ import javax.swing.SwingWorker;
 
 /**
  * A Swingworker for checking plaintext directories before encryption
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class EncryptionCheckSwingWorker extends SwingWorker<Object, Void> {
@@ -63,6 +64,7 @@ public class EncryptionCheckSwingWorker extends SwingWorker<Object, Void> {
 
     /**
      * creates a new EncryptionCheckSwingWorker
+     *
      * @param parentFrame the parent frame
      * @param backupMainPanel the BackupMainPanel
      * @param dirCheckDialog the DirectoryCheckDialog where the checking
@@ -94,6 +96,7 @@ public class EncryptionCheckSwingWorker extends SwingWorker<Object, Void> {
 
     /**
      * sets the usable space in the destination directory
+     *
      * @param usableSpace
      */
     public void setUsableSpace(long usableSpace) {
@@ -104,6 +107,7 @@ public class EncryptionCheckSwingWorker extends SwingWorker<Object, Void> {
 
     /**
      * runs the encryption check in a background thread
+     *
      * @return
      */
     @Override
@@ -144,6 +148,7 @@ public class EncryptionCheckSwingWorker extends SwingWorker<Object, Void> {
 
     /**
      * updates the progress information in the dialog
+     *
      * @param chunks unused
      */
     @Override

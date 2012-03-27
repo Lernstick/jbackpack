@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 /**
  * creates a directory filled with files for testing the backup function
+ *
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class TestDirCreator {
@@ -36,6 +37,7 @@ public class TestDirCreator {
 
     /**
      * runs the program
+     *
      * @param args the command line arguments
      * @throws IOException
      */

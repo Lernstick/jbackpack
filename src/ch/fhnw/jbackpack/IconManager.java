@@ -31,8 +31,9 @@ import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
 /**
- * Manages some icons (only necessary because of 
+ * Manages some icons (only necessary because of
  * http://forums.sun.com/thread.jspa?forumID=257&threadID=518560 )
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class IconManager {

@@ -1,4 +1,4 @@
-/*
+/**
  * LogLevel.java
  *
  * Copyright (C) 2010 imedias
@@ -12,11 +12,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 11. März 2006, 19:51
  */
@@ -27,6 +27,7 @@ import java.util.logging.Level;
 
 /**
  * A wrapper for java.util.logging.Level with i18n and descriptions
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public enum LogLevel {
@@ -80,6 +81,7 @@ public enum LogLevel {
 
     /**
      * returns a localized description of the log level
+     *
      * @return
      */
     public String getDescription() {
@@ -88,6 +90,7 @@ public enum LogLevel {
 
     /**
      * returns the corresponding Level
+     *
      * @return the corresponding Level
      */
     public Level getLevel() {

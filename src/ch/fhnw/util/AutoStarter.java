@@ -1,4 +1,4 @@
-/*
+/**
  * AutoStarter.java
  *
  * Copyright (C) 2010 imedias
@@ -12,24 +12,18 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Created on 13. Februar 2006, 10:29
  *
  */
 package ch.fhnw.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.logging.Level;
@@ -39,6 +33,7 @@ import javax.jnlp.ServiceManager;
 
 /**
  * A class for configuring autostart at login time for different desktop systems
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class AutoStarter {
@@ -67,6 +62,7 @@ public class AutoStarter {
 
     /**
      * creates a new Autostarter
+     *
      * @param jnlpFileName the JNLP file name
      * @param osxDockName the application name for the Mac OS X dock
      * @param osxScriptsDirName the name of the OS X scripts directory
@@ -139,9 +135,12 @@ public class AutoStarter {
     }
 
     /**
-     * returns <code>true</code>, if the programm is running via Java Web Start,
+     * returns
+     * <code>true</code>, if the programm is running via Java Web Start,
      * <code>false</code> otherwise
-     * @return <code>true</code>, if the programm is running via Java Web Start,
+     *
+     * @return
+     * <code>true</code>, if the programm is running via Java Web Start,
      * <code>false</code> otherwise
      */
     public boolean isWebStart() {
@@ -150,6 +149,7 @@ public class AutoStarter {
 
     /**
      * checks and corrects the web start configuration
+     *
      * @param windowsRunTreeKey the key of the windows registry run tree
      * @param linuxIconSource the source of the linux icon
      * @param linuxIconFileName the file name for the linux icon
@@ -220,6 +220,7 @@ public class AutoStarter {
 
     /**
      * returns the path to the JAR that is currently autostarted
+     *
      * @param linuxDesktopFileName the name of the Linux autostart desktop file
      * @param windowsRunTreeKey the key of the windows registry run tree
      * @return the path to the JAR that is currently autostarted
@@ -281,14 +282,15 @@ public class AutoStarter {
 
     /**
      * switches autostart on or off
+     *
      * @param windowsRunTreeKey the key of the windows registry run tree
-     * @param linuxIconSource the path to the application icon
-     * (as internal ressource path)
+     * @param linuxIconSource the path to the application icon (as internal
+     * ressource path)
      * @param linuxIconFileName the file name of the application icon for Linux
      * @param linuxDesktopFileTemplate a template for an autostart desktop file
      * @param linuxDesktopFileName the name of the Linux autostart desktop file
-     * @return the error message, or <code>null</code> if there was no error
-     * message
+     * @return the error message, or
+     * <code>null</code> if there was no error message
      */
     public String enableAutoStart(String windowsRunTreeKey,
             String linuxIconSource, String linuxIconFileName,
@@ -326,12 +328,13 @@ public class AutoStarter {
 
     /**
      * switches autostart on or off
-     * @param windowsRunTreeKey the key of the windows registry run tree
-     * (as internal ressource path)
+     *
+     * @param windowsRunTreeKey the key of the windows registry run tree (as
+     * internal ressource path)
      * @param linuxIconFileName the file name of the Linux icon
      * @param linuxDesktopFileName the name of the Linux autostart desktop file
-     * @return the error message, or <code>null</code> if there was no error
-     * message
+     * @return the error message, or
+     * <code>null</code> if there was no error message
      */
     public String disableAutoStart(String windowsRunTreeKey,
             String linuxIconFileName, String linuxDesktopFileName) {
@@ -388,11 +391,11 @@ public class AutoStarter {
     }
 
     private String enableWindowsAutoStart(String windowsRunTreeKey) {
-        String errorMessage = null;
+        String errorMessage;
         try {
             WinRegistry winRegistry = new WinRegistry();
             errorMessage = winRegistry.setValue(WINDOWS_RUN_TREE,
-                    windowsRunTreeKey, startCommand, false/*quote*/);
+                    windowsRunTreeKey, startCommand, false);
         } catch (IOException e) {
             errorMessage = e.getMessage();
         }
@@ -400,7 +403,7 @@ public class AutoStarter {
     }
 
     private String disableWindowsAutoStart(String windowsRunTreeKey) {
-        String errorMessage = null;
+        String errorMessage;
         try {
             WinRegistry winRegistry = new WinRegistry();
             errorMessage = winRegistry.removeValue(

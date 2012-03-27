@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
@@ -25,12 +25,7 @@ import ch.fhnw.util.OperatingSystem;
 import ch.fhnw.util.ProcessExecutor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,25 +71,25 @@ public class RdiffBackupRestore {
     private File excludesFile;
 
     /**
-     * quotes the given <code>path</code> so that it can be used in rdiff-backup
-     * exclude and include statements in backup operations
+     * quotes the given
+     * <code>path</code> so that it can be used in rdiff-backup exclude and
+     * include statements in backup operations
+     *
      * @param baseDirectory the base directory of this path
      * @param path the path to quote
      * @return the quoted path
      */
     public static String quoteBackup(String baseDirectory, String path) {
         if (CurrentOperatingSystem.OS == OperatingSystem.Windows) {
-            /**
-             * Only Windows paths are affected because they contain "\" as path
-             * separator which collides with "\" also being the escape character
-             * for the regular expressions in rdiff-backup's exclude and include
-             * statements.
-             * The following rules apply on Windows:
-             * - the backslashes in the base directory must be escaped
-             *   ("\" -> "\\")
-             * - the backslashes in the remainder must be converted to slashes
-             *   ("\" -> "/")
-             */
+            // Only Windows paths are affected because they contain "\" as path
+            // separator which collides with "\" also being the escape character
+            // for the regular expressions in rdiff-backup's exclude and include
+            // statements.
+            // The following rules apply on Windows:
+            // - the backslashes in the base directory must be escaped
+            //   ("\" -> "\\")
+            // - the backslashes in the remainder must be converted to slashes
+            //   ("\" -> "/")
             String remainder = path.substring(baseDirectory.length());
             baseDirectory = baseDirectory.replace("\\", "\\\\");
             remainder = remainder.replace("\\", "/");
@@ -105,10 +100,11 @@ public class RdiffBackupRestore {
 
     /**
      * backs up the selected files via a file system
+     *
      * @param source the directory to backup
      * @param destination the backup destination
-     * @param tempDirPath the path to the temporary directory or
-     * <tt>null</tt> if the system default should be used
+     * @param tempDirPath the path to the temporary directory or <tt>null</tt>
+     * if the system default should be used
      * @param excludes the files to exclude
      * @param includes the files to include
      * @param compressFiles if <tt>true</tt>, most increment files are
@@ -155,13 +151,14 @@ public class RdiffBackupRestore {
 
     /**
      * backs up the selected files via SSH
+     *
      * @param source the directory to backup
      * @param user the user name on the remote server
      * @param host the host name of the remote server
      * @param directory the remote backup directory
      * @param password the password of the user on the remote server
-     * @param tempDirPath the path to the temporary directory or
-     * <tt>null</tt> if the system default should be used
+     * @param tempDirPath the path to the temporary directory or <tt>null</tt>
+     * if the system default should be used
      * @param excludes the files to exclude
      * @param includes the files to include
      * @param compressFiles if <tt>true</tt>, most increment files are
@@ -243,14 +240,15 @@ public class RdiffBackupRestore {
 
     /**
      * Restores the selected files
+     *
      * @param rdiffTimestamp the timestamp used for restoring
      * @param selectedFiles the files selected for restoring
      * @param backupDirectory the backup directory (where to get the files to
      * restore from)
      * @param restoreDirectory the directory where to put the files to restore
      * into
-     * @param tempDirPath the path to the temporary directory or
-     * <tt>null</tt> if the system default should be used
+     * @param tempDirPath the path to the temporary directory or <tt>null</tt>
+     * if the system default should be used
      * @param countFiles if <tt>true</tt>, files are counted before starting the
      * restore operation
      * @return <tt>true</tt>, if restoring was successfull, <tt>false</tt>
@@ -362,6 +360,7 @@ public class RdiffBackupRestore {
 
     /**
      * returns the number of files to restore
+     *
      * @return the number of files to restore
      */
     public long getRestoreCounter() {
@@ -382,6 +381,7 @@ public class RdiffBackupRestore {
 
     /**
      * returns the path of the currently processed file
+     *
      * @return the path of the currently processed file
      */
     public String getCurrentFile() {
@@ -390,6 +390,7 @@ public class RdiffBackupRestore {
 
     /**
      * returns the number of processed files
+     *
      * @return the number of processed files
      */
     public long getFileCounter() {
@@ -398,6 +399,7 @@ public class RdiffBackupRestore {
 
     /**
      * returns the standard output of the last called process
+     *
      * @return the standard output of the last called process
      */
     public String getStdOut() {
@@ -406,6 +408,7 @@ public class RdiffBackupRestore {
 
     /**
      * returns the standard error of the last called process
+     *
      * @return the standard error of the last called process
      */
     public String getStdErr() {
@@ -414,6 +417,7 @@ public class RdiffBackupRestore {
 
     /**
      * Get the output of this rdiff-backup session
+     *
      * @param backupDirectory The path to the backup directory
      * @return The output of the rdiff-backup session
      */

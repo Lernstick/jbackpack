@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
@@ -34,6 +34,7 @@ import javax.swing.SwingWorker;
 
 /**
  * A Swingworker for checking ciphertext directories before decryption
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class DecryptionCheckSwingWorker extends SwingWorker<Boolean, Void> {
@@ -56,6 +57,7 @@ public class DecryptionCheckSwingWorker extends SwingWorker<Boolean, Void> {
 
     /**
      * creates a new DecryptionCheckSwingWorker
+     *
      * @param parentFrame the parent frame
      * @param backupMainPanel the BackupMainPanel
      * @param dirCheckDialog the directory check dialog
@@ -78,6 +80,7 @@ public class DecryptionCheckSwingWorker extends SwingWorker<Boolean, Void> {
 
     /**
      * sets the usable space in the destination directory
+     *
      * @param usableSpace
      */
     public void setUsableSpace(long usableSpace) {
@@ -88,7 +91,9 @@ public class DecryptionCheckSwingWorker extends SwingWorker<Boolean, Void> {
 
     /**
      * executes the decryption in a background thread
-     * @return <code>true</code>, if decryption was successfull,
+     *
+     * @return
+     * <code>true</code>, if decryption was successfull,
      * <code>false</code> otherwise
      */
     @Override
@@ -129,6 +134,7 @@ public class DecryptionCheckSwingWorker extends SwingWorker<Boolean, Void> {
 
     /**
      * updates the decryption progress information in the dialog
+     *
      * @param chunks not used
      */
     @Override
@@ -188,6 +194,7 @@ public class DecryptionCheckSwingWorker extends SwingWorker<Boolean, Void> {
 
     /**
      * returns the calculated size of the given directory
+     *
      * @return the calculated size of the given directory
      */
     public long getSize() {

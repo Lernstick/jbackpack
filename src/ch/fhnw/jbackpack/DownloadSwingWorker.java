@@ -10,11 +10,11 @@
  *
  * JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package ch.fhnw.jbackpack;
 
@@ -35,6 +35,7 @@ import javax.swing.SwingWorker;
 
 /**
  * A Swingworker for downloading files from a URL
+ *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
 public class DownloadSwingWorker extends SwingWorker<Boolean, Integer> {
@@ -51,6 +52,7 @@ public class DownloadSwingWorker extends SwingWorker<Boolean, Integer> {
 
     /**
      * creates a new DownloadSwingWorker
+     *
      * @param parentFrame the parent frame
      * @param url the url to the file to download
      * @param description a description of the file to download
@@ -74,6 +76,7 @@ public class DownloadSwingWorker extends SwingWorker<Boolean, Integer> {
 
     /**
      * returns the I/O exception (if any happened)
+     *
      * @return the I/O exception (if any happened)
      */
     public IOException getIoException() {
@@ -82,7 +85,9 @@ public class DownloadSwingWorker extends SwingWorker<Boolean, Integer> {
 
     /**
      * downloads the given URL to the given destination file
-     * @return <code>true</code> if downloading was successfull,
+     *
+     * @return
+     * <code>true</code> if downloading was successfull,
      * <code>false</code> otherwise
      */
     @Override
@@ -116,6 +121,7 @@ public class DownloadSwingWorker extends SwingWorker<Boolean, Integer> {
 
     /**
      * processes the progress information chunks
+     *
      * @param chunks a list of progress values
      */
     @Override
