@@ -66,7 +66,7 @@ public class NewEncfsDialog extends javax.swing.JDialog {
      * @return the password with characters escaped shell characters
      */
     public String getPassword() {
-        return validateInput(passwordField1.getPassword());
+        return PasswordEscaper.escapePassword(passwordField1.getPassword());
     }
 
     /**
@@ -222,23 +222,6 @@ public class NewEncfsDialog extends javax.swing.JDialog {
         passwordField1.setText(null);
         passwordField2.setText(null);
         passwordField1.requestFocusInWindow();
-    }
-
-    /**
-     * Mask bash control characters (e.g. $,",`)
-     *
-     * @param charInput char [] to be fixed
-     * @return fixed String
-     */
-    private String validateInput(char[] charInput) {
-        String input = "";
-        for (char c : charInput) {
-            input += c;
-        }
-        String escapedInput = input.replace("\"", "\\\"");
-        escapedInput = escapedInput.replace("`", "\\`");
-        escapedInput = escapedInput.replace("$", "\\$");
-        return escapedInput;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel buttonPanel;

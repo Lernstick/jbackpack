@@ -1,5 +1,3 @@
-- consolidate all "String validateInput(char[] charInput)" methods
-
 - preview
     - busy notification or progress dialog
 
