@@ -120,7 +120,8 @@ public class PreferencesDialog extends JDialog {
 
         }
 
-        pack();
+        //pack();
+        setSize(500, 300);
         setLocationRelativeTo(parent);
     }
 
