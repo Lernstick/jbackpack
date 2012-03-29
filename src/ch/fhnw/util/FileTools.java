@@ -277,23 +277,26 @@ public class FileTools {
      * recusively deletes a file
      *
      * @param file the file to delete
+     * @param removeFile if the file (directory) itself should be removed or
+     * just its subfiles
      * @return
      * <code>true</code> if and only if the file or directory is successfully
      * deleted;
      * <code>false</code> otherwise
      * @throws IOException if an I/O exception occurs
      */
-    public static boolean recursiveDelete(File file) throws IOException {
+    public static boolean recursiveDelete(File file, boolean removeFile)
+            throws IOException {
         // do NOT(!) follow symlinks when deleting files
         if (file.isDirectory() && !isSymlink(file)) {
             File[] subFiles = file.listFiles();
             if (subFiles != null) {
                 for (File subFile : subFiles) {
-                    recursiveDelete(subFile);
+                    recursiveDelete(subFile, true);
                 }
             }
         }
-        return file.delete();
+        return removeFile ? file.delete() : true;
     }
 
     /**

@@ -105,7 +105,7 @@ public class MaxFileSizeTest extends TestCase {
 
         } finally {
             if (tmpDir != null) {
-                FileTools.recursiveDelete(tmpDir);
+                FileTools.recursiveDelete(tmpDir, true);
             }
         }
     }

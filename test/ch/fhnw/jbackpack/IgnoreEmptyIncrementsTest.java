@@ -60,7 +60,7 @@ public class IgnoreEmptyIncrementsTest extends TestCase {
             testIgnoreEmptyIncrements(tempDir);
         } finally {
             if (tempDir != null) {
-                FileTools.recursiveDelete(tempDir);
+                FileTools.recursiveDelete(tempDir, true);
             }
         }
     }

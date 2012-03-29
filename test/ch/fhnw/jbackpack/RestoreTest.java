@@ -63,7 +63,7 @@ public class RestoreTest extends TestCase {
         File tempDir = FileTools.createTempDirectory(
                 RestoreTest.class.getName(), null);
         if (testRestore(tempDir)) {
-            FileTools.recursiveDelete(tempDir);
+            FileTools.recursiveDelete(tempDir, true);
         }
     }
 
@@ -123,7 +123,7 @@ public class RestoreTest extends TestCase {
         continueButtonOperator.push();
 
         // remove testDir
-        FileTools.recursiveDelete(testDir);
+        FileTools.recursiveDelete(testDir, true);
 
         // restore
         JTabbedPaneOperator tabbedPaneOperator = new JTabbedPaneOperator(

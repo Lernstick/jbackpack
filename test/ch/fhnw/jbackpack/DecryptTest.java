@@ -68,7 +68,7 @@ public class DecryptTest extends TestCase {
             testDecrypt(tempDir);
         } finally {
             if (tempDir != null) {
-                FileTools.recursiveDelete(tempDir);
+                FileTools.recursiveDelete(tempDir, true);
             }
         }
     }

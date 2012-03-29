@@ -99,7 +99,7 @@ public class RdiffFileTest extends TestCase {
 
         } finally {
             if (tmpDir != null) {
-                FileTools.recursiveDelete(tmpDir);
+                FileTools.recursiveDelete(tmpDir, true);
             }
         }
     }
@@ -142,7 +142,7 @@ public class RdiffFileTest extends TestCase {
 
         } finally {
             if (tmpDir != null) {
-                FileTools.recursiveDelete(tmpDir);
+                FileTools.recursiveDelete(tmpDir, true);
             }
         }
     }
@@ -185,7 +185,7 @@ public class RdiffFileTest extends TestCase {
 
         } finally {
             if (tmpDir != null) {
-                FileTools.recursiveDelete(tmpDir);
+                FileTools.recursiveDelete(tmpDir, true);
             }
         }
     }
@@ -221,7 +221,7 @@ public class RdiffFileTest extends TestCase {
 
         } finally {
             if (tmpDir != null) {
-                FileTools.recursiveDelete(tmpDir);
+                FileTools.recursiveDelete(tmpDir, true);
             }
         }
     }
@@ -264,7 +264,7 @@ public class RdiffFileTest extends TestCase {
 
         } finally {
             if (tmpDir != null) {
-                FileTools.recursiveDelete(tmpDir);
+                FileTools.recursiveDelete(tmpDir, true);
             }
         }
     }
@@ -300,7 +300,7 @@ public class RdiffFileTest extends TestCase {
 
         } finally {
             if (tmpDir != null) {
-                FileTools.recursiveDelete(tmpDir);
+                FileTools.recursiveDelete(tmpDir, true);
             }
         }
     }
@@ -341,7 +341,7 @@ public class RdiffFileTest extends TestCase {
 
         } finally {
             if (tmpDir != null) {
-                FileTools.recursiveDelete(tmpDir);
+                FileTools.recursiveDelete(tmpDir, true);
             }
         }
     }

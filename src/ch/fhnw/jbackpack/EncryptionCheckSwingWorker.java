@@ -226,7 +226,7 @@ public class EncryptionCheckSwingWorker extends SwingWorker<Object, Void> {
     private void cleanup() {
         FileTools.umountFUSE(encfsPlainDirectory, true);
         try {
-            FileTools.recursiveDelete(encfsCipherDirectory);
+            FileTools.recursiveDelete(encfsCipherDirectory, true);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }

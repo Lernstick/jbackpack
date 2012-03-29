@@ -466,7 +466,7 @@ public class AutoStarter {
 
     private void disableMACOSXAutostart() {
         try {
-            FileTools.recursiveDelete(osxScriptDir);
+            FileTools.recursiveDelete(osxScriptDir, true);
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "could not delete " + osxScriptDir, ex);
         }

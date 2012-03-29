@@ -112,7 +112,7 @@ public class TestEnvironment {
 
         // delete a file and a directory in the root directory
         sourceFile.delete();
-        FileTools.recursiveDelete(subDir);
+        FileTools.recursiveDelete(subDir, true);
         try {
             // delete returns but the file is still there, let's sleep for a
             // while to make rdiff-backup happy, *sigh* ...

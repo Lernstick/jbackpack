@@ -70,7 +70,7 @@ public class BrowseLongFilenamesTest extends TestCase {
             testBrowseLongFilenames(tempDir);
         } finally {
             if (tempDir != null) {
-                FileTools.recursiveDelete(tempDir);
+                FileTools.recursiveDelete(tempDir, true);
             }
         }
     }

@@ -297,7 +297,7 @@ public class RdiffBackupRestore {
                     File realFile =
                             new File(restoreDirectory, selectedFile.getPath());
                     if (realFile.exists()) {
-                        if (!FileTools.recursiveDelete(realFile)) {
+                        if (!FileTools.recursiveDelete(realFile, true)) {
                             LOGGER.log(Level.WARNING,
                                     "could not delete {0}", realFile);
                         }

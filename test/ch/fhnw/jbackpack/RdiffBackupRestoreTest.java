@@ -158,7 +158,7 @@ public class RdiffBackupRestoreTest extends TestCase {
                     + (numberOfDirectories * numberOfFiles);
             assertEquals(expectedNumber, countFiles(root));
         } finally {
-            FileTools.recursiveDelete(tempDirectory);
+            FileTools.recursiveDelete(tempDirectory, true);
         }
     }
 
@@ -244,7 +244,7 @@ public class RdiffBackupRestoreTest extends TestCase {
             fail("restore failed");
         }
 
-        FileTools.recursiveDelete(tempDirectory);
+        FileTools.recursiveDelete(tempDirectory, true);
     }
 
     private void deleteFile(File file) {
