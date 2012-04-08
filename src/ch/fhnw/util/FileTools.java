@@ -136,7 +136,7 @@ public class FileTools {
                 + "UID=$(id -u)" + LINE_SEPARATOR
                 + "GID=$(id -g)" + LINE_SEPARATOR
                 + "echo " + sudoPassword + " | "
-                + "sudo -S mount -t smbfs -o ");
+                + "sudo -S mount -t cifs -o ");
         boolean optionSet = false;
         if ((user != null) && !user.isEmpty()) {
             stringBuilder.append("username=");

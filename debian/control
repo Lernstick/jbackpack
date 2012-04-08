@@ -8,7 +8,7 @@ Homepage: http://www.imedias.ch/lernstick
 
 Package: jbackpack
 Architecture: all
-Depends: openjdk-6-jre | sun-java6-jre, rdiff-backup, sshfs, expect, encfs, rsync, smbfs
+Depends: openjdk-6-jre | sun-java6-jre, rdiff-backup, sshfs, expect, encfs, rsync, cifs-utils
 Description: a graphical frontend for rdiff-backup
  JBackpack is a graphical frontend for rdiff-backup. It supports most command
  line options of rdiff-backup and adds the possibility to browse remote backup
