@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd">
+
+<!--
+Copyright (C) 2010 imedias
+
+This file is part of JBackpack.
+
+JBackpack is free software; you can redistribute it and/or modify it under the
+terms of the GNU Lesser General Public License as published by the Free Software
+Foundation; either version 3 of the License, or (at your option) any later
+version.
+
+JBackpack is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License along
+with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<book id="JBackpack" lang="it">
+
+    <bookinfo>
+        <title>Manuale JBackpack </title>
+        <date>2010-07-31</date>
+        <releaseinfo>Versione 0.8.13</releaseinfo>
+        <abstract>
+            <para>
+                <application>JBackpack</application> è un programma  di
+                backup personali. Offre backup incrementali, trasparenza di rete
+                e criptografia.
+            </para>
+        </abstract>
+    </bookinfo>
+
+    <chapter id="overview">
+        <title>Descrizione</title>
+        <para>
+            <indexterm>
+                <primary>rdiff-backup</primary>
+            </indexterm>
+            JBackpack usa rdiff-backup
+            (
+            <ulink url="http://www.nongnu.org/rdiff-backup"
+            >http://www.nongnu.org/rdiff-backup
+            </ulink>)
+            per tutte le funzioni di backup e ripristino. La caratteristica più
+            interessante del rdiff-backup sono
+            <emphasis>i backup incrementali</emphasis>.
+        </para>
+        <para>
+            <indexterm>
+                <primary>backup incrementali </primary>
+            </indexterm>
+            Un backup incrementale è un metodo di backup in cui si conservano
+            molteplici backup (non solo l'ultimo). Ogni informazione salvata
+            viene archiviata una sola volta, i successivi backup contengono solo
+            la parte di informazione modificata successivamente al backup
+            precedente. Questo permette di rispristinare i file modificati o
+            cancellati, anche nel caso in cui siano stati effettuati più backup
+            dopo la modifica o la cancellazione di questi file.
+        </para>
+        <para>
+            JBackpack dispone di un Increment-browser integrato che rende molto
+            semplice la selezione dei file prima del ripristino.
+        </para>
+        <para>
+            <indexterm>
+                <primary>SSHFS</primary>
+            </indexterm>
+            JBackpack usa SSHFS
+            (
+            <ulink url="http://fuse.sourceforge.net/sshfs.html"
+            >http://fuse.sourceforge.net/sshfs.html
+            </ulink>) e SMB
+            (
+            <ulink url="http://it.wikipedia.org/wiki/Server_message_block"
+            >http://it.wikipedia.org/wiki/Server_message_block
+            </ulink>)
+            per accedere ai sistemi di file remoti. In questo modo si possono
+            archiviare i backup sui sistemi remoti e aumentare così la
+            disponibilità dei backup in caso di un guasto al sistema locale. Il
+            processo di backup viene però rallentato poichè la velocità di
+            trasferimento per i sistemi di file remoti tende ad essere minore
+            della velocità di trasferimento per i sistemi di file locali.
+        </para>
+        <para>
+            <indexterm>
+                <primary>EncFS</primary>
+            </indexterm>
+            JBackpack usa EncFS
+            (
+            <ulink url="http://www.arg0.net/encfs"
+            >http://www.arg0.net/encfs
+            </ulink>)
+            per criptare le directory di destinazione di backup. La criptografia
+            garantisce riservatezza ma rallenta il backup e il ripristino.
+        </para>
+    </chapter>
+
+    <chapter id="directories">
+        <title>Directory</title>
+        <para>
+            Al primo avvio del JBackpack si aprirà la scheda
+            "Directory".
+            <figure>
+                <title>Scheda directory </title>
+                <graphic fileref="MainWindow.png"></graphic>
+            </figure>
+            Qui si possono configurare le directory usate per il processo di
+            backup.
+        </para>
+        <sect1>
+            <title>Directory di origine</title>
+            <indexterm>
+                <primary>Directory di origine</primary>
+            </indexterm>
+            <para>
+                La prima directory è la directory di origine. Solo i file in
+                questa directory saranno inclusi nei backup. JBackpack usa come
+                impostazione predefinita la directory home. Se si desidera
+                salvare un'altra directory bisogna cliccare il radio button
+                "Altra directory". Per scegliere la directory di cui si desidera
+                fare un backup, digitare il percorso dell'altra directory nel
+                campo di testo oppure usare il pulsante di scelta file a destra
+                del campo di testo.
+            </para>
+        </sect1>
+        <sect1>
+            <title>Directory di destinazione</title>
+            <indexterm>
+                <primary>Directory di destinazione</primary>
+            </indexterm>
+            <para>
+                La seconda directory è la directory di destinazione. Questo è il
+                luogo dove vengono archiviati i file di backup e gli incrementi.
+                La directory di destinazione può essere:
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            locale
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <indexterm>
+                                <primary>SSH</primary>
+                            </indexterm>
+                            remota via SSH (per ulteriori informazioni su SSH
+                            andare all'indirizzo seguente:
+                            <ulink url="http://it.wikipedia.org/wiki/Secure_shell"
+                            >http://it.wikipedia.org/wiki/Secure_shell
+                            </ulink>)
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <indexterm>
+                                <primary>SMB</primary>
+                            </indexterm>
+                            remota via SMB (per ulteriori informazioni su SMB
+                            andare all'indirizzo seguente:
+                            <ulink url="http://it.wikipedia.org/wiki/Server_Message_Block"
+                            >http://it.wikipedia.org/wiki/Server_Message_Block
+                            </ulink>)
+                        </para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                Nel caso in cui si seleziona una directory di destinazione
+                locale, si può digitare il percorso della propria directory di
+                destinazione nel campo di testo oppure usare il pulsante di
+                scelta file a destra del campo di testo.
+            </para>
+            <para>
+                Se si sceglie una directory di destinazione remota via SSH, è
+                necessario configurare alcune impostazioni supplementari:
+                <figure>
+                    <title>Impostazioni SSH </title>
+                    <graphic fileref="SSH.png"></graphic>
+                </figure>
+                Inserire su questo server remoto il nome di host del server in
+                cui si vogliono archiviare i dati di backup(il server deve
+                supportare connessioni SSH) e il proprio nome utente . La scelta
+                futura della directory sul server remoto si basa sulla la
+                directory home sul server remoto. Nel caso in cui la propria
+                directory di destinazione remota non sia una sottodirectory
+                della directory home sul server, è possibile specificare
+                un'altra directory di base.
+            </para>
+            <para>
+                <indexterm>
+                    <primary>chiave pubblica</primary>
+                </indexterm>
+                Per l'autenticazione sul server di backup remoto si può usare
+                sia una password che una chiave pubblica. Se si sceglie
+                l'autenticazione tramite una chiave pubblica, assicurarsi che
+                tutto sia correttamente impostato. Per ulteriori dettagli
+                sull'impostazione dell'autenticatione tramite chiave pubblica
+                SSH andare al seguente indirizzo:
+                <ulink url="http://www.debian-administration.org/article/SSH_with_authentication_key_instead_of_password"
+                >http://www.debian-administration.org/article/SSH_with_authentication_key_instead_of_password
+                </ulink>
+            </para>
+            <para>
+                Dopo essersi correttamente registrato, si può procedere alla
+                configurazione della directory di destinazione di backup remoto:
+                <figure>
+                    <title>Registrato</title>
+                    <graphic fileref="LoggedIn.png"></graphic>
+                </figure>
+                Se si conosce il percorso della directory, digitarlo
+                direttamente nel campo di testo, in caso contrario usare il
+                pulsante di scelta file a destra del campo di testo e scegliere
+                la directory di destinazione desiderata.
+            </para>
+            <para>
+                Se si seleziona una directory di destinazione remota via SMB,
+                bisogna configurare alcune impostazioni supplementari:
+                <figure>
+                    <title>Impostazioni SMB </title>
+                    <graphic fileref="SMB.png"></graphic>
+                </figure>
+                Inserire sul server remoto il nome di host del server dove si
+                desidera archiviare i dati di backup (il server deve supportare
+                connessioni SSH), il nome della condivisione, il proprio nome
+                utente e la password.
+            </para>
+            <para os="linux">
+                Per montare i sistemi di file via sudo, bisogna essere in
+                posseso dei diritti di amministratore(ulteriori informazioni su
+                sudo possono essere trovate al seguente indirizzo:
+                <ulink url="http://it.wikipedia.org/wiki/Sudo"
+                >http://it.wikipedia.org/wiki/Sudo
+                </ulink>). Per montare il
+                sistema di file remoto, è necessaria la propria password locale.
+            </para>
+            <para>
+                Dope essersi registrato correttamente, si può procedere alla
+                configurazione della directory di destinazione di backup remoto.
+            </para>
+            <para>
+                Se si è selezionato una directory di destinazione valida (e non
+                ancora criptata), apparirà un pulsante per la criptografia:
+                <figure>
+                    <title>Pulsante per criptografia</title>
+                    <graphic fileref="Encryption.png"></graphic>
+                </figure>
+                Si può criptare la propria directory di destinazione con una
+                password, cliccando su questo pulsante.
+            </para>
+            <para>
+                Dopo aver criptato la directory di destinazione, apparirà il
+                pannello di controllo della criptografia:
+                <figure>
+                    <title>Pannello di controllo della criptografia</title>
+                    <graphic fileref="EncryptionControl.png"></graphic>
+                </figure>
+                <indexterm>
+                    <primary>bloccare</primary>
+                </indexterm>
+                <indexterm>
+                    <primary>sbloccare</primary>
+                </indexterm>
+                Il pannello di controllo permette di bloccare e sbloccare la
+                directory di destinazione di backup, di modificare la password
+                per la criptografia e (nel caso che non sia più necessario il
+                livello di sicurezza dato dalla criptografia) di decriptare la
+                directory di destinazione.
+            </para>
+            <para>
+                L'accesso alle directory criptate per le operazioni di backup e
+                ripristino è consentito solo se quest'ultime sono sbloccate. Lo
+                sblocco avviene unicamente con la password della criptografia.
+                <emphasis>Non esiste alcun meccanismo di recupero. Bisogna
+                    assolutamente memorizzare la password della criptografia!
+                </emphasis>
+            </para>
+        </sect1>
+    </chapter>
+
+    <chapter id="backup">
+        <title>Backup</title>
+        <para>
+            Dopo aver configurato tutte le directory si può passare alla scheda
+            backup:
+            <figure>
+                <title>Backup</title>
+                <graphic fileref="Backup.png"></graphic>
+            </figure>
+            Il processo di backup si avvia premendo il grande pulsante "Backup"
+            posto in alto.
+        </para>
+        <para>
+            <indexterm>
+                <primary>compressione</primary>
+            </indexterm>
+            L'unica opzione predefinita attivata è
+            <quote>Comprimi i file</quote>. La compressione può risparmiare una
+            considerevole quantità di spazio di archiviazione nella directory di
+            destinazione, ma rallenta il processo di backup e ripristino.
+        </para>
+        <para>
+            <indexterm>
+                <primary>promemoria</primary>
+            </indexterm>
+            JBackpack può essere configurato in modo tale da ricordarvi di
+            eseguire il backup dei dati in un dato intervallo di tempo.
+        </para>
+        <para>
+            <indexterm>
+                <primary>esclusioni</primary>
+            </indexterm>
+            In caso non si vogliano archiviare 
+            <emphasis>tutti</emphasis> i dati
+            della directory di origine, selezionare la casella di controllo
+            <quote>Escludi file</quote>. Ciò consente un'altra impostazione
+            delle opzioni:
+            <figure>
+                <title>Esclusioni</title>
+                <graphic fileref="Excludes.png"></graphic>
+            </figure>
+        </para>
+        <para>
+            Nei modelli di file area-testo si possono definire i file o le
+            directory che si desidera escludere. I modelli di file sono
+            espressioni regolari (vedi
+            <ulink url="http://it.wikipedia.org/wiki/Espressione_regolare"
+            >http://it.wikipedia.org/wiki/Espressione_regolare
+            </ulink>).
+            Il pulsante sulla destra (con il grande simbolo verde
+            <quote>Plus</quote>) apre il selettore di file che semplifica la
+            selezione e l'aggiunta dei file e delle directory da escludere.
+        </para>
+        <para os="windows">
+            Su Windows bisogna seguire due regole particolari in quanto il file
+            separatore è un backslash (
+            <quote>\</quote>) ma rappresenta anche il
+            carattere escape per le espressioni regolari summenzionate:
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        È necessario quindi digitare due backslash nella parte
+                        del percorso che corrisponde alla directory di origine.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Nel promemoria i backslash vanno sostituiti con gli
+                        slash normali (
+                        <quote>/</quote>).
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <para os="linux">
+            <indexterm>
+                <primary>eccezioni</primary>
+            </indexterm>
+            È possibile creare anche delle eccezioni nelle esclusioni. Ciò è di
+            grande aiuto per le impostazioni di backup più complesse, come
+            nell'esempio seguente. Si presupponga di avere la seguente struttura
+            di directory:
+            <screen>
+                /home─┐
+                ├─alice
+                ├─paolo
+                ├─altro1
+                ├─altro2
+                ├─...
+                └─altroN
+            </screen>
+            Per fare in backup solo di
+            <computeroutput>/home/alice/</computeroutput> e di
+            <computeroutput>/home/paolo/</computeroutput> bisogna configurare
+            <computeroutput>/home/</computeroutput> come directory di origine,
+            aggiungere
+            <computeroutput>/home/</computeroutput> come modello di file escluso
+            e aggiungere alle eccezioni
+            <computeroutput>/home/alice/</computeroutput> e
+            <computeroutput>/home/paolo/</computeroutput>.
+        </para>
+        <para os="macosx">
+            <indexterm>
+                <primary>eccezioni</primary>
+            </indexterm>
+            È possibile creare anche delle eccezioni nelle esclusioni. Ciò è di
+            grande aiuto per le impostazioni di backup più complesse, come
+            nell'esempio seguente. Si presupponga di avere la seguente struttura
+            di directory:
+            <screen>
+                /Users─┐
+                ├─alice
+                ├─paolo
+                ├─altro1
+                ├─altro2
+                ├─...
+                └─altroN
+            </screen>
+            Per fare in backup solo di
+            <computeroutput>/Users/alice/</computeroutput> e di
+            <computeroutput>/Users/paolo/</computeroutput> bisogna configurare
+            <computeroutput>/Users/</computeroutput> come directory di origine,
+            aggiungere 
+            <computeroutput>/Users/</computeroutput> come modello di
+            file escluso e aggiungere
+            <computeroutput>/Users/alice/</computeroutput> e
+            <computeroutput>/Users/paolo/</computeroutput> all'eccezioni.
+        </para>
+        <para os="windows">
+            <indexterm>
+                <primary>eccezioni</primary>
+            </indexterm>
+            È possibile creare anche delle eccezioni nelle esclusioni. Ciò è di
+            grande aiuto per le impostazioni di backup più complesse, come
+            nell'esempio seguente. Si presupponga di avere la seguente struttura
+            di directory:
+            <screen>
+                C:.
+                └───Documenti e Impostazioni
+                ├───Alice
+                ├───Paolo
+                ├───Altro1
+                ├───Altro2
+                ├───...
+                └───AltroN
+            </screen>
+            Per fare un backup solo di
+            <computeroutput>C:\Documenti e Impostazioni\Alice\</computeroutput>
+            e di
+            <computeroutput>C:\Documenti e Impostazioni\Paolo\</computeroutput>
+            bisogna configurare
+            <computeroutput>C:\Documenti e Impostazioni\</computeroutput> come
+            directory di origine, aggiungere
+            <computeroutput>C:\\Documenti e Impostazioni</computeroutput> come
+            modello di file escluso e aggiungere alle eccezioni
+            <computeroutput>C:\\Documenti e Impostazioni/Alice</computeroutput>
+            e
+            <computeroutput>C:\\Documenti e Impostazioni/Paolo</computeroutput>.
+        </para>
+        <para>
+            Sulla destra si possono escludere i file in base alle loro
+            caratteristiche:
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        dimensione (si può specificare una dimensione minima e
+                        massima)
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        se si trova sullo stesso filesystem della directory di
+                        origine
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <indexterm>
+                            <primary>collegamento simbolico</primary>
+                        </indexterm>
+                        se è un collegamento simbolico
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <indexterm>
+                            <primary>File di periferica</primary>
+                        </indexterm>
+                        se è un file di periferica
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <indexterm>
+                            <primary>socket</primary>
+                        </indexterm>
+                        se è un socket
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <indexterm>
+                            <primary>named pipe</primary>
+                        </indexterm>
+                        se è un named pipe
+                    </para>
+                </listitem>
+            </itemizedlist>
+            Per ulteriori informazioni sui collegamenti simbolici, sui file di
+            periferica, sui socket e sui named pipe consultare:
+            <ulink url="http://en.wikipedia.org/wiki/Unix_file_types"
+            >http://en.wikipedia.org/wiki/Unix_file_types
+            </ulink>
+        </para>
+        <para>
+            In caso di avvio di un processo di backup appaiono le seguenti
+            informazioni sull'avanzamento:
+            <figure>
+                <title>Backup in corso</title>
+                <graphic fileref="Running_Backup.png"></graphic>
+            </figure>
+            Visualizza:
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        il numero di file già archiviati
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        il file attuale archiviato
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        il tempo trascorso
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <indexterm>
+                <primary>l'arresto automatico</primary>
+            </indexterm>
+            È possibile scegliere anche l'opzione di arresto del computer al
+            termine dell'operazione di backup. Bisogna essere in possesso dei
+            diritti di amministratore e immettere la propria password. É anche
+            possibile annullare l'operazione di backup.
+        </para>
+        <para>
+            <indexterm>
+                <primary>riepilogo del backup</primary>
+            </indexterm>
+            Alla fine dell'perazione di backup, appare il seguente riepilogo:
+            <figure>
+                <title>Riepilogo backup</title>
+                <graphic fileref="Backup_Statistics.png"></graphic>
+            </figure>
+            Dopo l'esecuzione di un backup,generalmente non è previsto altro.
+            Per questo motivo JBackpack imposta come elemento attivo predefinito
+            il pulsante
+            <quote>Chiudi JBackpack</quote> . Basta premere
+            <keycap>Enter</keycap> o cliccare sul pulsante
+            <quote>Chiudi JBackpack</quote>. Se si desidera continuare
+            ad usare JBackpack, cliccare sul pulsante
+            <quote>Continua ad usare JBackpack</quote> .
+        </para>
+    </chapter>
+
+    <chapter id="restore">
+        <title>Ripristino</title>
+        <para>
+            <indexterm>
+                <primary>ripristino</primary>
+            </indexterm>
+            Per ripristinare dei file, bisogna selezionare la scheda ripristino:
+            <figure>
+                <title>Ripristino</title>
+                <graphic fileref="Restore.png"></graphic>
+            </figure>
+            <indexterm>
+                <primary>mirror</primary>
+            </indexterm>
+            <indexterm>
+                <primary>incremento</primary>
+            </indexterm>
+            Sulla sinistra si trova un elenco di backup disponibili. Per ogni
+            backup appaiono iseguenti dati: il tipo, la data/ora e lo spazio di
+            archiviazione occupato. Ci sono due tipi di backup: Il  backup primo
+            in alto si chiama 
+            <quote>mirror</quote>. Contiene tutti i file
+            dell'ultimo backup e viene raffigurato con l'icona di un harddisk.
+            Tutti gli altri backup si chiamano 
+            <quote>incrementi</quote> e
+            archiviano solo le modifiche avvenute dopo l'ultimo backup (e occupa
+            quindi molto meno spazio di archiviazione del backup mirror). Sono
+            raffigurati con l'icona di una freccia.
+        </para>
+        <para>
+            Se si seleziona un backup dalla lista, verrà visualizzata sulla
+            destra nel selettore di file la cronologia del file di questo
+            backup. Grazie ai due pulsanti freccia che si trovano in basso alla
+            lista dei backup è possibile navigare facilmente nella lista dei
+            backup senza dover continuamente muovere e puntare il mouse.
+        </para>
+        <para>
+            Al di sotto dei pulsanti freccia vengono visualizzati una serie di
+            valori sulla capienza di archiviazione:
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <indexterm>
+                            <primary>dimensione cumulativa</primary>
+                        </indexterm>
+                        La dimensione cumulativa (la somma delle dimensioni del
+                        backup attualmente selezionato e di tutti gli altri
+                        backup)
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <indexterm>
+                            <primary>dimensione totale</primary>
+                        </indexterm>
+                        la dimensione totale di tutti i backup
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        l'utilizzo dello spazio di archiviazione della directory
+                        di destinazione selezionata
+                    </para>
+                </listitem>
+            </itemizedlist>
+            Con questo tipo di informazione è possibile decidere se e quanti
+            backup si vuole mantenere o cancellare. È possibile anche
+            automatizzare la cancellazione dei vecchi backup. Per ulteriori
+            informazioni, consultare 
+            <xref linkend="autodeletion"/>.
+        </para>
+        <para>
+            In alto sulla destra si può scegliere tra il ripristino dell'intero
+            backup selezionato o solo di alcuni file o di directory di
+            quest'ultimo.
+        </para>
+        <para>
+            È possibile vedere in anteprima i file selezionati,cliccando il
+            pulsante 
+            <quote>Anteprima</quote> al di sotto del selettore di file.
+            I file selezionati saranno ripristinati read-only in una directory
+            temporanea e aperti con un programma specifico per l'anteprima.
+        </para>
+        <para>
+            L'operazione di ripristino può essere avviata nella parte inferiore
+            della finestra. Pirma di avviare l'operazione di ripristino, si
+            possono contare i file selezionati. Ciò permette di visualizzare un
+            indicatore dello stato di avanzamento dell'operazione di backup.
+            Impiegando però un paio si secondi in più. È anche possibile
+            scegliere se ripristinare i file nella directory di origine
+            originale oppure in un'altra directory.
+        </para>
+    </chapter>
+
+    <chapter id="advanced_settings">
+        <title>Impostazioni avanzate</title>
+        <para>
+            Qui si possono configurare le funzioni opzionali di JBackpack.
+        </para>
+        <figure>
+            <title>Impostazioni avanzate</title>
+            <graphic fileref="Advanced_Settings.png"></graphic>
+        </figure>
+        <sect1 id="autodeletion">
+            <title>Cancellazione automatica dei vecchi backup</title>
+            <para>
+                <indexterm>
+                    <primary>cancellazione automatica</primary>
+                </indexterm>
+                Ogni backup occupa uno spazio nella directory di destinazione.
+                Occorre quindi a volte cancellare i vecchi backup. È possibile
+                farlo manualmente nella scheda "Ripristino". L'eliminazione
+                manuale può però essere seccante e a volte si dimentica di
+                eseguirla. La cancellazione automatica dei vecchi backup solleva
+                da questo impegno . È possibile specificare con tre funzioni
+                differenti quanti backup vecchi devono essere cancellati:
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            numero di backup
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            età dei backup
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            spazio di archiviazione occupato
+                        </para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </sect1>
+        <sect1>
+            <title>Directory temporanea</title>
+            <para>
+                <indexterm>
+                    <primary>directory temporanea</primary>
+                </indexterm>
+                La directory temporanea viene usata per archiviare i file creati
+                solo temporaneamente durante il backup e il ripristino.
+                Generalmente occorre disporre di uno spazio libero pari a quello
+                che occupa il file più grande del backup o ripristino.
+            </para>
+            <para>
+                Generalmente è consigliabile usare la directory di sistema
+                predefinita. Se la directory di sistema è troppo piccola, è
+                possibile configurare una directory differente. L'utilizzo di
+                archiviazione dell'attuale direcotory temporanea configurata è
+                visualizzato al di sotto del percorso.
+            </para>
+        </sect1>
+    </chapter>
+
+    <chapter id="profiles">
+        <title>Lavorare con i profili</title>
+        <para>
+            <indexterm>
+                <primary>profilei</primary>
+            </indexterm>
+            JBackpack ha un notevole numero di opzioni di configurazione che
+            vengono gestite dai cosiddetti profili. Essi sono file che
+            raggruppano tutte queste opzioni di configurazione. Se si apre il
+            menu <guimenu>File</guimenu>, saranno visualizzati varie voci di
+            menu concernenti il lavoro con i profili:
+            <figure>
+                <title>Menu di file</title>
+                <graphic fileref="FileMenu.png"></graphic>
+            </figure>
+            È possibile
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        creare un nuovo profilo (esso resetta tutte le opzioni
+                        di configurazione al loro valore predefinito)
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        aprire i profili salvati
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        aprire i profili usati di recente
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        salvare i profili
+                    </para>
+                </listitem>
+            </itemizedlist>
+            L'impiego dei profili facilita la copia della configurazione di
+            JBackpack da una macchina all'altra e permette fare delle prove
+            senza rischiare di perdere una configurazione funzionante.
+        </para>
+    </chapter>
+
+    <chapter id="program_settings">
+        <title>Impostazioni</title>
+        <para>
+            Nel JBackpack ci sono alcune impostazioni che non riguardano
+            direttamente le operazioni di backup e ripristino ma il modo in cui
+            opera JBackpack. Si possono configurarle selezionando
+            <menuchoice>
+                <guimenu>File</guimenu>
+                <guimenuitem>Preferiti...</guimenuitem>
+            </menuchoice>.
+        </para>
+        <para>
+            <figure>
+                <title>Livello di registrazione</title>
+                <graphic fileref="Preferences1.png"></graphic>
+            </figure>
+            <indexterm>
+                <primary>livello di registrazione</primary>
+            </indexterm>
+            <indexterm>
+                <primary>file di log</primary>
+            </indexterm>
+            JBackpack registra i dettagli delle proprie operazioni in un file di
+            log. Questo procedimento è molto utile nel caso in cui sopravvenga
+            un errore di programma poichè permette di ricostruire tutte le
+            azioni prima e dopo la comparsa dell'errore così come i dettagli
+            dell'errore stesso nella speranza che gli sviluppatori di JBackpack
+            lo possano riparare. Qui è possibile configurare l'ammontare di
+            informazione registrata nei file di log. Più alto si imposta il
+            livello, più informazioni saranno registrate e più lentamente
+            opererà JBackpack.
+        </para>
+        <para>
+            <figure>
+                <title>Varie</title>
+                <graphic fileref="Preferences2.png"></graphic>
+            </figure>
+            <indexterm>
+                <primary>avviso</primary>
+            </indexterm>
+            Normalmente JBackpack avvisa l'utente se la directory di
+            destinazione non è criptata. Ci sono alcuni casi speciali in cui
+            l'avviso non è necessario, per esempio quando la directory di
+            destinazione è situata su un hard disk criptato oppure quando si
+            trova in un'area sicura. Perciò qui è possibile disattivare
+            l'avviso.
+        </para>
+    </chapter>
+</book>
