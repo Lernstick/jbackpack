@@ -245,6 +245,38 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             <param name="profile.os" value="windows"/>
         </antcall>
 
+        <echo>Generating Italian documentation...</echo>
+        <antcall target="create-doc">
+            <param name="doc_language" value="it"/>
+            <param name="plaf" value="nimbus"/>
+            <param name="profile.os" value="linux"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="it"/>
+            <param name="plaf" value="nimbus"/>
+            <param name="profile.os" value="linux"/>
+        </antcall>
+        <antcall target="create-doc">
+            <param name="doc_language" value="it"/>
+            <param name="plaf" value="aqua"/>
+            <param name="profile.os" value="macosx"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="it"/>
+            <param name="plaf" value="aqua"/>
+            <param name="profile.os" value="macosx"/>
+        </antcall>
+        <antcall target="create-doc">
+            <param name="doc_language" value="it"/>
+            <param name="plaf" value="windows"/>
+            <param name="profile.os" value="windows"/>
+        </antcall>
+        <antcall target="create-pdf">
+            <param name="doc_language" value="it"/>
+            <param name="plaf" value="windows"/>
+            <param name="profile.os" value="windows"/>
+        </antcall>
+        
         <echo>All documentation generated. Must rebuild project now...</echo>
         <antcall target="clean"/>
         <antcall target="compile"/>
@@ -253,8 +285,8 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
     <target name="create-doc">
         <!-- copy default doc to current look&feel directory -->
         <copy overwrite="yes"
-            file="doc/docbook/default/${doc_language}/JBackpack.docbook"
-            tofile="doc/docbook/${plaf}/${doc_language}/JBackpack.docbook"/>
+              file="doc/docbook/default/${doc_language}/JBackpack.docbook"
+              tofile="doc/docbook/${plaf}/${doc_language}/JBackpack.docbook"/>
 
         <!-- update version tag -->
         <replaceregexp
@@ -320,22 +352,22 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         <echo>Updating the JavaHelp index files...</echo>
         <!-- do not index version control files-->
         <move failonerror="false"
-            file="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}/.svn/"
-            tofile="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}_svn/"/>
+              file="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}/.svn/"
+              tofile="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}_svn/"/>
         <exec dir="src/ch/fhnw/jbackpack/help/${plaf}" executable="jhindexer">
             <arg line="-verbose -locale ${doc_language} -db JavaHelpSearch_${doc_language} ${doc_language}"/>
         </exec>
         <move failonerror="false"
-            file="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}_svn/"
-            tofile="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}/.svn/"/>
+              file="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}_svn/"
+              tofile="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}/.svn/"/>
     </target>
 
     <target name="create-pdf">
         <!-- create fo output -->
         <exec dir="doc/docbook/${plaf}/${doc_language}"
-                executable="xsltproc"
-                output="doc/docbook/${plaf}/${doc_language}/JBackpack.fo"
-                error="error.txt">
+              executable="xsltproc"
+              output="doc/docbook/${plaf}/${doc_language}/JBackpack.fo"
+              error="error.txt">
             <arg line="
                  --stringparam profile.os &quot;${profile.os}&quot;
                  --stringparam paper.type A4
