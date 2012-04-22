@@ -1,6 +1,9 @@
-jbackpack (0.9.3-1) unstable; urgency=low
+jbackpack (0.9.3-2) unstable; urgency=low
 
   * added preview
+  * added Italian L10n
+  * use cifs instead of smbfs
+  * use netx instead of javaws
 
  -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 23 Jun 2011 16:34:04 +0200
 
