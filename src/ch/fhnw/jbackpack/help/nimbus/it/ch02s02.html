@@ -1,0 +1,185 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>2.2. Directory di destinazione</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Manuale JBackpack">
+<link rel="up" href="directories.html" title="Capitolo 2. Directory">
+<link rel="prev" href="directories.html" title="Capitolo 2. Directory">
+<link rel="next" href="backup.html" title="Capitolo 3. Backup">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">2.2. Directory di destinazione</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="directories.html">Indietro</a> </td>
+<th width="60%" align="center">Capitolo 2. Directory</th>
+<td width="20%" align="right"> <a accesskey="n" href="backup.html">Avanti</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1" title="2.2. Directory di destinazione">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="idp1843008"></a>2.2. Directory di destinazione</h2></div></div></div>
+<a class="indexterm" name="idp1842544"></a><p>
+                La seconda directory è la directory di destinazione. Questo è il
+                luogo dove vengono archiviati i file di backup e gli incrementi.
+                La directory di destinazione può essere:
+                </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+                            locale
+                        </p></li>
+<li class="listitem"><p>
+                            <a class="indexterm" name="idp1894336"></a>
+                            remota via SSH (per ulteriori informazioni su SSH
+                            andare all'indirizzo seguente:
+                            <a class="ulink" href="http://it.wikipedia.org/wiki/Secure_shell" target="_top">http://it.wikipedia.org/wiki/Secure_shell
+                            </a>)
+                        </p></li>
+<li class="listitem"><p>
+                            <a class="indexterm" name="idp1869424"></a>
+                            remota via SMB (per ulteriori informazioni su SMB
+                            andare all'indirizzo seguente:
+                            <a class="ulink" href="http://it.wikipedia.org/wiki/Server_Message_Block" target="_top">http://it.wikipedia.org/wiki/Server_Message_Block
+                            </a>)
+                        </p></li>
+</ul></div>
+<p>
+            </p>
+<p>
+                Nel caso in cui si seleziona una directory di destinazione
+                locale, si può digitare il percorso della propria directory di
+                destinazione nel campo di testo oppure usare il pulsante di
+                scelta file a destra del campo di testo.
+            </p>
+<p>
+                Se si sceglie una directory di destinazione remota via SSH, è
+                necessario configurare alcune impostazioni supplementari:
+                </p>
+<div class="figure">
+<a name="idp1857984"></a><p class="title"><b>Figura 2.2. Impostazioni SSH </b></p>
+<div class="figure-contents"><div><img src="../it/SSH.png" alt="Impostazioni SSH"></div></div>
+</div>
+<p><br class="figure-break">
+                Inserire su questo server remoto il nome di host del server in
+                cui si vogliono archiviare i dati di backup(il server deve
+                supportare connessioni SSH) e il proprio nome utente . La scelta
+                futura della directory sul server remoto si basa sulla la
+                directory home sul server remoto. Nel caso in cui la propria
+                directory di destinazione remota non sia una sottodirectory
+                della directory home sul server, è possibile specificare
+                un'altra directory di base.
+            </p>
+<p>
+                <a class="indexterm" name="idp1877360"></a>
+                Per l'autenticazione sul server di backup remoto si può usare
+                sia una password che una chiave pubblica. Se si sceglie
+                l'autenticazione tramite una chiave pubblica, assicurarsi che
+                tutto sia correttamente impostato. Per ulteriori dettagli
+                sull'impostazione dell'autenticatione tramite chiave pubblica
+                SSH andare al seguente indirizzo:
+                <a class="ulink" href="http://www.debian-administration.org/article/SSH_with_authentication_key_instead_of_password" target="_top">http://www.debian-administration.org/article/SSH_with_authentication_key_instead_of_password
+                </a>
+            </p>
+<p>
+                Dopo essersi correttamente registrato, si può procedere alla
+                configurazione della directory di destinazione di backup remoto:
+                </p>
+<div class="figure">
+<a name="idp1816960"></a><p class="title"><b>Figura 2.3. Registrato</b></p>
+<div class="figure-contents"><div><img src="../it/LoggedIn.png" alt="Registrato"></div></div>
+</div>
+<p><br class="figure-break">
+                Se si conosce il percorso della directory, digitarlo
+                direttamente nel campo di testo, in caso contrario usare il
+                pulsante di scelta file a destra del campo di testo e scegliere
+                la directory di destinazione desiderata.
+            </p>
+<p>
+                Se si seleziona una directory di destinazione remota via SMB,
+                bisogna configurare alcune impostazioni supplementari:
+                </p>
+<div class="figure">
+<a name="idp1900144"></a><p class="title"><b>Figura 2.4. Impostazioni SMB </b></p>
+<div class="figure-contents"><div><img src="../it/SMB.png" alt="Impostazioni SMB"></div></div>
+</div>
+<p><br class="figure-break">
+                Inserire sul server remoto il nome di host del server dove si
+                desidera archiviare i dati di backup (il server deve supportare
+                connessioni SSH), il nome della condivisione, il proprio nome
+                utente e la password.
+            </p>
+<p>
+                Per montare i sistemi di file via sudo, bisogna essere in
+                posseso dei diritti di amministratore(ulteriori informazioni su
+                sudo possono essere trovate al seguente indirizzo:
+                <a class="ulink" href="http://it.wikipedia.org/wiki/Sudo" target="_top">http://it.wikipedia.org/wiki/Sudo
+                </a>). Per montare il
+                sistema di file remoto, è necessaria la propria password locale.
+            </p>
+<p>
+                Dope essersi registrato correttamente, si può procedere alla
+                configurazione della directory di destinazione di backup remoto.
+            </p>
+<p>
+                Se si è selezionato una directory di destinazione valida (e non
+                ancora criptata), apparirà un pulsante per la criptografia:
+                </p>
+<div class="figure">
+<a name="idp1871520"></a><p class="title"><b>Figura 2.5. Pulsante per criptografia</b></p>
+<div class="figure-contents"><div><img src="../it/Encryption.png" alt="Pulsante per criptografia"></div></div>
+</div>
+<p><br class="figure-break">
+                Si può criptare la propria directory di destinazione con una
+                password, cliccando su questo pulsante.
+            </p>
+<p>
+                Dopo aver criptato la directory di destinazione, apparirà il
+                pannello di controllo della criptografia:
+                </p>
+<div class="figure">
+<a name="idp1898128"></a><p class="title"><b>Figura 2.6. Pannello di controllo della criptografia</b></p>
+<div class="figure-contents"><div><img src="../it/EncryptionControl.png" alt="Pannello di controllo della criptografia"></div></div>
+</div>
+<p><br class="figure-break">
+                <a class="indexterm" name="idp1890160"></a>
+                <a class="indexterm" name="idp1891344"></a>
+                Il pannello di controllo permette di bloccare e sbloccare la
+                directory di destinazione di backup, di modificare la password
+                per la criptografia e (nel caso che non sia più necessario il
+                livello di sicurezza dato dalla criptografia) di decriptare la
+                directory di destinazione.
+            </p>
+<p>
+                L'accesso alle directory criptate per le operazioni di backup e
+                ripristino è consentito solo se quest'ultime sono sbloccate. Lo
+                sblocco avviene unicamente con la password della criptografia.
+                <span class="emphasis"><em>Non esiste alcun meccanismo di recupero. Bisogna
+                    assolutamente memorizzare la password della criptografia!
+                </em></span>
+            </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="directories.html">Indietro</a> </td>
+<td width="20%" align="center"><a accesskey="u" href="directories.html">Risali</a></td>
+<td width="40%" align="right"> <a accesskey="n" href="backup.html">Avanti</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Capitolo 2. Directory </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Partenza</a></td>
+<td width="40%" align="right" valign="top"> Capitolo 3. Backup</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

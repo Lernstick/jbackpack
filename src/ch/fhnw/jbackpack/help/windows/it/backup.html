@@ -1,0 +1,228 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Capitolo 3. Backup</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Manuale JBackpack">
+<link rel="up" href="index.html" title="Manuale JBackpack">
+<link rel="prev" href="ch02s02.html" title="2.2. Directory di destinazione">
+<link rel="next" href="restore.html" title="Capitolo 4. Ripristino">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">Capitolo 3. Backup</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ch02s02.html">Indietro</a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a accesskey="n" href="restore.html">Avanti</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter" title="Capitolo 3. Backup">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="backup"></a>Capitolo 3. Backup</h2></div></div></div>
+<p>
+            Dopo aver configurato tutte le directory si può passare alla scheda
+            backup:
+            </p>
+<div class="figure">
+<a name="idp220320"></a><p class="title"><b>Figura 3.1. Backup</b></p>
+<div class="figure-contents"><div><img src="../it/Backup.png" alt="Backup"></div></div>
+</div>
+<p><br class="figure-break">
+            Il processo di backup si avvia premendo il grande pulsante "Backup"
+            posto in alto.
+        </p>
+<p>
+            <a class="indexterm" name="idp287360"></a>
+            L'unica opzione predefinita attivata è
+            <span class="quote">«<span class="quote">Comprimi i file</span>»</span>. La compressione può risparmiare una
+            considerevole quantità di spazio di archiviazione nella directory di
+            destinazione, ma rallenta il processo di backup e ripristino.
+        </p>
+<p>
+            <a class="indexterm" name="idp210016"></a>
+            JBackpack può essere configurato in modo tale da ricordarvi di
+            eseguire il backup dei dati in un dato intervallo di tempo.
+        </p>
+<p>
+            <a class="indexterm" name="idp306688"></a>
+            In caso non si vogliano archiviare 
+            <span class="emphasis"><em>tutti</em></span> i dati
+            della directory di origine, selezionare la casella di controllo
+            <span class="quote">«<span class="quote">Escludi file</span>»</span>. Ciò consente un'altra impostazione
+            delle opzioni:
+            </p>
+<div class="figure">
+<a name="idp292528"></a><p class="title"><b>Figura 3.2. Esclusioni</b></p>
+<div class="figure-contents"><div><img src="../it/Excludes.png" alt="Esclusioni"></div></div>
+</div>
+<p><br class="figure-break">
+        </p>
+<p>
+            Nei modelli di file area-testo si possono definire i file o le
+            directory che si desidera escludere. I modelli di file sono
+            espressioni regolari (vedi
+            <a class="ulink" href="http://it.wikipedia.org/wiki/Espressione_regolare" target="_top">http://it.wikipedia.org/wiki/Espressione_regolare
+            </a>).
+            Il pulsante sulla destra (con il grande simbolo verde
+            <span class="quote">«<span class="quote">Plus</span>»</span>) apre il selettore di file che semplifica la
+            selezione e l'aggiunta dei file e delle directory da escludere.
+        </p>
+<p>
+            Su Windows bisogna seguire due regole particolari in quanto il file
+            separatore è un backslash (
+            <span class="quote">«<span class="quote">\</span>»</span>) ma rappresenta anche il
+            carattere escape per le espressioni regolari summenzionate:
+            </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+                        È necessario quindi digitare due backslash nella parte
+                        del percorso che corrisponde alla directory di origine.
+                    </p></li>
+<li class="listitem"><p>
+                        Nel promemoria i backslash vanno sostituiti con gli
+                        slash normali (
+                        <span class="quote">«<span class="quote">/</span>»</span>).
+                    </p></li>
+</ul></div>
+<p>
+        </p>
+<p>
+            <a class="indexterm" name="idp309264"></a>
+            È possibile creare anche delle eccezioni nelle esclusioni. Ciò è di
+            grande aiuto per le impostazioni di backup più complesse, come
+            nell'esempio seguente. Si presupponga di avere la seguente struttura
+            di directory:
+            </p>
+<pre class="screen">
+                C:.
+                └───Documenti e Impostazioni
+                ├───Alice
+                ├───Paolo
+                ├───Altro1
+                ├───Altro2
+                ├───...
+                └───AltroN
+            </pre>
+<p>
+            Per fare un backup solo di
+            <code class="computeroutput">C:\Documenti e Impostazioni\Alice\</code>
+            e di
+            <code class="computeroutput">C:\Documenti e Impostazioni\Paolo\</code>
+            bisogna configurare
+            <code class="computeroutput">C:\Documenti e Impostazioni\</code> come
+            directory di origine, aggiungere
+            <code class="computeroutput">C:\\Documenti e Impostazioni</code> come
+            modello di file escluso e aggiungere alle eccezioni
+            <code class="computeroutput">C:\\Documenti e Impostazioni/Alice</code>
+            e
+            <code class="computeroutput">C:\\Documenti e Impostazioni/Paolo</code>.
+        </p>
+<p>
+            Sulla destra si possono escludere i file in base alle loro
+            caratteristiche:
+            </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+                        dimensione (si può specificare una dimensione minima e
+                        massima)
+                    </p></li>
+<li class="listitem"><p>
+                        se si trova sullo stesso filesystem della directory di
+                        origine
+                    </p></li>
+<li class="listitem"><p>
+                        <a class="indexterm" name="idp345024"></a>
+                        se è un collegamento simbolico
+                    </p></li>
+<li class="listitem"><p>
+                        <a class="indexterm" name="idp297728"></a>
+                        se è un file di periferica
+                    </p></li>
+<li class="listitem"><p>
+                        <a class="indexterm" name="idp336208"></a>
+                        se è un socket
+                    </p></li>
+<li class="listitem"><p>
+                        <a class="indexterm" name="idp348896"></a>
+                        se è un named pipe
+                    </p></li>
+</ul></div>
+<p>
+            Per ulteriori informazioni sui collegamenti simbolici, sui file di
+            periferica, sui socket e sui named pipe consultare:
+            <a class="ulink" href="http://en.wikipedia.org/wiki/Unix_file_types" target="_top">http://en.wikipedia.org/wiki/Unix_file_types
+            </a>
+        </p>
+<p>
+            In caso di avvio di un processo di backup appaiono le seguenti
+            informazioni sull'avanzamento:
+            </p>
+<div class="figure">
+<a name="idp295872"></a><p class="title"><b>Figura 3.3. Backup in corso</b></p>
+<div class="figure-contents"><div><img src="../it/Running_Backup.png" alt="Backup in corso"></div></div>
+</div>
+<p><br class="figure-break">
+            Visualizza:
+            </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+                        il numero di file già archiviati
+                    </p></li>
+<li class="listitem"><p>
+                        il file attuale archiviato
+                    </p></li>
+<li class="listitem"><p>
+                        il tempo trascorso
+                    </p></li>
+</ul></div>
+<p>
+            <a class="indexterm" name="idp274208"></a>
+            È possibile scegliere anche l'opzione di arresto del computer al
+            termine dell'operazione di backup. Bisogna essere in possesso dei
+            diritti di amministratore e immettere la propria password. É anche
+            possibile annullare l'operazione di backup.
+        </p>
+<p>
+            <a class="indexterm" name="idp226944"></a>
+            Alla fine dell'perazione di backup, appare il seguente riepilogo:
+            </p>
+<div class="figure">
+<a name="idp337952"></a><p class="title"><b>Figura 3.4. Riepilogo backup</b></p>
+<div class="figure-contents"><div><img src="../it/Backup_Statistics.png" alt="Riepilogo backup"></div></div>
+</div>
+<p><br class="figure-break">
+            Dopo l'esecuzione di un backup,generalmente non è previsto altro.
+            Per questo motivo JBackpack imposta come elemento attivo predefinito
+            il pulsante
+            <span class="quote">«<span class="quote">Chiudi JBackpack</span>»</span> . Basta premere
+            <span class="keycap"><strong>Enter</strong></span> o cliccare sul pulsante
+            <span class="quote">«<span class="quote">Chiudi JBackpack</span>»</span>. Se si desidera continuare
+            ad usare JBackpack, cliccare sul pulsante
+            <span class="quote">«<span class="quote">Continua ad usare JBackpack</span>»</span> .
+        </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ch02s02.html">Indietro</a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> <a accesskey="n" href="restore.html">Avanti</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">2.2. Directory di destinazione </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Partenza</a></td>
+<td width="40%" align="right" valign="top"> Capitolo 4. Ripristino</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

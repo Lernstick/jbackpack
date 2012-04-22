@@ -4,14 +4,14 @@
   <tocitem target="JBackpack" text="JBackpack Manual">
     <tocitem target="overview" text="Overview"/>
     <tocitem target="directories" text="Directories">
-      <tocitem target="id1230031" text="Source directory"/>
-      <tocitem target="id1230451" text="Destination directory"/>
+      <tocitem target="idm48272" text="Source directory"/>
+      <tocitem target="idp204112" text="Destination directory"/>
     </tocitem>
     <tocitem target="backup" text="Backup"/>
     <tocitem target="restore" text="Restore"/>
     <tocitem target="advanced_settings" text="Advanced Settings">
       <tocitem target="autodeletion" text="Automatic deletion of old backups"/>
-      <tocitem target="id1231128" text="Temporary directory"/>
+      <tocitem target="idp291472" text="Temporary directory"/>
     </tocitem>
     <tocitem target="profiles" text="Working with profiles"/>
     <tocitem target="program_settings" text="Program settings"/>

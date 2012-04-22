@@ -1,0 +1,96 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Capitolo 1. Descrizione</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Manuale JBackpack">
+<link rel="up" href="index.html" title="Manuale JBackpack">
+<link rel="prev" href="index.html" title="Manuale JBackpack">
+<link rel="next" href="directories.html" title="Capitolo 2. Directory">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">Capitolo 1. Descrizione</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="index.html">Indietro</a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a accesskey="n" href="directories.html">Avanti</a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter" title="Capitolo 1. Descrizione">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="overview"></a>Capitolo 1. Descrizione</h2></div></div></div>
+<p>
+            <a class="indexterm" name="idp184160"></a>
+            JBackpack usa rdiff-backup
+            (
+            <a class="ulink" href="http://www.nongnu.org/rdiff-backup" target="_top">http://www.nongnu.org/rdiff-backup
+            </a>)
+            per tutte le funzioni di backup e ripristino. La caratteristica più
+            interessante del rdiff-backup sono
+            <span class="emphasis"><em>i backup incrementali</em></span>.
+        </p>
+<p>
+            <a class="indexterm" name="idp213056"></a>
+            Un backup incrementale è un metodo di backup in cui si conservano
+            molteplici backup (non solo l'ultimo). Ogni informazione salvata
+            viene archiviata una sola volta, i successivi backup contengono solo
+            la parte di informazione modificata successivamente al backup
+            precedente. Questo permette di rispristinare i file modificati o
+            cancellati, anche nel caso in cui siano stati effettuati più backup
+            dopo la modifica o la cancellazione di questi file.
+        </p>
+<p>
+            JBackpack dispone di un Increment-browser integrato che rende molto
+            semplice la selezione dei file prima del ripristino.
+        </p>
+<p>
+            <a class="indexterm" name="idp257280"></a>
+            JBackpack usa SSHFS
+            (
+            <a class="ulink" href="http://fuse.sourceforge.net/sshfs.html" target="_top">http://fuse.sourceforge.net/sshfs.html
+            </a>) e SMB
+            (
+            <a class="ulink" href="http://it.wikipedia.org/wiki/Server_message_block" target="_top">http://it.wikipedia.org/wiki/Server_message_block
+            </a>)
+            per accedere ai sistemi di file remoti. In questo modo si possono
+            archiviare i backup sui sistemi remoti e aumentare così la
+            disponibilità dei backup in caso di un guasto al sistema locale. Il
+            processo di backup viene però rallentato poichè la velocità di
+            trasferimento per i sistemi di file remoti tende ad essere minore
+            della velocità di trasferimento per i sistemi di file locali.
+        </p>
+<p>
+            <a class="indexterm" name="idp220448"></a>
+            JBackpack usa EncFS
+            (
+            <a class="ulink" href="http://www.arg0.net/encfs" target="_top">http://www.arg0.net/encfs
+            </a>)
+            per criptare le directory di destinazione di backup. La criptografia
+            garantisce riservatezza ma rallenta il backup e il ripristino.
+        </p>
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="index.html">Indietro</a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> <a accesskey="n" href="directories.html">Avanti</a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Manuale JBackpack  </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Partenza</a></td>
+<td width="40%" align="right" valign="top"> Capitolo 2. Directory</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

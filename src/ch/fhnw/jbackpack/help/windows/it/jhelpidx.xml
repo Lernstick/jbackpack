@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<!DOCTYPE index PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Index Version 1.0//EN" "http://java.sun.com/products/javahelp/index_1_0.dtd">
+<index version="1.0">
+  <indexitem text="Directory di destinazione" target="idp102688"/>
+  <indexitem text="Directory di origine" target="idp101808"/>
+  <indexitem text="EncFS" target="idp90384"/>
+  <indexitem text="File di periferica" target="idp21120"/>
+  <indexitem text="SMB" target="idp128208"/>
+  <indexitem text="SSH" target="idp156560"/>
+  <indexitem text="SSHFS" target="idp106880"/>
+  <indexitem text="avviso" target="idp250976"/>
+  <indexitem text="backup incrementali" target="idp82128"/>
+  <indexitem text="bloccare" target="idp163616"/>
+  <indexitem text="cancellazione automatica" target="idp222480"/>
+  <indexitem text="chiave pubblica" target="idp137232"/>
+  <indexitem text="collegamento simbolico" target="idp196336"/>
+  <indexitem text="compressione" target="idp117056"/>
+  <indexitem text="dimensione cumulativa" target="idp162368"/>
+  <indexitem text="dimensione totale" target="idp221968"/>
+  <indexitem text="directory temporanea" target="idp231120"/>
+  <indexitem text="eccezioni" target="idp138736"/>
+  <indexitem text="esclusioni" target="idp21936"/>
+  <indexitem text="file di log" target="idp248432"/>
+  <indexitem text="incremento" target="idp217584"/>
+  <indexitem text="l'arresto automatico" target="idp131568"/>
+  <indexitem text="livello di registrazione" target="idp247792"/>
+  <indexitem text="mirror" target="idp216944"/>
+  <indexitem text="named pipe" target="idp200208"/>
+  <indexitem text="profilei" target="idp194720"/>
+  <indexitem text="promemoria" target="idp78480"/>
+  <indexitem text="rdiff-backup" target="idp19168"/>
+  <indexitem text="riepilogo del backup" target="idp162112"/>
+  <indexitem text="ripristino" target="idp171136"/>
+  <indexitem text="sbloccare" target="idp85872"/>
+  <indexitem text="socket" target="idp188160"/>
+</index>
