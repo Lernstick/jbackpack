@@ -107,7 +107,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             "Directory".
             <figure>
                 <title>Scheda directory </title>
-                <graphic fileref="MainWindow.png"></graphic>
+                <graphic fileref="../it/MainWindow.png"></graphic>
             </figure>
             Qui si possono configurare le directory usate per il processo di
             backup.
@@ -180,7 +180,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                 necessario configurare alcune impostazioni supplementari:
                 <figure>
                     <title>Impostazioni SSH </title>
-                    <graphic fileref="SSH.png"></graphic>
+                    <graphic fileref="../it/SSH.png"></graphic>
                 </figure>
                 Inserire su questo server remoto il nome di host del server in
                 cui si vogliono archiviare i dati di backup(il server deve
@@ -210,7 +210,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                 configurazione della directory di destinazione di backup remoto:
                 <figure>
                     <title>Registrato</title>
-                    <graphic fileref="LoggedIn.png"></graphic>
+                    <graphic fileref="../it/LoggedIn.png"></graphic>
                 </figure>
                 Se si conosce il percorso della directory, digitarlo
                 direttamente nel campo di testo, in caso contrario usare il
@@ -222,7 +222,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                 bisogna configurare alcune impostazioni supplementari:
                 <figure>
                     <title>Impostazioni SMB </title>
-                    <graphic fileref="SMB.png"></graphic>
+                    <graphic fileref="../it/SMB.png"></graphic>
                 </figure>
                 Inserire sul server remoto il nome di host del server dove si
                 desidera archiviare i dati di backup (il server deve supportare
@@ -247,7 +247,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                 ancora criptata), apparirà un pulsante per la criptografia:
                 <figure>
                     <title>Pulsante per criptografia</title>
-                    <graphic fileref="Encryption.png"></graphic>
+                    <graphic fileref="../it/Encryption.png"></graphic>
                 </figure>
                 Si può criptare la propria directory di destinazione con una
                 password, cliccando su questo pulsante.
@@ -257,7 +257,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
                 pannello di controllo della criptografia:
                 <figure>
                     <title>Pannello di controllo della criptografia</title>
-                    <graphic fileref="EncryptionControl.png"></graphic>
+                    <graphic fileref="../it/EncryptionControl.png"></graphic>
                 </figure>
                 <indexterm>
                     <primary>bloccare</primary>
@@ -289,7 +289,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             backup:
             <figure>
                 <title>Backup</title>
-                <graphic fileref="Backup.png"></graphic>
+                <graphic fileref="../it/Backup.png"></graphic>
             </figure>
             Il processo di backup si avvia premendo il grande pulsante "Backup"
             posto in alto.
@@ -321,7 +321,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             delle opzioni:
             <figure>
                 <title>Esclusioni</title>
-                <graphic fileref="Excludes.png"></graphic>
+                <graphic fileref="../it/Excludes.png"></graphic>
             </figure>
         </para>
         <para>
@@ -501,7 +501,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             informazioni sull'avanzamento:
             <figure>
                 <title>Backup in corso</title>
-                <graphic fileref="Running_Backup.png"></graphic>
+                <graphic fileref="../it/Running_Backup.png"></graphic>
             </figure>
             Visualizza:
             <itemizedlist>
@@ -536,7 +536,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             Alla fine dell'perazione di backup, appare il seguente riepilogo:
             <figure>
                 <title>Riepilogo backup</title>
-                <graphic fileref="Backup_Statistics.png"></graphic>
+                <graphic fileref="../it/Backup_Statistics.png"></graphic>
             </figure>
             Dopo l'esecuzione di un backup,generalmente non è previsto altro.
             Per questo motivo JBackpack imposta come elemento attivo predefinito
@@ -558,7 +558,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             Per ripristinare dei file, bisogna selezionare la scheda ripristino:
             <figure>
                 <title>Ripristino</title>
-                <graphic fileref="Restore.png"></graphic>
+                <graphic fileref="../it/Restore.png"></graphic>
             </figure>
             <indexterm>
                 <primary>mirror</primary>
@@ -650,7 +650,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         </para>
         <figure>
             <title>Impostazioni avanzate</title>
-            <graphic fileref="Advanced_Settings.png"></graphic>
+            <graphic fileref="../it/Advanced_Settings.png"></graphic>
         </figure>
         <sect1 id="autodeletion">
             <title>Cancellazione automatica dei vecchi backup</title>
@@ -718,7 +718,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             menu concernenti il lavoro con i profili:
             <figure>
                 <title>Menu di file</title>
-                <graphic fileref="FileMenu.png"></graphic>
+                <graphic fileref="../it/FileMenu.png"></graphic>
             </figure>
             È possibile
             <itemizedlist>
@@ -764,7 +764,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         <para>
             <figure>
                 <title>Livello di registrazione</title>
-                <graphic fileref="Preferences1.png"></graphic>
+                <graphic fileref="../it/Preferences1.png"></graphic>
             </figure>
             <indexterm>
                 <primary>livello di registrazione</primary>
@@ -785,7 +785,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         <para>
             <figure>
                 <title>Varie</title>
-                <graphic fileref="Preferences2.png"></graphic>
+                <graphic fileref="../it/Preferences2.png"></graphic>
             </figure>
             <indexterm>
                 <primary>avviso</primary>
