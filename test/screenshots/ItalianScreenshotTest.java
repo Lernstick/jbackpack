@@ -78,7 +78,7 @@ public class ItalianScreenshotTest extends TestCase {
             String includes, String backupFile) throws Exception {
         Screenshots.doScreenShots(Locale.ITALIAN,
                 "doc/docbook/" + plaf + "/it/", userHome, "MainWindow",
-                "user", "/backup", "SSH", "LoggedIn", "backup", "SMB",
+                "utente", "/backup", "SSH", "LoggedIn", "backup", "SMB",
                 "Encryption", "EncryptionControl", "Backup", excludes, includes,
                 "Excludes", backupFile, "Running_Backup", "Backup_Statistics",
                 "Restore", "Advanced_Settings", "FileMenu", "Preferences1",
