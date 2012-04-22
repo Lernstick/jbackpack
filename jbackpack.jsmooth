@@ -8,9 +8,9 @@
 <JVMSearchPath>jview</JVMSearchPath>
 <arguments></arguments>
 <embeddedJar>true</embeddedJar>
-<executableName>jbackpack-0.9.exe</executableName>
+<executableName>jbackpack-0.9.3.exe</executableName>
 <initialMemoryHeap>-1</initialMemoryHeap>
-<jarLocation>..\Eigene Dateien\Downloads\jbackpack-0.9.jar</jarLocation>
+<jarLocation>dist\jbackpack-windows-0.9.3.jar</jarLocation>
 <mainClassName>ch.fhnw.jbackpack.JBackpack</mainClassName>
 <maximumMemoryHeap>134217728</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
