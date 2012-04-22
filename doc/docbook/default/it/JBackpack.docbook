@@ -364,15 +364,15 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             grande aiuto per le impostazioni di backup più complesse, come
             nell'esempio seguente. Si presupponga di avere la seguente struttura
             di directory:
-            <screen>
-                /home─┐
-                ├─alice
-                ├─paolo
-                ├─altro1
-                ├─altro2
-                ├─...
-                └─altroN
-            </screen>
+<screen>
+    /home─┐
+          ├─alice
+          ├─paolo
+          ├─altro1
+          ├─altro2
+          ├─...
+          └─altroN
+</screen>
             Per fare in backup solo di
             <computeroutput>/home/alice/</computeroutput> e di
             <computeroutput>/home/paolo/</computeroutput> bisogna configurare
