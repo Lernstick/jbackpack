@@ -124,7 +124,12 @@ public class IgnoreEmptyIncrementsTest extends TestCase {
 
         // wait until increments are filled
         ListModel model = backupsListOperator.getModel();
+        int waitCount = 0;
         while (model.getSize() == 0) {
+            LOGGER.info("model still empty, waiting for a short while...");
+            if (waitCount++ >= 30) {
+                fail("increments were never filled!");
+            }
             Thread.sleep(300);
         }
         Thread.sleep(300);

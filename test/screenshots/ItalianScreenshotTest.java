@@ -50,16 +50,21 @@ public class ItalianScreenshotTest extends TestCase {
 
         switch (CurrentOperatingSystem.OS) {
             case Linux:
-                doScreenShots("nimbus", "/home/user/", "directory/file");
+                doScreenShots("nimbus", "/home/utente/", "/home/", 
+                        "/home/alice/\n/home/paolo/", "directory/file");
                 break;
 
             case Mac_OS_X:
-                doScreenShots("aqua", "/Users/user/", "directory/file");
+                doScreenShots("aqua", "/Users/utente/", "/Users/",
+                        "/Users/alice/\n/Users/paolo/", "directory/file");
                 break;
 
             case Windows:
                 doScreenShots("windows",
-                        "C:\\Documents and Settings\\User\\",
+                        "C:\\Documenti e Impostazioni\\Utente\\",
+                        "C:\\Documenti e Impostazioni\\",
+                        "C:\\Documenti e Impostazioni\\Alice\\\n"
+                        + "C:\\Documenti e Impostazioni\\Paolo\\",
                         "Directory\\File");
                 break;
 
@@ -69,14 +74,14 @@ public class ItalianScreenshotTest extends TestCase {
         }
     }
 
-    private void doScreenShots(String plaf, String userHome, String backupFile)
-            throws Exception {
+    private void doScreenShots(String plaf, String userHome, String excludes,
+            String includes, String backupFile) throws Exception {
         Screenshots.doScreenShots(Locale.ITALIAN,
                 "doc/docbook/" + plaf + "/it/", userHome, "MainWindow",
                 "user", "/backup", "SSH", "LoggedIn", "backup", "SMB",
-                "Encryption", "EncryptionControl", "Backup", "Excludes",
-                backupFile, "Running_Backup", "Backup_Statistics", "Restore",
-                "Advanced_Settings", "FileMenu", "Preferences1",
+                "Encryption", "EncryptionControl", "Backup", excludes, includes,
+                "Excludes", backupFile, "Running_Backup", "Backup_Statistics",
+                "Restore", "Advanced_Settings", "FileMenu", "Preferences1",
                 "Preferences2");
     }
 }

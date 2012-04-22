@@ -269,6 +269,9 @@
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
                                     <Component class="javax.swing.JTextArea" name="excludesTextArea">
+                                      <Properties>
+                                        <Property name="name" type="java.lang.String" value="excludesTextArea"/>
+                                      </Properties>
                                     </Component>
                                   </SubComponents>
                                 </Container>
@@ -295,6 +298,7 @@
                                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                                       <ResourceString bundle="ch/fhnw/jbackpack/Strings.properties" key="BackupMainPanel.includesCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                                     </Property>
+                                    <Property name="name" type="java.lang.String" value="includesCheckBox"/>
                                   </Properties>
                                   <Events>
                                     <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="includesCheckBoxItemStateChanged"/>
@@ -336,6 +340,9 @@
                                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                       <SubComponents>
                                         <Component class="javax.swing.JTextArea" name="includesTextArea">
+                                          <Properties>
+                                            <Property name="name" type="java.lang.String" value="includesTextArea"/>
+                                          </Properties>
                                         </Component>
                                       </SubComponents>
                                     </Container>
@@ -2287,7 +2294,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-              <GridBagConstraints gridX="-1" gridY="-1" gridWidth="0" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+              <GridBagConstraints gridX="-1" gridY="-1" gridWidth="0" gridHeight="1" fill="0" ipadX="40" ipadY="0" insetsTop="5" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
             </Constraint>
           </Constraints>
 

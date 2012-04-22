@@ -50,16 +50,21 @@ public class EnglishScreenshotTest extends TestCase {
 
         switch (CurrentOperatingSystem.OS) {
             case Linux:
-                doScreenShots("nimbus", "/home/user/", "directory/file");
+                doScreenShots("nimbus", "/home/user/", "/home/", 
+                        "/home/alice/\n/home/bob/", "directory/file");
                 break;
 
             case Mac_OS_X:
-                doScreenShots("aqua", "/Users/user/", "directory/file");
+                doScreenShots("aqua", "/Users/user/", "/Users/",
+                        "/Users/alice/\n/Users/bob/", "directory/file");
                 break;
 
             case Windows:
                 doScreenShots("windows",
                         "C:\\Documents and Settings\\User\\",
+                        "C:\\Documents and Settings\\",
+                        "C:\\Documents and Settings\\Alice\\\n"
+                        + "C:\\Documents and Settings\\Bob\\",
                         "Directory\\File");
                 break;
 
@@ -69,14 +74,14 @@ public class EnglishScreenshotTest extends TestCase {
         }
     }
 
-    private void doScreenShots(String plaf, String userHome, String backupFile)
-            throws Exception {
+    private void doScreenShots(String plaf, String userHome, String excludes,
+            String includes, String backupFile) throws Exception {
         Screenshots.doScreenShots(Locale.ENGLISH,
                 "doc/docbook/" + plaf + "/en/", userHome, "MainWindow",
                 "user", "/backup", "SSH", "LoggedIn", "backup", "SMB",
-                "Encryption", "EncryptionControl", "Backup", "Excludes",
-                backupFile, "Running_Backup", "Backup_Statistics", "Restore",
-                "Advanced_Settings", "FileMenu", "Preferences1",
+                "Encryption", "EncryptionControl", "Backup", excludes, includes,
+                "Excludes", backupFile, "Running_Backup", "Backup_Statistics",
+                "Restore", "Advanced_Settings", "FileMenu", "Preferences1",
                 "Preferences2");
     }
 }

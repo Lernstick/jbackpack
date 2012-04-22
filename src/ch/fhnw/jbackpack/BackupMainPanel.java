@@ -1180,6 +1180,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         filePatternsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("BackupMainPanel.filePatternsPanel.border.title"))); // NOI18N
         filePatternsPanel.setLayout(new java.awt.GridBagLayout());
 
+        excludesTextArea.setName("excludesTextArea");
         excludesScrollPane.setViewportView(excludesTextArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1203,6 +1204,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         filePatternsPanel.add(addExcludesButton, gridBagConstraints);
 
         includesCheckBox.setText(bundle.getString("BackupMainPanel.includesCheckBox.text")); // NOI18N
+        includesCheckBox.setName("includesCheckBox");
         includesCheckBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 includesCheckBoxItemStateChanged(evt);
@@ -1216,6 +1218,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         includesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("BackupMainPanel.includesPanel.border.title"))); // NOI18N
         includesPanel.setLayout(new java.awt.GridBagLayout());
 
+        includesTextArea.setName("includesTextArea");
         includesScrollPane.setViewportView(includesTextArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -2447,6 +2450,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.ipadx = 40;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         sessionStatisticsPanel.add(statisticsTextFieldScrollPane, gridBagConstraints);
 
@@ -3827,12 +3831,16 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         }
 
         // check that user can change permissions of this directory
-        if (sourceDirectory.setWritable(false)) {
-            sourceDirectory.setWritable(true);
-        } else {
-            showRestoreErrorPanel(BUNDLE.getString(
-                    "Error_Source_Directory_Unmodifiable"));
-            return false;
+        // This test does not work on Windows, see
+        // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6728842
+        if (CurrentOperatingSystem.OS != OperatingSystem.Windows) {
+            if (sourceDirectory.setWritable(false)) {
+                sourceDirectory.setWritable(true);
+            } else {
+                showRestoreErrorPanel(BUNDLE.getString(
+                        "Error_Source_Directory_Unmodifiable"));
+                return false;
+            }
         }
 
         return true;

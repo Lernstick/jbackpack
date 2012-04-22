@@ -80,6 +80,8 @@ public final class Screenshots {
      * @param encryptionControlFileName the filename for the encryption control
      * screenshot
      * @param basicBackupFileName the filename for the basic backup screenshot
+     * @param excludes the excludes
+     * @param includes the includes
      * @param excludesFileName the filename for the excludes screenshot
      * @param backupFileName the file to show for the running backup screenshot
      * @param runningBackupFilenName the filename of a running backup screenshot
@@ -99,12 +101,12 @@ public final class Screenshots {
             String sshScreenshotFileName, String sshLoggedInFileName,
             String smbShare, String smbScreenshotFileName,
             String encryptionFileName, String encryptionControlFileName,
-            String basicBackupFileName, String excludesFileName,
-            String backupFileName, String runningBackupFilenName,
-            String backupStatisticsFileName, String restoreFileName,
-            String advancedSettingsFileName, String fileMenuFileName,
-            String preferences1FileName, String preferences2FileName)
-            throws Exception {
+            String basicBackupFileName, String excludes, String includes,
+            String excludesFileName, String backupFileName,
+            String runningBackupFilenName, String backupStatisticsFileName,
+            String restoreFileName, String advancedSettingsFileName,
+            String fileMenuFileName, String preferences1FileName,
+            String preferences2FileName) throws Exception {
 
         // make sure that path exists
         File directory = new File(screenshotPath);
@@ -319,6 +321,15 @@ public final class Screenshots {
         JCheckBoxOperator excludeCheckBoxOperator = new JCheckBoxOperator(
                 frameOperator, new NameComponentChooser("excludeCheckBox"));
         excludeCheckBoxOperator.setSelected(true);
+        JTextAreaOperator excludesTextAreaOperator = new JTextAreaOperator(
+                frameOperator, new NameComponentChooser("excludesTextArea"));
+        excludesTextAreaOperator.setText(excludes);
+        JCheckBoxOperator includeCheckBoxOperator = new JCheckBoxOperator(
+                frameOperator, new NameComponentChooser("includesCheckBox"));
+        includeCheckBoxOperator.setSelected(true);
+        JTextAreaOperator includesTextAreaOperator = new JTextAreaOperator(
+                frameOperator, new NameComponentChooser("includesTextArea"));
+        includesTextAreaOperator.setText(includes);
         JComponentOperator excludesPanelOperator = new JComponentOperator(
                 frameOperator, new NameComponentChooser("excludesPanel"));
         if (excludesFileName != null) {

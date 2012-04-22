@@ -50,16 +50,21 @@ public class SwissGermanScreenshotTest extends TestCase {
 
         switch (CurrentOperatingSystem.OS) {
             case Linux:
-                doScreenShots("nimbus", "/home/benutzer/", "verzeichnis/datei");
+                doScreenShots("nimbus", "/home/benutzer/", "/home/",
+                        "/home/anton/\n/home/barbara/", "verzeichnis/datei");
                 break;
 
             case Mac_OS_X:
-                doScreenShots("aqua", "/Users/benutzer/", "verzeichnis/datei");
+                doScreenShots("aqua", "/Users/benutzer/", "/Users/",
+                        "/Users/anton/\n/Users/barbara/", "verzeichnis/datei");
                 break;
 
             case Windows:
                 doScreenShots("windows",
                         "C:\\Dokumente und Einstellungen\\Benutzer\\",
+                        "C:\\Dokumente und Einstellungen\\",
+                        "C:\\Dokumente und Einstellungen\\Anton\\\n"
+                        + "C:\\Dokumente und Einstellungen\\Barbara\\",
                         "Verzeichnis\\Datei");
                 break;
 
@@ -69,12 +74,12 @@ public class SwissGermanScreenshotTest extends TestCase {
         }
     }
 
-    private void doScreenShots(String plaf, String userHome, String backupFile)
-            throws Exception {
+    private void doScreenShots(String plaf, String userHome, String excludes,
+            String includes, String backupFile) throws Exception {
         Screenshots.doScreenShots(new Locale("de", "CH"),
                 "doc/docbook/" + plaf + "/de_CH/", userHome, null, "benutzer",
                 "/datensicherung", null, null, "datensicherung", null, null,
-                null, "Datensicherung", "DateienAusschliessen",
+                null, "Datensicherung", excludes, includes, "DateienAusschliessen",
                 backupFile, null, "Datensicherungsstatistik",
                 "Wiederherstellung", null, null, "Einstellungen1", null);
     }
