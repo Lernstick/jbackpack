@@ -20,7 +20,7 @@ build: build-stamp
 
 build-stamp: configure-stamp
 	dh_testdir
-	ant jar
+	ant create-jar-linux
 	touch $@
 
 clean:
@@ -39,7 +39,7 @@ install: build
 
 	cp -r usr $(DESTDIR)
 	find $(DESTDIR) -name ".svn" -type d | xargs rm -rf
-	cp dist/JBackpack.jar $(DESTDIR)/usr/bin
+	cp dist/jbackpack-linux-*.jar $(DESTDIR)/usr/bin/JBackpack.jar
 
 # Build architecture-independent files here.
 binary-indep: build install

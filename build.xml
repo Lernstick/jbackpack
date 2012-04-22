@@ -23,7 +23,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!-- Our own Jar Building Target -->
     <target name="jar" depends="create-jar"/>
 
-    <target name="create-jar" depends="init,compile,-pre-pre-jar,-load-properties">
+    <target name="create-jar" depends="create-jar-linux,create-jar-windows,create-jar-macosx">
         <jar destfile="${dist.jar.resolved}"
              basedir="build/classes/"
              excludes="ch/fhnw/jbackpack/todo">
@@ -38,6 +38,48 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         <copy file="${dist.jar.resolved}" tofile="${dist.dir.resolved}/JBackpack.jar"/>
         <echo>To run this application from the command line without Ant, try:</echo>
         <echo>java -jar "${dist.jar.resolved}"</echo>
+    </target>
+    
+    <target name="create-jar-linux" depends="init,compile,-pre-pre-jar,-load-properties">
+        <jar destfile="${dist.jar.resolved.linux}"
+             basedir="build/classes/"
+             excludes="ch/fhnw/jbackpack/todo,ch/fhnw/jbackpack/help/aqua/**,ch/fhnw/jbackpack/help/windows/**">
+            <zipfileset src="libs/derby.jar" excludes="META-INF/**"/>
+            <zipfileset src="${file.reference.netx.jar}" excludes="META-INF/**"/>
+            <zipfileset src="libs/jh.jar" excludes="META-INF/**"/>
+            <manifest>
+                <attribute name="Main-Class" value="ch.fhnw.jbackpack.JBackpack"/>
+                <attribute name="SplashScreen-Image" value="ch/fhnw/jbackpack/icons/Splash.png"/>
+            </manifest>
+        </jar>
+    </target>
+    
+    <target name="create-jar-windows" depends="init,compile,-pre-pre-jar,-load-properties">
+        <jar destfile="${dist.jar.resolved.windows}"
+             basedir="build/classes/"
+             excludes="ch/fhnw/jbackpack/todo,ch/fhnw/jbackpack/help/aqua/**,ch/fhnw/jbackpack/help/nimbus/**">
+            <zipfileset src="libs/derby.jar" excludes="META-INF/**"/>
+            <zipfileset src="${file.reference.netx.jar}" excludes="META-INF/**"/>
+            <zipfileset src="libs/jh.jar" excludes="META-INF/**"/>
+            <manifest>
+                <attribute name="Main-Class" value="ch.fhnw.jbackpack.JBackpack"/>
+                <attribute name="SplashScreen-Image" value="ch/fhnw/jbackpack/icons/Splash.png"/>
+            </manifest>
+        </jar>
+    </target>
+    
+    <target name="create-jar-macosx" depends="init,compile,-pre-pre-jar,-load-properties">
+        <jar destfile="${dist.jar.resolved.macosx}"
+             basedir="build/classes/"
+             excludes="ch/fhnw/jbackpack/todo,ch/fhnw/jbackpack/help/windows/**,ch/fhnw/jbackpack/help/nimbus/**">
+            <zipfileset src="libs/derby.jar" excludes="META-INF/**"/>
+            <zipfileset src="${file.reference.netx.jar}" excludes="META-INF/**"/>
+            <zipfileset src="libs/jh.jar" excludes="META-INF/**"/>
+            <manifest>
+                <attribute name="Main-Class" value="ch.fhnw.jbackpack.JBackpack"/>
+                <attribute name="SplashScreen-Image" value="ch/fhnw/jbackpack/icons/Splash.png"/>
+            </manifest>
+        </jar>
     </target>
 
     <target name="1_sort_strings">
@@ -75,7 +117,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         <jarbundler
             dir="dist"
             name="JBackpack"
-            jar="dist/JBackpack.jar"
+            jar="dist/jbackpack-macosx-${JBackpack_Version}.jar"
             mainclass="ch.fhnw.jbackpack.JBackpack"
             jvmversion="1.6+"
             icon="jbackpack.icns">
@@ -402,5 +444,8 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
         <property file="src/ch/fhnw/jbackpack/Strings.properties"/>
         <property name="dist.dir.resolved" location="${dist.dir}"/>
         <property name="dist.jar.resolved" location="${dist.dir}/jbackpack-${JBackpack_Version}.jar"/>
+        <property name="dist.jar.resolved.linux" location="${dist.dir}/jbackpack-linux-${JBackpack_Version}.jar"/>
+        <property name="dist.jar.resolved.windows" location="${dist.dir}/jbackpack-windows-${JBackpack_Version}.jar"/>
+        <property name="dist.jar.resolved.macosx" location="${dist.dir}/jbackpack-macosx-${JBackpack_Version}.jar"/>
     </target>
 </project>
