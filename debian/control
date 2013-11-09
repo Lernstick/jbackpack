@@ -2,13 +2,13 @@ Source: jbackpack
 Section: utils
 Priority: optional
 Maintainer: Ronny Standtke <Ronny.Standtke@gmx.net>
-Build-Depends: debhelper (>= 7), ant-optional, junit, openjdk-6-jdk | sun-java6-jdk
+Build-Depends: debhelper (>= 7), ant-optional, junit, java-sdk
 Standards-Version: 3.8.0
 Homepage: http://www.imedias.ch/lernstick
 
 Package: jbackpack
 Architecture: all
-Depends: openjdk-7-jre | openjdk-6-jre | sun-java6-jre, rdiff-backup, sshfs, expect, encfs, rsync, cifs-utils
+Depends: java-runtime, rdiff-backup, sshfs, expect, encfs, rsync, cifs-utils
 Description: a graphical frontend for rdiff-backup
  JBackpack is a graphical frontend for rdiff-backup. It supports most command
  line options of rdiff-backup and adds the possibility to browse remote backup

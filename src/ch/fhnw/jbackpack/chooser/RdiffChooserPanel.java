@@ -62,20 +62,20 @@ public class RdiffChooserPanel
     /**
      * Identifies if the current directory is selectable or not
      */
-    public final static String DIRECTORY_SELECTABLE_PROPERTY =
-            "directorySelectable";
-    private final static Logger LOGGER =
-            Logger.getLogger(RdiffChooserPanel.class.getName());
+    public final static String DIRECTORY_SELECTABLE_PROPERTY
+            = "directorySelectable";
+    private final static Logger LOGGER
+            = Logger.getLogger(RdiffChooserPanel.class.getName());
     private final static ResourceBundle BUNDLE = ResourceBundle.getBundle(
             "ch/fhnw/jbackpack/Strings");
     private final ProcessExecutor processExecutor = new ProcessExecutor();
     private final CardLayout cardLayout;
     private final CardLayout filesCardLayout;
     private final IncrementModel incrementModel = new IncrementModel();
-    private final RdiffFileSystemView rdiffFileSystemView =
-            new RdiffFileSystemView();
-    private final FileFilter noHiddenFilesSwingFilter =
-            NoHiddenFilesSwingFileFilter.getInstance();
+    private final RdiffFileSystemView rdiffFileSystemView
+            = new RdiffFileSystemView();
+    private final FileFilter noHiddenFilesSwingFilter
+            = NoHiddenFilesSwingFileFilter.getInstance();
     private final Desktop desktop;
     private final boolean desktopIsSupported;
     private List<Increment> increments = new ArrayList<Increment>();
@@ -89,7 +89,10 @@ public class RdiffChooserPanel
      */
     public RdiffChooserPanel() {
 
+        Boolean old = UIManager.getBoolean("FileChooser.readOnly");
+        UIManager.put("FileChooser.readOnly", Boolean.TRUE);
         initComponents();
+        UIManager.put("FileChooser.readOnly", old);
 
         fileChooser.addChoosableFileFilter(noHiddenFilesSwingFilter);
         fileChooser.setFileFilter(noHiddenFilesSwingFilter);
@@ -104,8 +107,8 @@ public class RdiffChooserPanel
         // restore file selection
         FileChooserUI fileChooserUI = fileChooser.getUI();
         if (fileChooserUI instanceof BasicFileChooserUI) {
-            BasicFileChooserUI basicFileChooserUI =
-                    (BasicFileChooserUI) fileChooserUI;
+            BasicFileChooserUI basicFileChooserUI
+                    = (BasicFileChooserUI) fileChooserUI;
             basicFileChooserUI.getModel().addPropertyChangeListener(this);
         } else {
             LOGGER.warning("can not keep file selection when switching between "
@@ -153,8 +156,8 @@ public class RdiffChooserPanel
             // the file loading thread is done
             // -> try to restore previous file selection
             File[] newFiles = fileChooser.getCurrentDirectory().listFiles();
-            Collection<File> newSelectedFilesCollection =
-                    new ArrayList<File>();
+            Collection<File> newSelectedFilesCollection
+                    = new ArrayList<File>();
             for (File newFile : newFiles) {
                 for (File oldSelectedFile : oldSelectedFiles) {
                     if (newFile.getName().equals(oldSelectedFile.getName())) {
@@ -162,9 +165,9 @@ public class RdiffChooserPanel
                     }
                 }
             }
-            File[] newSelectedFiles =
-                    newSelectedFilesCollection.toArray(
-                    new File[newSelectedFilesCollection.size()]);
+            File[] newSelectedFiles
+                    = newSelectedFilesCollection.toArray(
+                            new File[newSelectedFilesCollection.size()]);
             fileChooser.setSelectedFiles(newSelectedFiles);
         }
     }
@@ -253,8 +256,8 @@ public class RdiffChooserPanel
         }
 
         // check directory for errors
-        ProgressDialog dialog =
-                new ProgressDialog(parentWindow, processExecutor);
+        ProgressDialog dialog
+                = new ProgressDialog(parentWindow, processExecutor);
         ModalDialogHandler dialogHandler = new ModalDialogHandler(dialog);
         dialog.setCancelButtonVisible(false);
         DirectoryChecker directoryChecker = new DirectoryChecker(
@@ -683,7 +686,7 @@ public class RdiffChooserPanel
 
         } else if (desktopIsSupported
                 && JFileChooser.SELECTED_FILES_CHANGED_PROPERTY.equals(
-                propertyName)) {
+                        propertyName)) {
             previewButton.setEnabled(fileChooser.getSelectedFiles().length > 0);
         }
     }//GEN-LAST:event_fileChooserPropertyChange
@@ -737,8 +740,8 @@ public class RdiffChooserPanel
             } else {
                 String currentPath = oldCurrentDirectory.getAbsolutePath();
                 try {
-                    File newCurrentDirectory =
-                            root.getLongestMatch(currentPath);
+                    File newCurrentDirectory
+                            = root.getLongestMatch(currentPath);
                     fileChooser.setCurrentDirectory(newCurrentDirectory);
                 } catch (IOException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
@@ -760,13 +763,13 @@ public class RdiffChooserPanel
                     BUNDLE.getString("Warning"),
                     JOptionPane.WARNING_MESSAGE);
             if (returnValue == JOptionPane.OK_OPTION) {
-                final ProgressDialog dialog =
-                        new ProgressDialog(parentWindow, processExecutor);
+                final ProgressDialog dialog
+                        = new ProgressDialog(parentWindow, processExecutor);
                 dialog.setCancelButtonVisible(false);
                 dialog.setMessage(BUNDLE.getString(
                         "Removing_Selected_Backups"));
-                final ModalDialogHandler dialogHandler =
-                        new ModalDialogHandler(dialog);
+                final ModalDialogHandler dialogHandler
+                        = new ModalDialogHandler(dialog);
 
                 SwingWorker swingWorker = new SwingWorker() {
 
@@ -802,26 +805,26 @@ public class RdiffChooserPanel
 
         } else {
             // the user selected to delete a backup increment
-            final Increment previousIncrement =
-                    increments.get(selectedIndex - 1);
+            final Increment previousIncrement
+                    = increments.get(selectedIndex - 1);
             DateFormat dateFormat = DateFormat.getDateTimeInstance();
             Date timestamp = previousIncrement.getTimestamp();
             String formattedDate = dateFormat.format(timestamp);
-            String warningMessage =
-                    BUNDLE.getString("Delete_Increment_Warning");
-            warningMessage =
-                    MessageFormat.format(warningMessage, formattedDate);
+            String warningMessage
+                    = BUNDLE.getString("Delete_Increment_Warning");
+            warningMessage
+                    = MessageFormat.format(warningMessage, formattedDate);
             int returnValue = JOptionPane.showConfirmDialog(this,
                     warningMessage, BUNDLE.getString("Warning"),
                     JOptionPane.WARNING_MESSAGE);
             if (returnValue == JOptionPane.OK_OPTION) {
-                final ProgressDialog dialog =
-                        new ProgressDialog(parentWindow, processExecutor);
+                final ProgressDialog dialog
+                        = new ProgressDialog(parentWindow, processExecutor);
                 dialog.setCancelButtonVisible(false);
                 dialog.setMessage(BUNDLE.getString(
                         "Removing_Selected_Backups"));
-                final ModalDialogHandler dialogHandler =
-                        new ModalDialogHandler(dialog);
+                final ModalDialogHandler dialogHandler
+                        = new ModalDialogHandler(dialog);
 
                 SwingWorker swingWorker = new SwingWorker() {
 
@@ -829,8 +832,8 @@ public class RdiffChooserPanel
                     protected Object doInBackground() {
                         // remove selected increments from rdiff-backup
                         // directory
-                        String rdiffTimestamp =
-                                previousIncrement.getRdiffTimestamp();
+                        String rdiffTimestamp
+                                = previousIncrement.getRdiffTimestamp();
                         processExecutor.executeProcess("rdiff-backup",
                                 "--force", "--remove-older-than",
                                 rdiffTimestamp, selectedDirectory);
@@ -947,13 +950,13 @@ public class RdiffChooserPanel
                 try {
                     desktop.open(restoredFile);
                 } catch (IOException ex) {
-                    String errorMessage =
-                            BUNDLE.getString("Error_Preview_File_Log");
+                    String errorMessage
+                            = BUNDLE.getString("Error_Preview_File_Log");
                     errorMessage = MessageFormat.format(
                             errorMessage, restoredFile.getName());
                     LOGGER.log(Level.SEVERE, errorMessage, ex);
-                    errorMessage =
-                            BUNDLE.getString("Error_Preview_File_GUI");
+                    errorMessage
+                            = BUNDLE.getString("Error_Preview_File_GUI");
                     errorMessage = MessageFormat.format(
                             errorMessage, restoredFile.getName(), ex);
                     showError(errorMessage);
@@ -1036,8 +1039,8 @@ public class RdiffChooserPanel
                         String databasePath = null;
 
                         // check that database directory can be created
-                        File rdiffBackupDataDir =
-                                new File(directory, "rdiff-backup-data");
+                        File rdiffBackupDataDir
+                                = new File(directory, "rdiff-backup-data");
                         if (FileTools.canWrite(rdiffBackupDataDir)) {
                             databasePath = rdiffBackupDataDir.getPath()
                                     + File.separatorChar + "jbackpack";
@@ -1053,9 +1056,9 @@ public class RdiffChooserPanel
                                     JOptionPane.YES_NO_OPTION);
                             if (selected == JOptionPane.YES_OPTION) {
                                 try {
-                                    databasePath =
-                                            FileTools.createTempDirectory(
-                                            "jbackpack", null).getPath()
+                                    databasePath
+                                            = FileTools.createTempDirectory(
+                                                    "jbackpack", null).getPath()
                                             + File.separatorChar + "jbackpack";
                                 } catch (IOException ex) {
                                     LOGGER.log(Level.WARNING, null, ex);
