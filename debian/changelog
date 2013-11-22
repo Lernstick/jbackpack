@@ -1,6 +1,7 @@
-jbackpack (0.9.5-2) unstable; urgency=low
+jbackpack (0.9.5-4) unstable; urgency=low
 
   * added "restoreOnly" variant
+  * fixed modal dialog handling (hopefully)
 
  -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 22 Nov 2013 11:10:05 +0100
 

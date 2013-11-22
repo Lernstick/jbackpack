@@ -23,12 +23,8 @@
 package ch.fhnw.util;
 
 import java.awt.EventQueue;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 
@@ -39,14 +35,15 @@ import javax.swing.JDialog;
  */
 public class ModalDialogHandler {
 
-    private final static Logger LOGGER =
-            Logger.getLogger(ModalDialogHandler.class.getName());
+    private final static Logger LOGGER
+            = Logger.getLogger(ModalDialogHandler.class.getName());
     private final JDialog dialog;
+    private final Lock showingLock;
+    // if the dialog still must be shown when show() is called
     private boolean showDialog;
+    // if the dialog must be closed when hide() is called (i.e. if the dialog 
+    // was shown before at all)
     private boolean closeDialog;
-    private boolean isShowing;
-    private Condition dialogIsShowing;
-    private Lock showingLock;
 
     /**
      * creates a new ModalDialogHandler
@@ -58,73 +55,60 @@ public class ModalDialogHandler {
         showDialog = true;
         closeDialog = false;
         showingLock = new ReentrantLock();
-        dialogIsShowing = showingLock.newCondition();
     }
 
     /**
-     * tries to show the dialog
+     * tries to show the dialog, if hide() was not called in between
      */
-    public synchronized void show() {
-        if (showDialog) {
-            dialog.addComponentListener(new ComponentAdapter() {
-
-                @Override
-                public void componentShown(ComponentEvent e) {
-                    if (e.getID() == ComponentEvent.COMPONENT_SHOWN) {
-                        dialogShown();
-                    }
-                }
-            });
-            EventQueue.invokeLater(new Runnable() {
-
-                public void run() {
-                    dialog.setVisible(true);
-                }
-            });
-            closeDialog = true;
-            LOGGER.fine("dialog set visible");
-        }
-    }
-
-    /**
-     * tries to hide the dialog
-     */
-    public synchronized void hide() {
-        showDialog = false;
-        if (closeDialog) {
-            new Thread() {
-
-                @Override
-                public void run() {
-                    LOGGER.fine("waiting for dialog to become visible");
-                    showingLock.lock();
-                    try {
-                        while (!isShowing) {
-                            dialogIsShowing.await();
-                        }
-                    } catch (InterruptedException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                    } finally {
-                        showingLock.unlock();
-                    }
-                    LOGGER.fine("dialog became visible");
-                    EventQueue.invokeLater(new Runnable() {
-
-                        public void run() {
-                            dialog.setVisible(false);
-                        }
-                    });
-                }
-            }.start();
-        }
-    }
-
-    private void dialogShown() {
+    public void show() {
+        showingLock.lock();
         try {
-            showingLock.lock();
-            isShowing = true;
-            LOGGER.fine("dialog is showing");
-            dialogIsShowing.signalAll();
+            if (showDialog) {
+                LOGGER.fine("hide() was NOT called in between"
+                        + " -> adding setVisible call to EventQueue...");
+                EventQueue.invokeLater(new Runnable() {
+
+                    public void run() {
+                        showingLock.lock();
+                        if (showDialog) {
+                            LOGGER.fine("hide() was NOT called in between"
+                                    + " -> calling setVisible(true)");
+                            closeDialog = true;
+                            showingLock.unlock();
+                            dialog.setVisible(true);
+                        } else {
+                            LOGGER.fine("hide() was called in between"
+                                    + " -> skipping the call to setVisible(true)");
+                            showingLock.unlock();
+                        }
+                    }
+                });
+            } else {
+                LOGGER.fine("hide() was called in between -> nothing left to do...");
+            }
+        } finally {
+            showingLock.unlock();
+        }
+    }
+
+    /**
+     * tries to hide the dialog if show() was called in between
+     */
+    public void hide() {
+        showingLock.lock();
+        try {
+            showDialog = false;
+            if (closeDialog) {
+                LOGGER.fine("call to setVisible(true) was already added to the "
+                        + "EventQueue -> adding setVisible(false) call...");
+                EventQueue.invokeLater(new Runnable() {
+                    
+                    public void run() {
+                        dialog.setVisible(false);
+                        dialog.dispose();
+                    }
+                });
+            }
         } finally {
             showingLock.unlock();
         }
