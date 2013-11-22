@@ -1,3 +1,9 @@
+jbackpack (0.9.6-1) unstable; urgency=low
+
+  * added reload button in restore tab
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 22 Nov 2013 19:13:56 +0100
+
 jbackpack (0.9.5-4) unstable; urgency=low
 
   * added "restoreOnly" variant

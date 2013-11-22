@@ -36,6 +36,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.util.*;
@@ -336,7 +337,11 @@ public class RdiffChooserPanel
         backupsPanel = new javax.swing.JPanel();
         backupsListScrollPane = new javax.swing.JScrollPane();
         backupsList = new javax.swing.JList();
+        buttonPanel = new javax.swing.JPanel();
+        leftButtonPanel = new javax.swing.JPanel();
+        reloadButton = new javax.swing.JButton();
         upButton = new javax.swing.JButton();
+        rightButtonPanel = new javax.swing.JPanel();
         downButton = new javax.swing.JButton();
         backupSizesPanel = new javax.swing.JPanel();
         cumulativeSizeLabel = new javax.swing.JLabel();
@@ -401,6 +406,23 @@ public class RdiffChooserPanel
         gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 3);
         backupsPanel.add(backupsListScrollPane, gridBagConstraints);
 
+        buttonPanel.setLayout(new java.awt.GridLayout());
+
+        leftButtonPanel.setLayout(new java.awt.GridBagLayout());
+
+        reloadButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/jbackpack/icons/16x16/reload.png"))); // NOI18N
+        reloadButton.setToolTipText(bundle.getString("RdiffChooserPanel.reloadButton.toolTipText")); // NOI18N
+        reloadButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        reloadButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reloadButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        leftButtonPanel.add(reloadButton, gridBagConstraints);
+
         upButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/jbackpack/icons/16x16/up.png"))); // NOI18N
         upButton.setToolTipText(bundle.getString("RdiffChooserPanel.upButton.toolTipText")); // NOI18N
         upButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
@@ -412,8 +434,12 @@ public class RdiffChooserPanel
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 3);
-        backupsPanel.add(upButton, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 3);
+        leftButtonPanel.add(upButton, gridBagConstraints);
+
+        buttonPanel.add(leftButtonPanel);
+
+        rightButtonPanel.setLayout(new java.awt.GridBagLayout());
 
         downButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/jbackpack/icons/16x16/down.png"))); // NOI18N
         downButton.setToolTipText(bundle.getString("RdiffChooserPanel.downButton.toolTipText")); // NOI18N
@@ -427,8 +453,16 @@ public class RdiffChooserPanel
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(3, 3, 0, 0);
-        backupsPanel.add(downButton, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        rightButtonPanel.add(downButton, gridBagConstraints);
+
+        buttonPanel.add(rightButtonPanel);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 3);
+        backupsPanel.add(buttonPanel, gridBagConstraints);
 
         backupSizesPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -694,6 +728,10 @@ public class RdiffChooserPanel
     private void previewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewButtonActionPerformed
         previewFiles();
 }//GEN-LAST:event_previewButtonActionPerformed
+
+    private void reloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadButtonActionPerformed
+        setSelectedDirectory(selectedDirectory);
+    }//GEN-LAST:event_reloadButtonActionPerformed
 
     private void dirCheckInfo(String messageKey) {
         dirCheckUnsuccessful("OptionPane.informationIcon", messageKey);
@@ -1036,7 +1074,7 @@ public class RdiffChooserPanel
                 if (get()) {
                     dialogHandler.hide();
                     if (returnValue == 0) {
-                        String databasePath = null;
+                        String databasePath;
 
                         // check that database directory can be created
                         File rdiffBackupDataDir
@@ -1158,8 +1196,10 @@ public class RdiffChooserPanel
                 dialog.setDatabase(rdiffFileDatabase);
                 try {
                     rdiffFileDatabase.sync();
-                } catch (Exception ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    LOGGER.log(Level.SEVERE, "", ex);
+                } catch (SQLException ex) {
+                    LOGGER.log(Level.SEVERE, "", ex);
                 }
                 increments = rdiffFileDatabase.getIncrements();
                 return true;
@@ -1208,6 +1248,7 @@ public class RdiffChooserPanel
     private javax.swing.JPopupMenu backupsListPopupMenu;
     private javax.swing.JScrollPane backupsListScrollPane;
     private javax.swing.JPanel backupsPanel;
+    private javax.swing.JPanel buttonPanel;
     private javax.swing.JLabel cumulativeSizeLabel;
     private javax.swing.JTextField cumulativeSizeTextField;
     private javax.swing.JButton deleteBackupButton;
@@ -1217,10 +1258,13 @@ public class RdiffChooserPanel
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JPanel filesCardPanel;
     private javax.swing.JPanel filesPanel;
+    private javax.swing.JPanel leftButtonPanel;
     private javax.swing.JLabel noRdiffDirectoryLabel;
     private javax.swing.JPanel noRdiffDirectoryPanel;
     private javax.swing.JButton previewButton;
     private javax.swing.JPanel rdiffDirectoryPanel;
+    private javax.swing.JButton reloadButton;
+    private javax.swing.JPanel rightButtonPanel;
     private javax.swing.JLabel selectIncrementLabel;
     private javax.swing.JPanel selectIncrementPanel;
     private javax.swing.JLabel storageUsageLabel;
