@@ -378,6 +378,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             mainTabbedPane.remove(backupCardPanel);
             mainTabbedPane.remove(directoriesPanel);
             mainTabbedPane.remove(advancedSettingsPanel);
+            restoreTabActivated();
         }
     }
 
@@ -2775,16 +2776,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
             case 1:
                 // restore tab
-                sourcePath = backupSourceTextField.getText();
-                sourceDirectory = new File(sourcePath);
-                if (!checkSourceCommon(sourcePath, sourceDirectory)
-                        || !checkSourceRestore(sourceDirectory)
-                        || !checkDestinationCommon()
-                        || !checkTempDirectory()) {
-                    break;
-                }
-                showCard(restoreCardPanel, "restorePanel");
-                rdiffChooserPanel.setSelectedDirectory(getBackupDestination());
+                restoreTabActivated();
                 break;
 
             case 2:
@@ -3292,6 +3284,19 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     private void smbRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smbRadioButtonActionPerformed
         smbFocusHandling();
     }//GEN-LAST:event_smbRadioButtonActionPerformed
+
+    private void restoreTabActivated() {
+        String sourcePath = backupSourceTextField.getText();
+        File sourceDirectory = new File(sourcePath);
+        if (!checkSourceCommon(sourcePath, sourceDirectory)
+                || !checkSourceRestore(sourceDirectory)
+                || !checkDestinationCommon()
+                || !checkTempDirectory()) {
+            return;
+        }
+        showCard(restoreCardPanel, "restorePanel");
+        rdiffChooserPanel.setSelectedDirectory(getBackupDestination());
+    }
 
     private String getSshPassword(String sshUserName, String sshServerName) {
         if (sshRadioButton.isSelected()
