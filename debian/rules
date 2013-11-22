@@ -9,7 +9,11 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-DESTDIR      = $(CURDIR)/debian/jbackpack
+DESTDIR         = $(CURDIR)/debian/jbackpack
+DESTDIR_FULL    = $(CURDIR)/debian/jbackpack-full
+DESTDIR_RESTORE = $(CURDIR)/debian/jbackpack-restore
+APPDIR_FULL     = $(DESTDIR_FULL)/usr/share/applications
+APPDIR_RESTORE  = $(DESTDIR_RESTORE)/usr/share/applications
 
 configure: configure-stamp
 configure-stamp:
@@ -34,12 +38,23 @@ clean:
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 
-	cp -r usr $(DESTDIR)
-	find $(DESTDIR) -name ".svn" -type d | xargs rm -rf
+	# jbackpack package
+	mkdir -p $(DESTDIR)/usr/bin/
+	cp usr/bin/jbackpack $(DESTDIR)/usr/bin/
+	mkdir -p $(DESTDIR)/usr/share/icons/
+	cp usr/share/icons/jbackpack.png $(DESTDIR)/usr/share/icons/
 	cp dist/jbackpack-linux-*.jar $(DESTDIR)/usr/bin/JBackpack.jar
+
+	# jbackpack-full package
+	mkdir -p $(APPDIR_FULL)
+	cp usr/share/applications/jbackpack.desktop $(APPDIR_FULL)
+
+	# jbackpack-restore package
+	mkdir -p $(APPDIR_RESTORE)
+	cp usr/share/applications/jbackpack_restore.desktop $(APPDIR_RESTORE)
 
 # Build architecture-independent files here.
 binary-indep: build install

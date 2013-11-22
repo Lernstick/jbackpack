@@ -270,7 +270,7 @@
                                   <SubComponents>
                                     <Component class="javax.swing.JTextArea" name="excludesTextArea">
                                       <Properties>
-                                        <Property name="name" type="java.lang.String" value="excludesTextArea"/>
+                                        <Property name="name" type="java.lang.String" value="excludesTextArea" noResource="true"/>
                                       </Properties>
                                     </Component>
                                   </SubComponents>
@@ -298,7 +298,7 @@
                                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                                       <ResourceString bundle="ch/fhnw/jbackpack/Strings.properties" key="BackupMainPanel.includesCheckBox.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                                     </Property>
-                                    <Property name="name" type="java.lang.String" value="includesCheckBox"/>
+                                    <Property name="name" type="java.lang.String" value="includesCheckBox" noResource="true"/>
                                   </Properties>
                                   <Events>
                                     <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="includesCheckBoxItemStateChanged"/>
@@ -341,7 +341,7 @@
                                       <SubComponents>
                                         <Component class="javax.swing.JTextArea" name="includesTextArea">
                                           <Properties>
-                                            <Property name="name" type="java.lang.String" value="includesTextArea"/>
+                                            <Property name="name" type="java.lang.String" value="includesTextArea" noResource="true"/>
                                           </Properties>
                                         </Component>
                                       </SubComponents>

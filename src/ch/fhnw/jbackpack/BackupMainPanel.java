@@ -66,8 +66,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     /**
      * preferences key for the local destination directory
      */
-    public static final String LOCAL_DESTINATION_DIRECTORY =
-            "local_destination_directory";
+    public static final String LOCAL_DESTINATION_DIRECTORY
+            = "local_destination_directory";
     /**
      * preferences key for the ssh server
      */
@@ -127,8 +127,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     /**
      * preferences key for excluding other filesystems
      */
-    public static final String EXCLUDE_OTHER_FILESYSTEMS =
-            "exclude_other_filesystems";
+    public static final String EXCLUDE_OTHER_FILESYSTEMS
+            = "exclude_other_filesystems";
     /**
      * preferences key for excluding device files
      */
@@ -144,13 +144,13 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     /**
      * preferences key for password authentication
      */
-    public static final String PASSWORD_AUTHENTICATION =
-            "password_authentication";
+    public static final String PASSWORD_AUTHENTICATION
+            = "password_authentication";
     /**
      * preferences key for plain backup warning
      */
-    public static final String PLAIN_BACKUP_WARNING =
-            "show_plaintext_backup_warning_dialog";
+    public static final String PLAIN_BACKUP_WARNING
+            = "show_plaintext_backup_warning_dialog";
     /**
      * preferences key for the temporary directory
      */
@@ -186,57 +186,57 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     /**
      * preferences key for the automatic increment deletion by number
      */
-    public static final String AUTO_DELETION_BY_NUMBER =
-            "auto_deletion_by_number";
+    public static final String AUTO_DELETION_BY_NUMBER
+            = "auto_deletion_by_number";
     /**
      * preferences key for the automatic increment deletion number
      */
-    public static final String AUTO_DELETION_NUMBER =
-            "auto_deletion_number";
+    public static final String AUTO_DELETION_NUMBER
+            = "auto_deletion_number";
     /**
      * preferences key for the automatic increment deletion by age
      */
-    public static final String AUTO_DELETION_BY_AGE =
-            "auto_deletion_by_age";
+    public static final String AUTO_DELETION_BY_AGE
+            = "auto_deletion_by_age";
     /**
      * preferences key for the automatic increment deletion age
      */
-    public static final String AUTO_DELETION_AGE =
-            "auto_deletion_age";
+    public static final String AUTO_DELETION_AGE
+            = "auto_deletion_age";
     /**
      * preferences key for the automatic increment deletion age unit
      */
-    public static final String AUTO_DELETION_AGE_UNIT =
-            "auto_deletion_age_unit";
+    public static final String AUTO_DELETION_AGE_UNIT
+            = "auto_deletion_age_unit";
     /**
      * preferences key for the automatic increment deletion by space
      */
-    public static final String AUTO_DELETION_BY_SPACE =
-            "auto_deletion_by_space";
+    public static final String AUTO_DELETION_BY_SPACE
+            = "auto_deletion_by_space";
     /**
      * preferences key for the automatic increment deletion space
      */
-    public static final String AUTO_DELETION_SPACE =
-            "auto_deletion_space";
+    public static final String AUTO_DELETION_SPACE
+            = "auto_deletion_space";
     /**
      * preferences key for the automatic increment deletion space unit
      */
-    public static final String AUTO_DELETION_SPACE_UNIT =
-            "auto_deletion_space_unit";
-    private static final Logger LOGGER =
-            Logger.getLogger(BackupMainPanel.class.getName());
+    public static final String AUTO_DELETION_SPACE_UNIT
+            = "auto_deletion_space_unit";
+    private static final Logger LOGGER
+            = Logger.getLogger(BackupMainPanel.class.getName());
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
             "ch/fhnw/jbackpack/Strings");
-    private static final String LINE_SEPARATOR =
-            System.getProperty("line.separator");
+    private static final String LINE_SEPARATOR
+            = System.getProperty("line.separator");
     private static final String USER_HOME = System.getProperty("user.home");
     private static final String LOGIN = "login";
     private static final String LOGOUT = "logout";
     private static final String LOCK = "lock";
     private static final String UNLOCK = "unlock";
     private static final String ENCFS_SEARCH_STRING = "jbackpack_plain_";
-    private static final NoHiddenFilesSwingFileFilter NO_HIDDEN_FILES_SWING_FILE_FILTER =
-            NoHiddenFilesSwingFileFilter.getInstance();
+    private static final NoHiddenFilesSwingFileFilter NO_HIDDEN_FILES_SWING_FILE_FILTER
+            = NoHiddenFilesSwingFileFilter.getInstance();
     private final DateFormat timeFormat;
     private Frame parentFrame;
     private RdiffBackupRestore rdiffBackupRestore;
@@ -365,6 +365,19 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 smbLocalHeaderPanel.setVisible(false);
                 smbSudoPasswordLabel.setVisible(false);
                 smbSudoPasswordField.setVisible(false);
+        }
+    }
+
+    /**
+     * Set the value of restoreOnly
+     *
+     * @param restoreOnly new value of restoreOnly
+     */
+    public void setRestoreOnly(boolean restoreOnly) {
+        if (restoreOnly) {
+            mainTabbedPane.remove(backupCardPanel);
+            mainTabbedPane.remove(directoriesPanel);
+            mainTabbedPane.remove(advancedSettingsPanel);
         }
     }
 
@@ -684,7 +697,6 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         // 1) check SSHFS
         // 2) check ENCFS
         // 3) all the rest...
-
         // sshfs checks
         if (sshRadioButton.isSelected()) {
             if (!sshfsMounted) {
@@ -739,8 +751,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             showCard(encryptionCardPanel, "unlockPanel");
             destinationEncrypted = true;
             try {
-                encfsMountPoint =
-                        FileTools.getEncfsMountPoint(ENCFS_SEARCH_STRING);
+                encfsMountPoint
+                        = FileTools.getEncfsMountPoint(ENCFS_SEARCH_STRING);
                 destinationPath = encfsMountPoint;
             } catch (IOException ex) {
                 encfsMountPoint = null;
@@ -809,9 +821,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     /**
      * tries to unlock the destination directory if it is ecnrypted and locked
      *
-     * @param switchToBackup if
-     * <code>true</code>, the GUI switches to the backup tab when unlocking was
-     * successful
+     * @param switchToBackup if <code>true</code>, the GUI switches to the
+     * backup tab when unlocking was successful
      */
     public void maybeUnlock(boolean switchToBackup) {
         if (destinationEncrypted && (encfsMountPoint == null)) {
@@ -825,8 +836,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
      *
      * @param minFileSize the minimal file size
      * @param maxFileSize the maximal file size
-     * @param directSSH if
-     * <code>true</code>, SSH is used directly, not via a virtual file system
+     * @param directSSH if <code>true</code>, SSH is used directly, not via a
+     * virtual file system
      * @param sshPassword the SSH password
      */
     public void runBackup(Long minFileSize, Long maxFileSize,
@@ -2552,16 +2563,16 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             // show big fat warning dialog that files can be overwritten
             if (showWarning && (JOptionPane.YES_OPTION
                     != JOptionPane.showConfirmDialog(parentFrame,
-                    BUNDLE.getString("Restore_Warning"),
-                    BUNDLE.getString("Warning"),
-                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))) {
+                            BUNDLE.getString("Restore_Warning"),
+                            BUNDLE.getString("Warning"),
+                            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))) {
                 return;
             }
             restore(selectedFiles, sourceDirectory);
 
         } else {
-            SelectRestoreDirectoryDialog dialog =
-                    new SelectRestoreDirectoryDialog(parentFrame);
+            SelectRestoreDirectoryDialog dialog
+                    = new SelectRestoreDirectoryDialog(parentFrame);
             dialog.setVisible(true);
             if (dialog.restoreSelected()) {
                 restore(selectedFiles, dialog.getSelectedDirectory());
@@ -2617,8 +2628,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
         } else {
             if (encfsEnabled && plainBackupWarning) {
-                PlaintextBackupWarningDialog dialog =
-                        new PlaintextBackupWarningDialog(parentFrame);
+                PlaintextBackupWarningDialog dialog
+                        = new PlaintextBackupWarningDialog(parentFrame);
                 dialog.setVisible(true);
                 plainBackupWarning = dialog.isShowWarningSelected();
                 if (dialog.isOkPressed()) {
@@ -2629,10 +2640,10 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             }
             if (sshfsMounted) {
                 // check if rdiff-backup is usable on the remote server
-                BackupServerCheckSwingWorker backupServerCheckSwingWorker =
-                        new BackupServerCheckSwingWorker(parentFrame,
-                        sshUserName, sshServerName, sshPassword,
-                        this, minFileSize, maxFileSize);
+                BackupServerCheckSwingWorker backupServerCheckSwingWorker
+                        = new BackupServerCheckSwingWorker(parentFrame,
+                                sshUserName, sshServerName, sshPassword,
+                                this, minFileSize, maxFileSize);
                 backupServerCheckSwingWorker.execute();
             } else {
                 runBackup(minFileSize, maxFileSize, false, sshPassword);
@@ -2710,8 +2721,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         } else {
             try {
                 // close connection to database (if any)
-                RdiffFileDatabase rdiffFileDatabase =
-                        rdiffChooserPanel.getRdiffFileDatabase();
+                RdiffFileDatabase rdiffFileDatabase
+                        = rdiffChooserPanel.getRdiffFileDatabase();
                 if (rdiffFileDatabase != null) {
                     rdiffFileDatabase.close();
                 }
@@ -2915,15 +2926,15 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
         File encfsPlainDir = new File(encfsMountPoint);
         File encfsCipherDir = new File(cipherPath);
-        final DirectoryCheckDialog directoryCheckDialog =
-                new DirectoryCheckDialog(parentFrame);
+        final DirectoryCheckDialog directoryCheckDialog
+                = new DirectoryCheckDialog(parentFrame);
         directoryCheckDialog.setFilenameCheckEnabled(false, 0);
-        ModalDialogHandler dialogHandler =
-                new ModalDialogHandler(directoryCheckDialog);
-        DecryptionCheckSwingWorker decryptionCheckSwingWorker =
-                new DecryptionCheckSwingWorker(parentFrame, this,
-                directoryCheckDialog, dialogHandler,
-                encfsCipherDir, encfsPlainDir);
+        ModalDialogHandler dialogHandler
+                = new ModalDialogHandler(directoryCheckDialog);
+        DecryptionCheckSwingWorker decryptionCheckSwingWorker
+                = new DecryptionCheckSwingWorker(parentFrame, this,
+                        directoryCheckDialog, dialogHandler,
+                        encfsCipherDir, encfsPlainDir);
         if (FileTools.isSpaceKnown(encfsCipherDir)) {
             long usableSpace = encfsCipherDir.getUsableSpace();
             directoryCheckDialog.setFreeSpaceKnown(true, usableSpace);
@@ -2946,8 +2957,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         if (JOptionPane.OK_OPTION == dialog.showDialog()) {
             String oldPassword = dialog.getOldPassword();
             String newPassword = dialog.getNewPassword();
-            String changePasswordScript =
-                    "#!/usr/bin/expect -f" + LINE_SEPARATOR
+            String changePasswordScript
+                    = "#!/usr/bin/expect -f" + LINE_SEPARATOR
                     + "set oldPassword [lindex $argv 0]" + LINE_SEPARATOR
                     + "set newPassword [lindex $argv 1]" + LINE_SEPARATOR
                     + "spawn encfsctl passwd \""
@@ -3057,8 +3068,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             directoryChooser.setFileSelectionMode(
                     JFileChooser.DIRECTORIES_ONLY);
             directoryChooser.setFileHidingEnabled(false);
-            FileFilter noHiddenFilesSwingFilter =
-                    NoHiddenFilesSwingFileFilter.getInstance();
+            FileFilter noHiddenFilesSwingFilter
+                    = NoHiddenFilesSwingFileFilter.getInstance();
             directoryChooser.addChoosableFileFilter(noHiddenFilesSwingFilter);
             directoryChooser.setFileFilter(noHiddenFilesSwingFilter);
             directoryChooser.setCurrentDirectory(currentDir);
@@ -3127,8 +3138,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                     "JBackpack", "JBackpack", "JBackpack", "--reminder");
             showReminder = newShowReminder;
             if (showReminder) {
-                String desktopFileTemplate =
-                        "[Desktop Entry]\n"
+                String desktopFileTemplate
+                        = "[Desktop Entry]\n"
                         + "Type=Application\n"
                         + "Name=JBackpack Reminder\n"
                         + "Name[de]=JBackpack-Erinnerung\n"
@@ -3308,11 +3319,11 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                     + (selectedPath.startsWith(File.separator)
                     ? "" : File.separator) + selectedPath;
             File mountDir = new File(mountPoint);
-            ChrootFileSystemView chrootFileSystemView =
-                    new ChrootFileSystemView(mountDir, server);
-            SelectBackupDirectoryDialog dialog =
-                    new SelectBackupDirectoryDialog(
-                    parentFrame, chrootFileSystemView, selectedPath, false);
+            ChrootFileSystemView chrootFileSystemView
+                    = new ChrootFileSystemView(mountDir, server);
+            SelectBackupDirectoryDialog dialog
+                    = new SelectBackupDirectoryDialog(
+                            parentFrame, chrootFileSystemView, selectedPath, false);
             if (dialog.showDialog() == JOptionPane.OK_OPTION) {
                 String newPath = dialog.getSelectedPath();
                 File newDir = new File(newPath).getCanonicalFile();
@@ -3341,15 +3352,15 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
         if (autoDeleteNumberCheckBox.isSelected()) {
             // auto deletion by increment numbers
-            RdiffFileDatabase rdiffFileDatabase =
-                    rdiffChooserPanel.getRdiffFileDatabase();
+            RdiffFileDatabase rdiffFileDatabase
+                    = rdiffChooserPanel.getRdiffFileDatabase();
             increments = rdiffFileDatabase.getIncrements();
-            Number autoDeleteNumber =
-                    (Number) autoDeleteNumberSpinner.getValue();
+            Number autoDeleteNumber
+                    = (Number) autoDeleteNumberSpinner.getValue();
             int autoDeleteCount = autoDeleteNumber.intValue();
             if (increments.size() > autoDeleteCount) {
-                Increment lastGoodIncrement =
-                        increments.get(autoDeleteCount - 1);
+                Increment lastGoodIncrement
+                        = increments.get(autoDeleteCount - 1);
                 String rdiffTimestamp = lastGoodIncrement.getRdiffTimestamp();
                 processExecutor.executeProcess("rdiff-backup",
                         "--force", "--remove-older-than", rdiffTimestamp,
@@ -3386,8 +3397,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
         if (autoDeletionSpaceCheckBox.isSelected()) {
             if (increments == null) {
-                RdiffFileDatabase rdiffFileDatabase =
-                        rdiffChooserPanel.getRdiffFileDatabase();
+                RdiffFileDatabase rdiffFileDatabase
+                        = rdiffChooserPanel.getRdiffFileDatabase();
                 increments = rdiffFileDatabase.getIncrements();
             }
 
@@ -3408,15 +3419,15 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                         rdiffTimestamp = increment.getRdiffTimestamp();
                         showMirrorWarning = true;
                     } else {
-                        Increment youngerIncrement =
-                                increment.getYoungerIncrement();
+                        Increment youngerIncrement
+                                = increment.getYoungerIncrement();
                         rdiffTimestamp = youngerIncrement.getRdiffTimestamp();
                     }
                     if (showMirrorWarning && !shutdownCheckBox.isSelected()) {
                         String warningMessage = BUNDLE.getString(
                                 "Warning_Auto_Delete_Space");
-                        String sizeString =
-                                FileTools.getDataVolumeString(size, 1);
+                        String sizeString
+                                = FileTools.getDataVolumeString(size, 1);
                         String maxSizeString = sizeNumber.toString()
                                 + autoDeletionSpaceComboBox.getSelectedItem();
                         warningMessage = MessageFormat.format(
@@ -3451,8 +3462,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 BUNDLE.getString("Every_Day"),
                 BUNDLE.getString("Every_X_Days")
             };
-            ChoiceFormat choiceFormat =
-                    new ChoiceFormat(timeouts, timeoutStrings);
+            ChoiceFormat choiceFormat
+                    = new ChoiceFormat(timeouts, timeoutStrings);
             MessageFormat messageFormat = new MessageFormat("{0}");
             messageFormat.setFormat(0, choiceFormat);
             Object[] arguments = {reminderTimeout};
@@ -3556,8 +3567,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 return;
             }
 
-            final FilenameCheckSwingWorker filenameCheckSwingWorker =
-                    new FilenameCheckSwingWorker(parentFrame, encfsDir);
+            final FilenameCheckSwingWorker filenameCheckSwingWorker
+                    = new FilenameCheckSwingWorker(parentFrame, encfsDir);
             filenameCheckSwingWorker.execute();
 
             new Thread() {
@@ -3570,24 +3581,24 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                         // during tansfer: ".<filename>.abcdef"
                         // therefore we need to subtract another eight
                         // characters
-                        int maxFilenameLength =
-                                filenameCheckSwingWorker.get() - 8;
+                        int maxFilenameLength
+                                = filenameCheckSwingWorker.get() - 8;
                         // check source directory
-                        final DirectoryCheckDialog directoryCheckDialog =
-                                new DirectoryCheckDialog(parentFrame);
-                        ModalDialogHandler dialogHandler =
-                                new ModalDialogHandler(directoryCheckDialog);
+                        final DirectoryCheckDialog directoryCheckDialog
+                                = new DirectoryCheckDialog(parentFrame);
+                        ModalDialogHandler dialogHandler
+                                = new ModalDialogHandler(directoryCheckDialog);
                         directoryCheckDialog.setFilenameCheckEnabled(
                                 true, maxFilenameLength);
-                        EncryptionCheckSwingWorker encryptionCheckSwingWorker =
-                                new EncryptionCheckSwingWorker(parentFrame,
-                                BackupMainPanel.this, directoryCheckDialog,
-                                dialogHandler, destinationDirectory,
-                                tmpCipherDir, encfsDir, password,
-                                maxFilenameLength);
+                        EncryptionCheckSwingWorker encryptionCheckSwingWorker
+                                = new EncryptionCheckSwingWorker(parentFrame,
+                                        BackupMainPanel.this, directoryCheckDialog,
+                                        dialogHandler, destinationDirectory,
+                                        tmpCipherDir, encfsDir, password,
+                                        maxFilenameLength);
                         if (FileTools.isSpaceKnown(destinationDirectory)) {
-                            long usableSpace =
-                                    destinationDirectory.getUsableSpace();
+                            long usableSpace
+                                    = destinationDirectory.getUsableSpace();
                             directoryCheckDialog.setFreeSpaceKnown(
                                     true, usableSpace);
                             encryptionCheckSwingWorker.setUsableSpace(
@@ -3660,9 +3671,9 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                     if (returnValue != 0) {
                         JEditorPane editorPane = new JEditorPane("text/html",
                                 BUNDLE.getString(
-                                (CurrentOperatingSystem.OS
-                                == OperatingSystem.Mac_OS_X)
-                                ? "Warning_No_SSHFS_OSX" : "Warning_No_SSHFS"));
+                                        (CurrentOperatingSystem.OS
+                                        == OperatingSystem.Mac_OS_X)
+                                        ? "Warning_No_SSHFS_OSX" : "Warning_No_SSHFS"));
                         Color background = UIManager.getDefaults().getColor(
                                 "Panel.background");
                         editorPane.setBackground(background);
@@ -3704,9 +3715,9 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 } else {
                     JEditorPane editorPane = new JEditorPane("text/html",
                             BUNDLE.getString(
-                            (CurrentOperatingSystem.OS
-                            == OperatingSystem.Mac_OS_X)
-                            ? "Warning_No_ENCFS_OSX" : "Warning_No_ENCFS"));
+                                    (CurrentOperatingSystem.OS
+                                    == OperatingSystem.Mac_OS_X)
+                                    ? "Warning_No_ENCFS_OSX" : "Warning_No_ENCFS"));
                     Color background = UIManager.getDefaults().getColor(
                             "Panel.background");
                     editorPane.setBackground(background);
@@ -3744,8 +3755,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     }
 
     private void lock() {
-        RdiffFileDatabase rdiffFileDatabase =
-                rdiffChooserPanel.getRdiffFileDatabase();
+        RdiffFileDatabase rdiffFileDatabase
+                = rdiffChooserPanel.getRdiffFileDatabase();
         if (rdiffFileDatabase != null) {
             rdiffFileDatabase.close();
         }
@@ -3861,8 +3872,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         }
 
         // rdiff-backup checks
-        File rdiffBackupDataDir =
-                new File(destinationDirectory, "rdiff-backup-data");
+        File rdiffBackupDataDir
+                = new File(destinationDirectory, "rdiff-backup-data");
         if (rdiffBackupDataDir.exists()
                 && (!rdiffBackupDataDir.canRead()
                 || !FileTools.canWrite(rdiffBackupDataDir))) {
@@ -4070,8 +4081,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         smbLoginProgressBar.setIndeterminate(true);
 
         // execute the blocking SMB login process in a background thread
-        SmbLoginSwingWorker smbLoginSwingWorker =
-                new SmbLoginSwingWorker(host, share, switchToBackup);
+        SmbLoginSwingWorker smbLoginSwingWorker
+                = new SmbLoginSwingWorker(host, share, switchToBackup);
         smbLoginSwingWorker.execute();
     }
 
@@ -4100,8 +4111,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         sshLoginProgressBar.setIndeterminate(true);
 
         // execute the blocking SSH login process in a background thread
-        SshLoginSwingWorker sshLoginSwingWorker =
-                new SshLoginSwingWorker(host, user, switchToBackup);
+        SshLoginSwingWorker sshLoginSwingWorker
+                = new SshLoginSwingWorker(host, user, switchToBackup);
         sshLoginSwingWorker.execute();
     }
 
@@ -4280,11 +4291,11 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         stringBuilder.append(LINE_SEPARATOR);
         String rawChangeString = content.get("TotalDestinationSizeChange");
         long totalChange = Long.parseLong(rawChangeString);
-        String formattedTotalChange =
-                FileTools.getDataVolumeString(totalChange, 2);
+        String formattedTotalChange
+                = FileTools.getDataVolumeString(totalChange, 2);
         String totalChangeLine = BUNDLE.getString("Total_Changed_Size");
-        totalChangeLine =
-                MessageFormat.format(totalChangeLine, formattedTotalChange);
+        totalChangeLine
+                = MessageFormat.format(totalChangeLine, formattedTotalChange);
         stringBuilder.append(totalChangeLine);
         stringBuilder.append(LINE_SEPARATOR);
         String elapsedTimeLine = BUNDLE.getString("Elapsed_Time");
@@ -4390,7 +4401,9 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
                     return (returnValue == 0);
                 }
-            } catch (Exception exception) {
+            } catch (IOException exception) {
+                LOGGER.log(Level.WARNING, "SSH login failed", exception);
+            } catch (SecurityException exception) {
                 LOGGER.log(Level.WARNING, "SSH login failed", exception);
             }
             return false;
@@ -4485,7 +4498,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                         LOGGER.log(Level.WARNING, "{0} is not supported",
                                 CurrentOperatingSystem.OS);
                 }
-            } catch (Exception exception) {
+            } catch (IOException exception) {
                 LOGGER.log(Level.WARNING, "SMB login failed", exception);
             }
             return (returnValue == 0);
@@ -4573,7 +4586,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         protected Boolean doInBackground() {
             try {
                 return runJob();
-            } catch (Exception exception) {
+            } catch (IOException exception) {
                 LOGGER.log(Level.WARNING, "backup failed", exception);
             }
             return false;
@@ -4603,9 +4616,9 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
                     long time = now - start;
                     String timeString = timeFormat.format(new Date(time));
-                    Map<String, String> backupSessionStatistics =
-                            rdiffBackupRestore.getBackupSessionStatistics(
-                            destinationPath);
+                    Map<String, String> backupSessionStatistics
+                            = rdiffBackupRestore.getBackupSessionStatistics(
+                                    destinationPath);
                     fillStatisticsTextField(
                             backupSessionStatistics, timeString);
                     showCard(BackupMainPanel.this,
@@ -4614,11 +4627,11 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
                 } else {
                     if (!processCancelled) {
-                        String errorMessage =
-                                rdiffBackupRestore.getStdErr();
+                        String errorMessage
+                                = rdiffBackupRestore.getStdErr();
                         ErrorDialog dialog = new ErrorDialog(parentFrame,
                                 BUNDLE.getString(
-                                "Error_Rdiffbackup_Failed"), errorMessage);
+                                        "Error_Rdiffbackup_Failed"), errorMessage);
                         dialog.setVisible(true);
                     }
                     showCard(BackupMainPanel.this, "mainTabbedPane");
@@ -4754,7 +4767,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                         selectedFiles, backupDirectory,
                         restoreDirectory, tempDirTextField.getText(),
                         countFiles);
-            } catch (Exception exception) {
+            } catch (IOException exception) {
                 LOGGER.log(Level.WARNING, "restore failed", exception);
             }
             return false;
@@ -4780,11 +4793,11 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                     if (processCancelled) {
                         LOGGER.warning("restore operation was cancelled");
                     } else {
-                        String errorMessage =
-                                rdiffBackupRestore.getStdErr();
+                        String errorMessage
+                                = rdiffBackupRestore.getStdErr();
                         ErrorDialog dialog = new ErrorDialog(parentFrame,
                                 BUNDLE.getString(
-                                "Error_Rdiffbackup_Failed"), errorMessage);
+                                        "Error_Rdiffbackup_Failed"), errorMessage);
                         dialog.setVisible(true);
                     }
                     showCard(BackupMainPanel.this, "mainTabbedPane");
@@ -4814,8 +4827,8 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             String currentFile = rdiffBackupRestore.getCurrentFile();
             long restoreCounter = rdiffBackupRestore.getRestoreCounter();
 
-            RdiffBackupRestore.RestoreState restoreState =
-                    rdiffBackupRestore.getRestoreState();
+            RdiffBackupRestore.RestoreState restoreState
+                    = rdiffBackupRestore.getRestoreState();
             if (restoreState != null) {
                 switch (restoreState) {
                     case Counting:

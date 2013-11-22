@@ -97,7 +97,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
             <arg value="check_icons.sh"></arg>
         </exec>
     </target>
-    <target name="4_debian_package">
+    <target name="4_debian_packages">
         <!-- build debian package -->
         <exec executable="dpkg-buildpackage">
             <arg value="-rfakeroot"/>

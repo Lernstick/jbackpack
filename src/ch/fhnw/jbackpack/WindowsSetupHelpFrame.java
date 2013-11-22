@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -47,12 +48,12 @@ import javax.swing.UIManager;
  */
 public class WindowsSetupHelpFrame extends javax.swing.JFrame {
 
-    private final static Logger LOGGER =
-            Logger.getLogger(WindowsSetupHelpFrame.class.getName());
+    private final static Logger LOGGER
+            = Logger.getLogger(WindowsSetupHelpFrame.class.getName());
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
             "ch/fhnw/jbackpack/Strings");
-    private final static File HOME_DIR =
-            new File(System.getProperty("user.home"));
+    private final static File HOME_DIR
+            = new File(System.getProperty("user.home"));
 
     /**
      * Creates new form WindowsSetupHelpFrame
@@ -181,10 +182,10 @@ public class WindowsSetupHelpFrame extends javax.swing.JFrame {
                     + "d/d/9/dd9a82d0-52ef-40db-8dab-795376989c03/"
                     + "vcredist_x86.exe");
 
-            final DownloadSwingWorker downloadSwingWorker =
-                    new DownloadSwingWorker(this, url,
-                    "Microsoft Visual C++ 2008 Redistributable Package",
-                    exeFile);
+            final DownloadSwingWorker downloadSwingWorker
+                    = new DownloadSwingWorker(this, url,
+                            "Microsoft Visual C++ 2008 Redistributable Package",
+                            exeFile);
             downloadSwingWorker.execute();
 
             new Thread() {
@@ -193,8 +194,8 @@ public class WindowsSetupHelpFrame extends javax.swing.JFrame {
                 public void run() {
                     try {
                         if (downloadSwingWorker.get()) {
-                            ProcessExecutor processExecutor =
-                                    new ProcessExecutor();
+                            ProcessExecutor processExecutor
+                                    = new ProcessExecutor();
                             processExecutor.executeProcess(exeFile.getPath());
                         }
                     } catch (InterruptedException ex) {
@@ -205,14 +206,14 @@ public class WindowsSetupHelpFrame extends javax.swing.JFrame {
                 }
             }.start();
 
-        } catch (IOException ex) {
+        } catch (MalformedURLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 }//GEN-LAST:event_installMSButtonActionPerformed
 
     private void installRdiffbackupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_installRdiffbackupButtonActionPerformed
-        final File win32File =
-                new File(HOME_DIR, "rdiff-backup-1.2.8-win32.zip");
+        final File win32File
+                = new File(HOME_DIR, "rdiff-backup-1.2.8-win32.zip");
         LOGGER.log(Level.INFO, "downloading to {0}", win32File);
         final String description = "rdiff-backup";
         try {
@@ -220,9 +221,9 @@ public class WindowsSetupHelpFrame extends javax.swing.JFrame {
             URL url = new URL("http://savannah.nongnu.org/download/"
                     + "rdiff-backup/rdiff-backup-1.2.8-win32.zip");
 
-            final DownloadSwingWorker downloadSwingWorker =
-                    new DownloadSwingWorker(
-                    this, url, description, win32File);
+            final DownloadSwingWorker downloadSwingWorker
+                    = new DownloadSwingWorker(
+                            this, url, description, win32File);
             downloadSwingWorker.execute();
 
             new Thread() {
@@ -233,8 +234,8 @@ public class WindowsSetupHelpFrame extends javax.swing.JFrame {
                         if (downloadSwingWorker.get()) {
                             unpackAndCopy(win32File, description);
                         } else {
-                            String errorMessage =
-                                    BUNDLE.getString("Downloading_Failed");
+                            String errorMessage
+                                    = BUNDLE.getString("Downloading_Failed");
                             errorMessage = MessageFormat.format(
                                     errorMessage, description,
                                     downloadSwingWorker.getIoException());
@@ -256,7 +257,7 @@ public class WindowsSetupHelpFrame extends javax.swing.JFrame {
                 }
             }.start();
 
-        } catch (IOException ex) {
+        } catch (MalformedURLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 }//GEN-LAST:event_installRdiffbackupButtonActionPerformed
@@ -264,7 +265,7 @@ public class WindowsSetupHelpFrame extends javax.swing.JFrame {
     private void restartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restartButtonActionPerformed
         setVisible(false);
         dispose();
-        JBackpack.systemCheck();
+        JBackpack.systemCheck(false);
 }//GEN-LAST:event_restartButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
@@ -299,7 +300,6 @@ public class WindowsSetupHelpFrame extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
 
             // open Explorer window and let the user copy the file manually...
-
             // desktop.browse() did not work on lenovo netbook!?
 //            Desktop desktop = Desktop.getDesktop();
 //            desktop.browse(system32Dir.toURI());

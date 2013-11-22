@@ -50,6 +50,7 @@ import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
+import javax.help.HelpSetException;
 import javax.help.SwingHelpUtilities;
 import javax.swing.*;
 
@@ -63,16 +64,16 @@ public class BackupFrame extends javax.swing.JFrame {
     /**
      * the path to the icon ressource
      */
-    public static final String ICON_PATH =
-            "/ch/fhnw/jbackpack/icons/32x32/icon.png";
+    public static final String ICON_PATH
+            = "/ch/fhnw/jbackpack/icons/32x32/icon.png";
     private static final Logger LOGGER = Logger.getLogger(
             BackupFrame.class.getName());
     private static final Logger UTIL_LOGGER = Logger.getLogger(
             ProcessExecutor.class.getPackage().getName());
     private static final Logger GLOBAL_LOGGER = Logger.getLogger(
             BackupFrame.class.getPackage().getName());
-    private static final ResourceBundle BUNDLE =
-            ResourceBundle.getBundle("ch/fhnw/jbackpack/Strings");
+    private static final ResourceBundle BUNDLE
+            = ResourceBundle.getBundle("ch/fhnw/jbackpack/Strings");
     private static final String PROFILES_PATH = "profiles_path";
     private static final String RECENT_PROFILE = "recent_profile_";
     private static final String LOGGING_LEVEL = "logging_level";
@@ -89,8 +90,11 @@ public class BackupFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form BackupFrame
+     *
+     * @param restoreOnly if <code>true</code>, only the restore tab is shown,
+     * otherwise all tabs are shown
      */
-    public BackupFrame() {
+    public BackupFrame(boolean restoreOnly) {
         preferences = Preferences.userNodeForPackage(JBackpack.class);
         int logLevelOrdinal = preferences.getInt(
                 LOGGING_LEVEL, LogLevel.INFO.ordinal());
@@ -123,14 +127,14 @@ public class BackupFrame extends javax.swing.JFrame {
         }
         setLogLevel(LogLevel.values()[logLevelOrdinal]);
         LOGGER.info("*********** Starting JBackpack ***********");
-
+        
         recentProfiles = new ArrayList<String>();
-
+        
         initComponents();
 
         // configure all accelerators
-        int menuShortcutKeyMask =
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        int menuShortcutKeyMask
+                = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
         newProfileMenuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_N, menuShortcutKeyMask));
         openProfileMenuItem.setAccelerator(
@@ -139,7 +143,7 @@ public class BackupFrame extends javax.swing.JFrame {
                 KeyStroke.getKeyStroke(KeyEvent.VK_S, menuShortcutKeyMask));
         quitMenuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_Q, menuShortcutKeyMask));
-
+        
         if (CurrentOperatingSystem.OS != OperatingSystem.Mac_OS_X) {
             // using mnemonics on Mac OS X is discouraged
             fileMenu.setMnemonic(BUNDLE.getString(
@@ -163,7 +167,7 @@ public class BackupFrame extends javax.swing.JFrame {
             aboutMenuItem.setMnemonic(BUNDLE.getString(
                     "BackupFrame.aboutMenuItem.mnemonic").charAt(0));
         }
-
+        
         List<Image> icons = new ArrayList<Image>();
         icons.add(new ImageIcon(getClass().getResource(
                 "/ch/fhnw/jbackpack/icons/16x16/icon.png")).getImage());
@@ -177,9 +181,9 @@ public class BackupFrame extends javax.swing.JFrame {
         icons.add(new ImageIcon(getClass().getResource(
                 "/ch/fhnw/jbackpack/icons/512x512/icon.png")).getImage());
         setIconImages(icons);
-
+        
         setupOSXApplication(dockImage);
-
+        
         init();
 
         // load preferences
@@ -198,18 +202,18 @@ public class BackupFrame extends javax.swing.JFrame {
         try {
             SwingHelpUtilities.setContentViewerUI(
                     "ch.fhnw.util.ExternalLinkContentViewerUI");
-            ClassLoader classLoader =
-                    Thread.currentThread().getContextClassLoader();
+            ClassLoader classLoader
+                    = Thread.currentThread().getContextClassLoader();
             String plaf;
             switch (CurrentOperatingSystem.OS) {
                 case Mac_OS_X:
                     plaf = "aqua";
                     break;
-
+                
                 case Windows:
                     plaf = "windows";
                     break;
-
+                
                 default:
                     plaf = "nimbus";
             }
@@ -217,10 +221,12 @@ public class BackupFrame extends javax.swing.JFrame {
                     "ch/fhnw/jbackpack/help/" + plaf + "/HelpSet.hs");
             HelpSet helpSet = new HelpSet(classLoader, helpSetURL);
             helpbroker = helpSet.createHelpBroker();
-        } catch (Exception exception) {
+        } catch (HelpSetException exception) {
             LOGGER.log(Level.SEVERE, "could not init Java help", exception);
         }
-
+        
+        backupMainPanel.setRestoreOnly(restoreOnly);
+        
         setLocationRelativeTo(null);
     }
 
@@ -372,13 +378,13 @@ public class BackupFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void saveProfileMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveProfileMenuItemActionPerformed
-
+        
         String title = BUNDLE.getString("Save_Profile");
-
+        
         File selectedFile = null;
         if (CurrentOperatingSystem.OS == OperatingSystem.Mac_OS_X) {
-            FileDialog fileDialog =
-                    new FileDialog(this, title, FileDialog.SAVE);
+            FileDialog fileDialog
+                    = new FileDialog(this, title, FileDialog.SAVE);
             fileDialog.setDirectory(profilesPath);
             fileDialog.setVisible(true);
             String directory = fileDialog.getDirectory();
@@ -395,12 +401,12 @@ public class BackupFrame extends javax.swing.JFrame {
                 selectedFile = fileChooser.getSelectedFile();
             }
         }
-
+        
         if (selectedFile != null) {
             backupMainPanel.savePreferences();
             try {
-                FileOutputStream fileOutputStream =
-                        new FileOutputStream(selectedFile);
+                FileOutputStream fileOutputStream
+                        = new FileOutputStream(selectedFile);
                 preferences.exportNode(fileOutputStream);
                 addToRecentProFiles(selectedFile.getPath());
                 JOptionPane.showMessageDialog(this,
@@ -423,8 +429,8 @@ public class BackupFrame extends javax.swing.JFrame {
         String title = BUNDLE.getString("Load_Profile");
         File selectedFile = null;
         if (CurrentOperatingSystem.OS == OperatingSystem.Mac_OS_X) {
-            FileDialog fileDialog =
-                    new FileDialog(this, title, FileDialog.LOAD);
+            FileDialog fileDialog
+                    = new FileDialog(this, title, FileDialog.LOAD);
             fileDialog.setDirectory(profilesPath);
             fileDialog.setVisible(true);
             String directory = fileDialog.getDirectory();
@@ -441,7 +447,7 @@ public class BackupFrame extends javax.swing.JFrame {
                 selectedFile = fileChooser.getSelectedFile();
             }
         }
-
+        
         if (selectedFile != null) {
             openProfile(selectedFile);
         }
@@ -454,11 +460,11 @@ public class BackupFrame extends javax.swing.JFrame {
 
             // add recent file entries
             for (String recentProfile : recentProfiles) {
-                JMenuItem newRecentProFileMenuItem =
-                        new JMenuItem(recentProfile);
+                JMenuItem newRecentProFileMenuItem
+                        = new JMenuItem(recentProfile);
                 newRecentProFileMenuItem.addActionListener(
                         new java.awt.event.ActionListener() {
-
+                            
                             public void actionPerformed(ActionEvent event) {
                                 JMenuItem menuItem = (JMenuItem) event.getSource();
                                 String path = menuItem.getText();
@@ -501,14 +507,14 @@ public class BackupFrame extends javax.swing.JFrame {
             dialog.setVisible(true);
         }
     }//GEN-LAST:event_formWindowOpened
-
+    
     private void configure() {
         String logFileName = null;
         try {
             // there is no API to get the current file name frome FileHandler
             // we must crack it up via reflection
-            Field filesField =
-                    FileHandler.class.getDeclaredField("files");
+            Field filesField
+                    = FileHandler.class.getDeclaredField("files");
             filesField.setAccessible(true);
             File[] files = (File[]) filesField.get(fileHandler);
             logFileName = files[0].getPath();
@@ -521,84 +527,91 @@ public class BackupFrame extends javax.swing.JFrame {
         } catch (SecurityException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-
-        PreferencesDialog preferencesDialog =
-                new PreferencesDialog(this, logFileName, logLevel,
-                backupMainPanel.isPlainBackupWarningSelected());
+        
+        PreferencesDialog preferencesDialog
+                = new PreferencesDialog(this, logFileName, logLevel,
+                        backupMainPanel.isPlainBackupWarningSelected());
         preferencesDialog.setVisible(true);
-
+        
         if (preferencesDialog.okPressed()) {
             setLogLevel(preferencesDialog.getLogLevel());
             backupMainPanel.setPlainBackupWarning(
                     preferencesDialog.isShowPlainBackupWarningSelected());
         }
     }
-
+    
     private void about() {
         AboutDialog aboutDialog = new AboutDialog(this);
         aboutDialog.setVisible(true);
     }
-
+    
     @SuppressWarnings("unchecked")
     private void setupOSXApplication(Image image) {
-
+        
         if (CurrentOperatingSystem.OS != OperatingSystem.Mac_OS_X) {
             return;
         }
-
+        
         try {
-            Class applicationClass =
-                    Class.forName("com.apple.eawt.Application");
-            Class applicationListenerClass =
-                    Class.forName("com.apple.eawt.ApplicationListener");
+            Class applicationClass
+                    = Class.forName("com.apple.eawt.Application");
+            Class applicationListenerClass
+                    = Class.forName("com.apple.eawt.ApplicationListener");
             Object application = applicationClass.newInstance();
             Object listener = Proxy.newProxyInstance(
                     applicationListenerClass.getClassLoader(),
                     new Class[]{applicationListenerClass},
                     new InvocationHandler() {
-
+                        
                         @Override
                         public Object invoke(
                                 Object proxy, Method method, Object[] args) {
-                            if (method.getName().equals("handleQuit")) {
-                                exit();
-                            }
-                            if (method.getName().equals("handlePreferences")) {
-                                configure();
-                            }
-                            if (method.getName().equals("handleAbout")) {
-                                about();
-                                setHandled(args[0], Boolean.TRUE);
-                            }
-                            return null;
-                        }
-
-                        private void setHandled(Object event, Boolean value) {
-                            try {
-                                Method handleMethod =
-                                        event.getClass().getMethod("setHandled",
-                                        new Class[]{boolean.class});
-                                handleMethod.invoke(event, new Object[]{value});
-                            } catch (Exception exception) {
-                                LOGGER.log(Level.WARNING, null, exception);
-                            }
-                        }
+                                    if (method.getName().equals("handleQuit")) {
+                                        exit();
+                                    }
+                                    if (method.getName().equals(
+                                            "handlePreferences")) {
+                                        configure();
+                                    }
+                                    if (method.getName().equals(
+                                            "handleAbout")) {
+                                        about();
+                                        setHandled(args[0], Boolean.TRUE);
+                                    }
+                                    return null;
+                                }
+                                
+                                private void setHandled(
+                                        Object event, Boolean value) {
+                                            try {
+                                                Method handleMethod
+                                                = event.getClass().getMethod(
+                                                        "setHandled",
+                                                        new Class[]{
+                                                            boolean.class});
+                                                handleMethod.invoke(event,
+                                                        new Object[]{value});
+                                            } catch (Exception exception) {
+                                                LOGGER.log(Level.WARNING,
+                                                        "", exception);
+                                            }
+                                        }
                     });
-
-            Method addApplicationListenerMethod =
-                    applicationClass.getMethod(
-                    "addApplicationListener", applicationListenerClass);
+            
+            Method addApplicationListenerMethod
+                    = applicationClass.getMethod(
+                            "addApplicationListener", applicationListenerClass);
             addApplicationListenerMethod.invoke(application, listener);
-
+            
             Method enablePreferenceMethod = applicationClass.getMethod(
                     "setEnabledPreferencesMenu", new Class[]{boolean.class});
             enablePreferenceMethod.invoke(
                     application, new Object[]{Boolean.TRUE});
-
+            
             Method setDockIconImageMethod = applicationClass.getMethod(
                     "setDockIconImage", Image.class);
             setDockIconImageMethod.invoke(application, image);
-
+            
             fileMenu.remove(jSeparator1);
             fileMenu.remove(preferencesMenuItem);
             fileMenu.remove(jSeparator2);
@@ -608,14 +621,14 @@ public class BackupFrame extends javax.swing.JFrame {
             LOGGER.log(Level.WARNING, null, ex);
         }
     }
-
+    
     private void savingProfileFailed(Exception exception) {
         String errorMessage = BUNDLE.getString("Error_Saving_Profile");
         errorMessage = MessageFormat.format(errorMessage, exception.toString());
         JOptionPane.showMessageDialog(this, errorMessage,
                 BUNDLE.getString("Error"), JOptionPane.ERROR_MESSAGE);
     }
-
+    
     private void setLogLevel(LogLevel logLevel) {
         this.logLevel = logLevel;
         Level level = logLevel.getLevel();
@@ -626,12 +639,12 @@ public class BackupFrame extends javax.swing.JFrame {
             fileHandler.setLevel(level);
         }
     }
-
+    
     private void init() {
         backupMainPanel.setParentFrame(this);
         backupMainPanel.init();
     }
-
+    
     private void addToRecentProFiles(String path) {
         // look if entry already exists in list
         boolean entryExists = false;
@@ -643,7 +656,7 @@ public class BackupFrame extends javax.swing.JFrame {
                 break;
             }
         }
-
+        
         if (entryExists) {
             // move to top
             recentProfiles.add(0, recentProfiles.remove(existingIndex));
@@ -655,11 +668,11 @@ public class BackupFrame extends javax.swing.JFrame {
                 recentProfiles.remove(size - 1);
             }
         }
-
+        
         recentProfilesHaveChanged = true;
         savePreferences();
     }
-
+    
     private void openProfile(File profile) {
         try {
             FileInputStream fileInputStream = new FileInputStream(profile);
@@ -679,7 +692,7 @@ public class BackupFrame extends javax.swing.JFrame {
             openProfileFailed(profile.getPath());
         }
     }
-
+    
     private void openProfileFailed(String path) {
         String errorMessage = BUNDLE.getString("Error_Opening_Settings");
         errorMessage = MessageFormat.format(errorMessage, path);
@@ -688,13 +701,13 @@ public class BackupFrame extends javax.swing.JFrame {
         recentProfiles.remove(path);
         recentProfilesHaveChanged = true;
     }
-
+    
     private void exit() {
         backupMainPanel.savePreferences();
         savePreferences();
         System.exit(0);
     }
-
+    
     private void savePreferences() {
         preferences.put(PROFILES_PATH, profilesPath);
         for (int i = 0; i < recentProfiles.size(); i++) {

@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * the JBackpack main class
@@ -55,73 +56,78 @@ public class JBackpack {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        if ((args.length > 0) && "--reminder".equals(args[0])) {
-            Preferences preferences =
-                    Preferences.userNodeForPackage(JBackpack.class);
+        boolean restoreOnly = false;
+        for (String arg : args) {
+            if ("--reminder".equals(arg)) {
+                Preferences preferences
+                        = Preferences.userNodeForPackage(JBackpack.class);
 
-            // do we have to show the reminder at all?
-            if (!preferences.getBoolean(SHOW_REMINDER, false)) {
-                return;
-            }
+                // do we have to show the reminder at all?
+                if (!preferences.getBoolean(SHOW_REMINDER, false)) {
+                    return;
+                }
 
-            // after how many days are we supposed to show a reminder?
-            int reminderTimeout = preferences.getInt(
-                    REMINDER_TIMEOUT, Integer.MIN_VALUE);
-            if (reminderTimeout == Integer.MIN_VALUE) {
-                Logger.getLogger(JBackpack.class.getName()).warning(
-                        "could not find reminder timeout in preferences!");
-                return;
-            }
+                // after how many days are we supposed to show a reminder?
+                int reminderTimeout = preferences.getInt(
+                        REMINDER_TIMEOUT, Integer.MIN_VALUE);
+                if (reminderTimeout == Integer.MIN_VALUE) {
+                    Logger.getLogger(JBackpack.class.getName()).warning(
+                            "could not find reminder timeout in preferences!");
+                    return;
+                }
 
-            // when was the last backup?
-            long lastBackup = preferences.getLong(LAST_BACKUP, Long.MIN_VALUE);
-            if (lastBackup == Long.MIN_VALUE) {
-                Logger.getLogger(JBackpack.class.getName()).info(
-                        "no backup timestamp found");
-            }
+                // when was the last backup?
+                long lastBackup
+                        = preferences.getLong(LAST_BACKUP, Long.MIN_VALUE);
+                if (lastBackup == Long.MIN_VALUE) {
+                    Logger.getLogger(JBackpack.class.getName()).info(
+                            "no backup timestamp found");
+                }
 
-            // how long is it ago?
-            long now = System.currentTimeMillis();
-            int daysSinceLastBackup =
-                    (int) ((now - lastBackup) / 86400000);
-            if (daysSinceLastBackup < reminderTimeout) {
-                return;
-            }
+                // how long is it ago?
+                long now = System.currentTimeMillis();
+                int daysSinceLastBackup = (int) ((now - lastBackup) / 86400000);
+                if (daysSinceLastBackup < reminderTimeout) {
+                    return;
+                }
 
-            // we have to show a reminder
-            setLookAndFeel();
-            checkJavaVersion();
-            Date lastBackupDate = new Date(lastBackup);
-            DateFormat dateFormat = DateFormat.getDateTimeInstance(
-                    DateFormat.FULL, DateFormat.MEDIUM);
-            String timeString = dateFormat.format(lastBackupDate);
-            ResourceBundle bundle = ResourceBundle.getBundle(
-                    "ch/fhnw/jbackpack/Strings");
-            String message = bundle.getString("Reminder_Message");
-            message = MessageFormat.format(message, timeString);
-            Object[] options = new Object[]{
-                bundle.getString("Start_Backup_Program"),
-                bundle.getString("Cancel")
-            };
-            // keep splashscreen open as long as possible...
-            SplashScreen splashScreen = SplashScreen.getSplashScreen();
-            if (splashScreen != null) {
-                splashScreen.close();
+                // we have to show a reminder
+                setLookAndFeel();
+                checkJavaVersion();
+                Date lastBackupDate = new Date(lastBackup);
+                DateFormat dateFormat = DateFormat.getDateTimeInstance(
+                        DateFormat.FULL, DateFormat.MEDIUM);
+                String timeString = dateFormat.format(lastBackupDate);
+                ResourceBundle bundle = ResourceBundle.getBundle(
+                        "ch/fhnw/jbackpack/Strings");
+                String message = bundle.getString("Reminder_Message");
+                message = MessageFormat.format(message, timeString);
+                Object[] options = new Object[]{
+                    bundle.getString("Start_Backup_Program"),
+                    bundle.getString("Cancel")
+                };
+                // keep splashscreen open as long as possible...
+                SplashScreen splashScreen = SplashScreen.getSplashScreen();
+                if (splashScreen != null) {
+                    splashScreen.close();
+                }
+                int returnValue = JOptionPane.showOptionDialog(
+                        null, message, bundle.getString("Reminder"),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                if (returnValue == JOptionPane.YES_OPTION) {
+                    systemCheck(false);
+                    return;
+                }
+            } else if ("--restoreOnly".equals(arg)) {
+                restoreOnly = true;
             }
-            int returnValue = JOptionPane.showOptionDialog(
-                    null, message, bundle.getString("Reminder"),
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-            if (returnValue == JOptionPane.YES_OPTION) {
-                systemCheck();
-            }
-
-        } else {
-            // a normal application start without any command line arguments
-            setLookAndFeel();
-            checkJavaVersion();
-            systemCheck();
         }
+
+        // a normal application start without any command line arguments
+        setLookAndFeel();
+        checkJavaVersion();
+        systemCheck(restoreOnly);
     }
 
     /**
@@ -171,8 +177,11 @@ public class JBackpack {
 
     /**
      * checks that JBackpack can be run
+     *
+     * @param restoreOnly if <code>true</code>, only the restore tab is shown,
+     * otherwise all tabs are shown
      */
-    public static void systemCheck() {
+    public static void systemCheck(final boolean restoreOnly) {
         ProcessExecutor processExecutor = new ProcessExecutor();
         int returnValue = processExecutor.executeProcess(
                 "rdiff-backup", "--version");
@@ -181,7 +190,7 @@ public class JBackpack {
             java.awt.EventQueue.invokeLater(new Runnable() {
 
                 public void run() {
-                    new BackupFrame().setVisible(true);
+                    new BackupFrame(restoreOnly).setVisible(true);
                 }
             });
 

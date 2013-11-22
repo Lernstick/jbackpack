@@ -14,3 +14,15 @@ Description: a graphical frontend for rdiff-backup
  line options of rdiff-backup and adds the possibility to browse remote backup
  destination folders via sshfs and encryption of the backup destination folder
  with the help of encfs.
+
+Package: jbackpack-full
+Architecture: all
+Depends: jbackpack
+Description: a menu entry for the full JBackpack version
+ This package installs a menu entry for the full JBackpack version.
+
+Package: jbackpack-restore
+Architecture: all
+Depends: jbackpack
+Description: a menu entry for the restore-only JBackpack version
+ This package installs a menu entry for the restore-only JBackpack version.

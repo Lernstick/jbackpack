@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=System;
+Exec=/usr/bin/jbackpack --restoreOnly
+Icon=/usr/share/icons/jbackpack.png
+GenericName=Restore
+GenericName[de]=Wiederherstellung
+Name=JBackpack
+StartupNotify=true
+StartupWMClass=sun-awt-X11-XFramePeer
+Type=Application
