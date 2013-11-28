@@ -1,3 +1,9 @@
+jbackpack (0.9.6-2) UNRELEASED; urgency=low
+
+  * added restore-only variant with administrative rights
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 28 Nov 2013 18:25:17 +0100
+
 jbackpack (0.9.6-1) unstable; urgency=low
 
   * added reload button in restore tab

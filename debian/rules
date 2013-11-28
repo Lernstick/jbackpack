@@ -9,11 +9,13 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-DESTDIR         = $(CURDIR)/debian/jbackpack
-DESTDIR_FULL    = $(CURDIR)/debian/jbackpack-full
-DESTDIR_RESTORE = $(CURDIR)/debian/jbackpack-restore
-APPDIR_FULL     = $(DESTDIR_FULL)/usr/share/applications
-APPDIR_RESTORE  = $(DESTDIR_RESTORE)/usr/share/applications
+DESTDIR               = $(CURDIR)/debian/jbackpack
+DESTDIR_FULL          = $(CURDIR)/debian/jbackpack-full
+DESTDIR_RESTORE       = $(CURDIR)/debian/jbackpack-restore
+DESTDIR_RESTORE_ADMIN = $(CURDIR)/debian/jbackpack-restore-admin
+APPDIR_FULL           = $(DESTDIR_FULL)/usr/share/applications
+APPDIR_RESTORE        = $(DESTDIR_RESTORE)/usr/share/applications
+APPDIR_RESTORE_ADMIN  = $(DESTDIR_RESTORE_ADMIN)/usr/share/applications
 
 configure: configure-stamp
 configure-stamp:
@@ -55,6 +57,10 @@ install: build
 	# jbackpack-restore package
 	mkdir -p $(APPDIR_RESTORE)
 	cp usr/share/applications/jbackpack_restore.desktop $(APPDIR_RESTORE)
+
+	# jbackpack-restore-admin package
+	mkdir -p $(APPDIR_RESTORE_ADMIN)
+	cp usr/share/applications/jbackpack_restore_admin.desktop $(APPDIR_RESTORE_ADMIN)
 
 # Build architecture-independent files here.
 binary-indep: build install

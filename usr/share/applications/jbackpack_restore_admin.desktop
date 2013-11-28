@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=System;
+Exec=su-to-root -X -c "/usr/bin/jbackpack --restoreOnly"
+Icon=/usr/share/icons/jbackpack.png
+GenericName=Restore with administrative rights
+GenericName[de]=Wiederherstellung mit Administratorrechten
+Name=JBackpack
+StartupNotify=true
+StartupWMClass=sun-awt-X11-XFramePeer
+Type=Application
