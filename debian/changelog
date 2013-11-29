@@ -1,8 +1,14 @@
-jbackpack (0.9.6-2) UNRELEASED; urgency=low
+jbackpack (0.9.6-4) unstable; urgency=low
+
+  * fixed tab handling in main view
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 29 Nov 2013 14:45:35 +0100
+
+jbackpack (0.9.6-3) unstable; urgency=low
 
   * added restore-only variant with administrative rights
 
- -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 28 Nov 2013 18:25:17 +0100
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 29 Nov 2013 14:35:24 +0100
 
 jbackpack (0.9.6-1) unstable; urgency=low
 

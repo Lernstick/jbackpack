@@ -376,7 +376,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     public void setRestoreOnly(boolean restoreOnly) {
         if (restoreOnly) {
             mainTabbedPane.remove(backupCardPanel);
-            mainTabbedPane.remove(directoriesPanel);
+            //mainTabbedPane.remove(directoriesPanel);
             mainTabbedPane.remove(advancedSettingsPanel);
             restoreTabActivated();
         }
@@ -2759,40 +2759,24 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
     private void mainTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_mainTabbedPaneStateChanged
 
-        int selectedIndex = mainTabbedPane.getSelectedIndex();
-        switch (selectedIndex) {
-            case 0:
-                // backup tab
-                String sourcePath = backupSourceTextField.getText();
-                File sourceDirectory = new File(sourcePath);
-                if (checkSourceCommon(sourcePath, sourceDirectory)
-                        && checkSourceBackup(sourceDirectory)
-                        && checkDestinationCommon()
-                        && checkDestinationBackup()
-                        && checkTempDirectory()) {
-                    showCard(backupCardPanel, "backupPanel");
-                }
-                break;
+        Component selectedComponent = mainTabbedPane.getSelectedComponent();
+        
+        if (selectedComponent == backupCardPanel) {
+            String sourcePath = backupSourceTextField.getText();
+            File sourceDirectory = new File(sourcePath);
+            if (checkSourceCommon(sourcePath, sourceDirectory)
+                    && checkSourceBackup(sourceDirectory)
+                    && checkDestinationCommon()
+                    && checkDestinationBackup()
+                    && checkTempDirectory()) {
+                showCard(backupCardPanel, "backupPanel");
+            }
 
-            case 1:
-                // restore tab
-                restoreTabActivated();
-                break;
-
-            case 2:
-                // directories tab
-                // just some focus handling
-                directoriesTabFocusHandling();
-                break;
-
-            case 3:
-                // advanced settings tab
-                // (nothing to do here...)
-                break;
-
-            default:
-                LOGGER.log(Level.WARNING,
-                        "unhandled tab index {0}", selectedIndex);
+        } else if (selectedComponent == restoreCardPanel) {
+            restoreTabActivated();
+            
+        } else if (selectedComponent == directoriesPanel) {
+            directoriesTabFocusHandling();
         }
     }//GEN-LAST:event_mainTabbedPaneStateChanged
 
