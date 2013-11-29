@@ -376,9 +376,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     public void setRestoreOnly(boolean restoreOnly) {
         if (restoreOnly) {
             mainTabbedPane.remove(backupCardPanel);
-            //mainTabbedPane.remove(directoriesPanel);
             mainTabbedPane.remove(advancedSettingsPanel);
-            restoreTabActivated();
         }
     }
 

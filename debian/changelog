@@ -1,8 +1,8 @@
-jbackpack (0.9.6-4) unstable; urgency=low
+jbackpack (0.9.6-5) unstable; urgency=low
 
   * fixed tab handling in main view
 
- -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 29 Nov 2013 14:45:35 +0100
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 29 Nov 2013 14:55:35 +0100
 
 jbackpack (0.9.6-3) unstable; urgency=low
 
