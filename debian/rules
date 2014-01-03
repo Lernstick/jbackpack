@@ -46,8 +46,8 @@ install: build
 	# jbackpack package
 	mkdir -p $(DESTDIR)/usr/bin/
 	cp usr/bin/jbackpack $(DESTDIR)/usr/bin/
-	mkdir -p $(DESTDIR)/usr/share/icons/
-	cp usr/share/icons/jbackpack.png $(DESTDIR)/usr/share/icons/
+	mkdir -p $(DESTDIR)/usr/share/icons/hicolor/scalable/apps/
+	cp usr/share/icons/hicolor/scalable/apps/jbackpack.svg $(DESTDIR)/usr/share/icons/hicolor/scalable/apps/
 	cp dist/jbackpack-linux-*.jar $(DESTDIR)/usr/bin/JBackpack.jar
 
 	# jbackpack-full package
