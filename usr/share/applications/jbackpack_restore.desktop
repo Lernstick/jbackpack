@@ -1,7 +1,7 @@
 [Desktop Entry]
 Categories=System;
 Exec=/usr/bin/jbackpack --restoreOnly
-Icon=/usr/share/icons/jbackpack.png
+Icon=jbackpack
 GenericName=Restore
 GenericName[de]=Wiederherstellung
 Name=JBackpack

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Categories=System;
 Exec=/usr/bin/jbackpack
-Icon=/usr/share/icons/jbackpack.png
+Icon=jbackpack
 GenericName=Backup & Restore
 GenericName[de]=Datensicherung & Wiederherstellung
 Name=JBackpack

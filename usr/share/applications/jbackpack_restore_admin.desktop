@@ -1,7 +1,7 @@
 [Desktop Entry]
 Categories=System;
 Exec=su-to-root -X -c "/usr/bin/jbackpack --restoreOnly"
-Icon=/usr/share/icons/jbackpack.png
+Icon=jbackpack
 GenericName=Restore with administrative rights
 GenericName[de]=Wiederherstellung mit Administratorrechten
 Name=JBackpack
