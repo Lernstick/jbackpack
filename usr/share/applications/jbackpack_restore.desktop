@@ -6,5 +6,5 @@ GenericName=Restore
 GenericName[de]=Wiederherstellung
 Name=JBackpack
 StartupNotify=true
-StartupWMClass=sun-awt-X11-XFramePeer
+StartupWMClass=ch-fhnw-jbackpack-JBackpack
 Type=Application

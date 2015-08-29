@@ -1,3 +1,28 @@
+jbackpack (0.9.6-10) lernstick-8; urgency=medium
+
+  * adopted StartupWMClass in destop files to GNOME's agenda
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 29 Aug 2015 20:44:08 +0200
+
+jbackpack (0.9.6-9) lernstick-8; urgency=medium
+
+  * fixed installation of desktop files for admin package
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 29 Aug 2015 17:59:58 +0200
+
+jbackpack (0.9.6-8) lernstick-8; urgency=medium
+
+  * added special desktop file for GNOME (shows only colliding desktop file
+    Name field, no GenericName field)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 29 Aug 2015 17:02:19 +0200
+
+jbackpack (0.9.6-7) lernstick-8; urgency=medium
+
+  * rebuild for lernstick-8
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 29 Aug 2015 06:44:53 +0200
+
 jbackpack (0.9.6-6) unstable; urgency=low
 
   * use svg icon

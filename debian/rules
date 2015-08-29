@@ -61,6 +61,7 @@ install: build
 	# jbackpack-restore-admin package
 	mkdir -p $(APPDIR_RESTORE_ADMIN)
 	cp usr/share/applications/jbackpack_restore_admin.desktop $(APPDIR_RESTORE_ADMIN)
+	cp usr/share/applications/jbackpack_restore_admin_gnome.desktop $(APPDIR_RESTORE_ADMIN)
 
 # Build architecture-independent files here.
 binary-indep: build install
