@@ -1,3 +1,9 @@
+jbackpack (0.9.6-11) lernstick-8; urgency=medium
+
+  * redirect stderr to /dev/null
+
+ -- Ronny Standtke <ronny@ronny-HP-EliteBook-2730p>  Fri, 20 Nov 2015 13:56:15 +0100
+
 jbackpack (0.9.6-10) lernstick-8; urgency=medium
 
   * adopted StartupWMClass in destop files to GNOME's agenda
