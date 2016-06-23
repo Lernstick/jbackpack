@@ -392,16 +392,19 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!-- update javahelp index -->
         <echo>Updating the JavaHelp index files...</echo>
-        <!-- do not index version control files-->
+        <!-- do not index version control files
         <move failonerror="false"
               file="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}/.svn/"
               tofile="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}_svn/"/>
+        -->
         <exec dir="src/ch/fhnw/jbackpack/help/${plaf}" executable="jhindexer">
             <arg line="-verbose -locale ${doc_language} -db JavaHelpSearch_${doc_language} ${doc_language}"/>
         </exec>
+        <!--
         <move failonerror="false"
               file="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}_svn/"
               tofile="src/ch/fhnw/jbackpack/help/${plaf}/${doc_language}/.svn/"/>
+        -->
     </target>
 
     <target name="create-pdf">
