@@ -1,8 +1,18 @@
+jbackpack (0.9.6-12) lernstick-8; urgency=medium
+
+  [ Ronny Standtke ]
+  * [341e4c] added French translation (thanks to Bastien Jacot-Guillarmod)
+  * [8b47a3] updated NetBeans project files
+  * [009f1b] small cleanup in the French translation file
+  * [ae3b54] use polkit instead of sudo
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 23 Jun 2016 10:08:37 +0200
+
 jbackpack (0.9.6-11) lernstick-8; urgency=medium
 
   * redirect stderr to /dev/null
 
- -- Ronny Standtke <ronny@ronny-HP-EliteBook-2730p>  Fri, 20 Nov 2015 13:56:15 +0100
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 20 Nov 2015 13:56:15 +0100
 
 jbackpack (0.9.6-10) lernstick-8; urgency=medium
 
