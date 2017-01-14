@@ -16,6 +16,7 @@ DESTDIR_RESTORE_ADMIN = $(CURDIR)/debian/jbackpack-restore-admin
 APPDIR_FULL           = $(DESTDIR_FULL)/usr/share/applications
 APPDIR_RESTORE        = $(DESTDIR_RESTORE)/usr/share/applications
 APPDIR_RESTORE_ADMIN  = $(DESTDIR_RESTORE_ADMIN)/usr/share/applications
+POLKIT_DIR            = $(DESTDIR_RESTORE_ADMIN)/usr/share/polkit-1/actions
 
 configure: configure-stamp
 configure-stamp:
@@ -60,8 +61,10 @@ install: build
 
 	# jbackpack-restore-admin package
 	mkdir -p $(APPDIR_RESTORE_ADMIN)
+	mkdir -p $(POLKIT_DIR)
 	cp usr/share/applications/jbackpack_restore_admin.desktop $(APPDIR_RESTORE_ADMIN)
 	cp usr/share/applications/jbackpack_restore_admin_gnome.desktop $(APPDIR_RESTORE_ADMIN)
+	cp usr/share/polkit-1/actions/* $(POLKIT_DIR)
 
 # Build architecture-independent files here.
 binary-indep: build install
