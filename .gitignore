@@ -1,1 +1,17 @@
+build-stamp
+build/
+configure-stamp
+debian/files
+debian/jbackpack-full.debhelper.log
+debian/jbackpack-full.substvars
+debian/jbackpack-full/
+debian/jbackpack-restore-admin.debhelper.log
+debian/jbackpack-restore-admin.substvars
+debian/jbackpack-restore-admin/
+debian/jbackpack-restore.debhelper.log
+debian/jbackpack-restore.substvars
+debian/jbackpack-restore/
+debian/jbackpack.debhelper.log
+debian/jbackpack.substvars
+debian/jbackpack/
 /dist/
