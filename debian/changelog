@@ -1,3 +1,12 @@
+jbackpack (0.9.6-13) lernstick-8; urgency=medium
+
+  * [18b574] added .gitignore file
+  * [439b0c] commented out some svn specific rules in our ant buildfile
+  * [a49d70] fixed polkit action file and its installation
+  * [2d26ca] complemented gitignore file
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 14 Jan 2017 18:06:39 +0100
+
 jbackpack (0.9.6-12) lernstick-8; urgency=medium
 
   [ Ronny Standtke ]
