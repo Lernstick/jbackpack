@@ -1,6 +1,6 @@
 [Desktop Entry]
 Categories=System;
-Exec=pkexec /usr/bin/jbackpack --restoreOnly
+Exec=sh -c "pkexec /usr/bin/jbackpack --restoreOnly && true"
 Icon=jbackpack
 GenericName=Restore with administrative rights
 GenericName[de]=Wiederherstellung mit Administratorrechten
