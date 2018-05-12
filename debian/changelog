@@ -1,3 +1,10 @@
+jbackpack (0.9.6-15) lernstick-9; urgency=medium
+
+  * [57c6e1] changed dependency from java-runtime (only provided by openjdk-9)
+    to java8-runtime
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 12 May 2018 14:17:41 +0200
+
 jbackpack (0.9.6-14) lernstick-8; urgency=medium
 
   * [66baa7] adopted restore_admin destkop files to Debian 9
