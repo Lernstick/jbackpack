@@ -529,6 +529,10 @@ public class RdiffBackupRestore {
         if (!compressFiles) {
             commandList.add("--no-compression");
         }
+        // enforce backup
+        // otherwise we can't backup a directory that was an an rdiff-backup
+        // destination before
+        commandList.add("-b");
 
         String sourcePath = source.getPath();
         if (CurrentOperatingSystem.OS == OperatingSystem.Windows) {

@@ -21,6 +21,7 @@ package ch.fhnw.jbackpack;
 import ch.fhnw.jbackpack.chooser.Increment;
 import ch.fhnw.jbackpack.chooser.RdiffFile;
 import ch.fhnw.jbackpack.chooser.RdiffFileDatabase;
+import ch.fhnw.jbackpack.chooser.TestEnvironment;
 import ch.fhnw.util.FileTools;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.File;
@@ -46,6 +47,25 @@ public class RdiffBackupRestoreTest extends TestCase {
             RdiffBackupRestoreTest.class.getName());
 
     /**
+     * test if we can even backup a backup destination directory
+     *
+     * @throws Exception if an exception occurs
+     */
+    @Test
+    public void testBackupMode() throws Exception {
+
+        TestEnvironment testEnvironment = new TestEnvironment();
+        File sourceDir = testEnvironment.getBackupDirectory();
+        File destinationDir = FileTools.createTempDirectory(
+                RdiffBackupRestoreTest.class.getSimpleName(), null);
+
+        RdiffBackupRestore rdiffRestore = new RdiffBackupRestore();
+        assertTrue(rdiffRestore.backupViaFileSystem(sourceDir, destinationDir,
+                null, null, null, true, null, null,
+                false, false, false, false, false));
+    }
+
+    /**
      * test counting of restore files
      *
      * @throws Exception if an exception occurs
@@ -56,8 +76,8 @@ public class RdiffBackupRestoreTest extends TestCase {
         // show some logs on console
         ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(Level.ALL);
-        Logger processExecutorLogger =
-                Logger.getLogger(ProcessExecutor.class.getName());
+        Logger processExecutorLogger
+                = Logger.getLogger(ProcessExecutor.class.getName());
         processExecutorLogger.setLevel(Level.ALL);
         processExecutorLogger.addHandler(consoleHandler);
 
@@ -90,8 +110,8 @@ public class RdiffBackupRestoreTest extends TestCase {
             }
 
             // backup
-            String backupDirectoryPath =
-                    tempDirectory.getPath() + File.separatorChar + "back up";
+            String backupDirectoryPath
+                    = tempDirectory.getPath() + File.separatorChar + "back up";
             ProcessExecutor processExecutor = new ProcessExecutor();
             processExecutor.executeProcess("rdiff-backup",
                     sourceDirectory.getPath(), backupDirectoryPath);
@@ -128,8 +148,8 @@ public class RdiffBackupRestoreTest extends TestCase {
 
             // get increment data
             File backupDirectory = new File(backupDirectoryPath);
-            RdiffFileDatabase rdiffFileDatabase =
-                    RdiffFileDatabase.getInstance(backupDirectory);
+            RdiffFileDatabase rdiffFileDatabase
+                    = RdiffFileDatabase.getInstance(backupDirectory);
             rdiffFileDatabase.sync();
             List<Increment> increments = rdiffFileDatabase.getIncrements();
 
@@ -174,8 +194,8 @@ public class RdiffBackupRestoreTest extends TestCase {
         // show some logs on console
         ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(Level.ALL);
-        Logger processExecutorLogger =
-                Logger.getLogger(ProcessExecutor.class.getName());
+        Logger processExecutorLogger
+                = Logger.getLogger(ProcessExecutor.class.getName());
         processExecutorLogger.setLevel(Level.ALL);
         processExecutorLogger.addHandler(consoleHandler);
 
@@ -224,8 +244,8 @@ public class RdiffBackupRestoreTest extends TestCase {
         deleteFile(sourceDir);
 
         // get increment data
-        RdiffFileDatabase rdiffFileDatabase =
-                RdiffFileDatabase.getInstance(backupDirectory);
+        RdiffFileDatabase rdiffFileDatabase
+                = RdiffFileDatabase.getInstance(backupDirectory);
         rdiffFileDatabase.sync();
         List<Increment> increments = rdiffFileDatabase.getIncrements();
 
@@ -287,8 +307,8 @@ public class RdiffBackupRestoreTest extends TestCase {
         assertTrue(directory.mkdirs());
         for (int j = 1; j <= numberOfFiles; j++) {
             File sourceFile = new File(directory, "file" + j);
-            FileOutputStream fileOutputStream =
-                    new FileOutputStream(sourceFile);
+            FileOutputStream fileOutputStream
+                    = new FileOutputStream(sourceFile);
             fileOutputStream.write(new byte[1]);
             fileOutputStream.close();
         }
