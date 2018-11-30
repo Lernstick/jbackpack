@@ -25,7 +25,12 @@ package ch.fhnw.util;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,17 +48,34 @@ public class ProcessExecutor {
      * the property for output line changes
      */
     public final static String LINE = "line";
-    private final static Logger LOGGER =
-            Logger.getLogger(ProcessExecutor.class.getName());
-    private static final String LINE_SEPARATOR =
-            System.getProperty("line.separator");
+    private final static Logger LOGGER
+            = Logger.getLogger(ProcessExecutor.class.getName());
+    private static final String LINE_SEPARATOR
+            = System.getProperty("line.separator");
+    private final boolean logOutput;
     private List<String> stdOut;
     private List<String> stdErr;
     private List<String> stdAll;
-    private final PropertyChangeSupport propertyChangeSupport =
-            new PropertyChangeSupport(this);
+    private final PropertyChangeSupport propertyChangeSupport
+            = new PropertyChangeSupport(this);
     private Process process;
     private Map<String, String> environment;
+
+    /**
+     * Creates a new ProcessExecutor that logs all output
+     */
+    public ProcessExecutor() {
+        this(true);
+    }
+
+    /**
+     * Creates a new ProcessExecutor
+     *
+     * @param logOutput if output should be logged
+     */
+    public ProcessExecutor(boolean logOutput) {
+        this.logOutput = logOutput;
+    }
 
     /**
      * adds a PropertyChangeListener
@@ -101,6 +123,7 @@ public class ProcessExecutor {
      */
     public int executeScript(boolean storeStdOut, boolean storeStdErr,
             String script, String... parameters) throws IOException {
+
         LOGGER.log(Level.INFO, "script:\n{0}", script);
         File scriptFile = null;
         try {
@@ -126,16 +149,9 @@ public class ProcessExecutor {
      * @throws IOException if an I/O exception occurs
      */
     public File createScript(String script) throws IOException {
-        File scriptFile = null;
-        FileWriter fileWriter = null;
-        try {
-            scriptFile = File.createTempFile("processExecutor", null);
-            fileWriter = new FileWriter(scriptFile);
+        File scriptFile = File.createTempFile("processExecutor", null);
+        try (FileWriter fileWriter = new FileWriter(scriptFile)) {
             fileWriter.write(script);
-        } finally {
-            if (fileWriter != null) {
-                fileWriter.close();
-            }
         }
         scriptFile.setExecutable(true);
         return scriptFile;
@@ -172,6 +188,7 @@ public class ProcessExecutor {
      */
     public int executeProcess(boolean storeStdOut, boolean storeStdErr,
             String... commandArray) {
+
         if (LOGGER.isLoggable(Level.FINE)) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("executing \"");
@@ -184,13 +201,15 @@ public class ProcessExecutor {
             stringBuilder.append("\"");
             LOGGER.fine(stringBuilder.toString());
         }
-        stdOut = new ArrayList<String>();
-        stdErr = new ArrayList<String>();
-        stdAll = new ArrayList<String>();
+
+        stdOut = new ArrayList<>();
+        stdErr = new ArrayList<>();
+        stdAll = new ArrayList<>();
         ProcessBuilder processBuilder = new ProcessBuilder(commandArray);
         if (environment != null) {
             processBuilder.environment().putAll(environment);
         }
+
         try {
             process = processBuilder.start();
             StreamReader stdoutReader = new StreamReader(
@@ -211,11 +230,10 @@ public class ProcessExecutor {
                 stderrReader.join();
             }
             return exitValue;
-        } catch (IOException e) {
-            LOGGER.log(Level.WARNING, null, e);
-        } catch (InterruptedException e) {
-            LOGGER.log(Level.WARNING, null, e);
+        } catch (IOException | InterruptedException e) {
+            LOGGER.log(Level.WARNING, "", e);
         }
+
         return -1;
     }
 
@@ -295,6 +313,7 @@ public class ProcessExecutor {
 
         public StreamReader(InputStream inputStream, String type,
                 List<String> output, List<String> all, boolean storeOutput) {
+
             super("ProcessExecutor.StreamReader");
             this.inputStream = inputStream;
             this.type = type;
@@ -305,31 +324,27 @@ public class ProcessExecutor {
 
         @Override
         public void run() {
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(inputStream))) {
+
                 for (String line; (line = reader.readLine()) != null;) {
                     propertyChangeSupport.firePropertyChange(
                             new PropertyChangeEvent(this, LINE, null, line));
-                    if (storeOutput || LOGGER.isLoggable(Level.FINE)) {
+                    if (storeOutput
+                            || (logOutput && LOGGER.isLoggable(Level.FINE))) {
                         String allLine = type + ">" + line;
                         if (storeOutput) {
                             output.add(line);
                             all.add(allLine);
                         }
-                        LOGGER.fine(allLine);
+                        if (logOutput) {
+                            LOGGER.fine(allLine);
+                        }
                     }
                 }
-            } catch (Exception e) {
-                LOGGER.log(Level.WARNING, null, e);
-            } finally {
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (IOException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                    }
-                }
+            } catch (IOException e) {
+                LOGGER.log(Level.WARNING, "", e);
             }
         }
     }
