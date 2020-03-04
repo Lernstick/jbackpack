@@ -149,8 +149,8 @@ public class JBackpack {
                     // NimbusLookAndFeel is the only acceptable LAF on Linux.
                     // The filechooser in GTK LAF is horribly broken and all
                     // other LAFs just look plain ugly.
-                    UIManager.setLookAndFeel("com.sun.java.swing.plaf."
-                            + "nimbus.NimbusLookAndFeel");
+                    UIManager.setLookAndFeel(
+                            "javax.swing.plaf.nimbus.NimbusLookAndFeel");
                 } catch (Exception ex) {
                     Logger.getLogger(JBackpack.class.getName()).log(
                             Level.WARNING,
