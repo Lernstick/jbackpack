@@ -1,3 +1,15 @@
+jbackpack (0.9.6-16) lernstick-10; urgency=medium
+
+  * [73da31] updated NetBeans project file
+  * [8d3dba] enforce backup mode to be able to also backup former destination directories
+  * [ad5fa6] updated project properties (Java 7 is now the minimum version)
+  * [c8cdb5] made output logging in ProcessExecutor optional
+  * [289ace] updated .gitignore file
+  * [5199d4] use auto-gdk-scale
+  * [45d4c6] updated path to nimbus L&F
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 04 Mar 2020 17:21:10 +0100
+
 jbackpack (0.9.6-15) lernstick-9; urgency=medium
 
   * [57c6e1] changed dependency from java-runtime (only provided by openjdk-9)
