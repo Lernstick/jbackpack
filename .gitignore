@@ -15,3 +15,4 @@ debian/jbackpack.debhelper.log
 debian/jbackpack.substvars
 debian/jbackpack/
 /dist/
+/nbproject/private/
