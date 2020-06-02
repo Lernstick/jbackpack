@@ -63,7 +63,7 @@ public class PreferencesDialog extends JDialog {
         initComponents();
 
         // fill menulist
-        DefaultListModel menuListModel = new DefaultListModel();
+        DefaultListModel<String> menuListModel = new DefaultListModel<>();
         menuListModel.addElement(BUNDLE.getString("Logging_Level"));
         menuListModel.addElement(BUNDLE.getString("Miscellaneous"));
         menuList.setModel(menuListModel);
@@ -168,7 +168,7 @@ public class PreferencesDialog extends JDialog {
         java.awt.GridBagConstraints gridBagConstraints;
 
         menuListScrollPane = new javax.swing.JScrollPane();
-        menuList = new javax.swing.JList();
+        menuList = new javax.swing.JList<>();
         cardPanel = new javax.swing.JPanel();
         logPanel = new javax.swing.JPanel();
         logfilePanel = new javax.swing.JPanel();
@@ -252,8 +252,8 @@ public class PreferencesDialog extends JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 5);
         logPanel.add(levelSlider, gridBagConstraints);
 
-        descriptionTextArea.setColumns(20);
         descriptionTextArea.setEditable(false);
+        descriptionTextArea.setColumns(20);
         descriptionTextArea.setLineWrap(true);
         descriptionTextArea.setWrapStyleWord(true);
         descriptionScrollPane.setViewportView(descriptionTextArea);
@@ -361,7 +361,7 @@ public class PreferencesDialog extends JDialog {
     private javax.swing.JTextField logFileTextField;
     private javax.swing.JPanel logPanel;
     private javax.swing.JPanel logfilePanel;
-    private javax.swing.JList menuList;
+    private javax.swing.JList<String> menuList;
     private javax.swing.JScrollPane menuListScrollPane;
     private javax.swing.JPanel miscPanel;
     private javax.swing.JButton okButton;

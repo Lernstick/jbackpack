@@ -34,7 +34,9 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Ronny Standtke <Ronny.Standtke@gmx.net>
  */
-public class MyListCellRenderer extends JLabel implements ListCellRenderer {
+public class MyListCellRenderer 
+        extends JLabel 
+        implements ListCellRenderer<String> {
 
     private final List<Icon> icons;
 
@@ -54,9 +56,11 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer {
     }
 
     @Override
-    public Component getListCellRendererComponent(JList list, Object value,
+    public Component getListCellRendererComponent(JList list, String value,
             int index, boolean isSelected, boolean cellHasFocus) {
-        setText(value.toString());
+        
+        setText(value);
+        
         if (index < icons.size()) {
             setIcon(icons.get(index));
         }

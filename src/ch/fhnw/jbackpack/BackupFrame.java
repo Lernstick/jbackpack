@@ -134,7 +134,7 @@ public class BackupFrame extends javax.swing.JFrame {
 
         // configure all accelerators
         int menuShortcutKeyMask
-                = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+                = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
         newProfileMenuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_N, menuShortcutKeyMask));
         openProfileMenuItem.setAccelerator(
@@ -557,7 +557,8 @@ public class BackupFrame extends javax.swing.JFrame {
                     = Class.forName("com.apple.eawt.Application");
             Class applicationListenerClass
                     = Class.forName("com.apple.eawt.ApplicationListener");
-            Object application = applicationClass.newInstance();
+            Object application = 
+                    applicationClass.getDeclaredConstructor().newInstance();
             Object listener = Proxy.newProxyInstance(
                     applicationListenerClass.getClassLoader(),
                     new Class[]{applicationListenerClass},

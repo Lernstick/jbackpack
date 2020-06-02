@@ -21,6 +21,7 @@ package ch.fhnw.jbackpack.chooser;
 import ch.fhnw.util.FileTools;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -134,8 +135,8 @@ public class RdiffFileDatabase {
          */
         COMPRESSING
     }
-    private final static Logger LOGGER =
-            Logger.getLogger(RdiffFileDatabase.class.getName());
+    private final static Logger LOGGER
+            = Logger.getLogger(RdiffFileDatabase.class.getName());
     // the tables
     private final static String MIRROR_TIMESTAMP_TABLE = "mirror_timestamp";
     private final static String INCREMENT_TIMESTAMPS_TABLE = "increment_timestamps";
@@ -222,7 +223,7 @@ public class RdiffFileDatabase {
         String connectionURL = "jdbc:derby:" + databasePath + ";create=true";
 
         try {
-            Class.forName(driver).newInstance();
+            Class.forName(driver).getDeclaredConstructor().newInstance();
 
             LOGGER.log(Level.INFO, "connecting to database {0}", databasePath);
 
@@ -319,38 +320,31 @@ public class RdiffFileDatabase {
             }
             anotherInstanceRunning = "XSDB6".equals(ex.getSQLState());
 
-        } catch (ClassNotFoundException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException | NoSuchMethodException
+                | SecurityException | IllegalArgumentException
+                | InvocationTargetException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 
     /**
-     * returns
-     * <code>true</code>, if the connection to the database was established,
-     * <code>false</code> otherwise
+     * returns <code>true</code>, if the connection to the database was
+     * established, <code>false</code> otherwise
      *
-     * @return
-     * <code>true</code>, if the connection to the database was established,
-     * <code>false</code> otherwise
+     * @return <code>true</code>, if the connection to the database was
+     * established, <code>false</code> otherwise
      */
     public boolean isConnected() {
         return connectionSucceeded;
     }
 
     /**
-     * returns
-     * <code>true</code>, if another instance of derby is already accessing the
-     * database,
-     * <code>false</code> otherwise
+     * returns <code>true</code>, if another instance of derby is already
+     * accessing the database, <code>false</code> otherwise
      *
-     * @return
-     * <code>true</code>, if another instance of derby is already accessing the
-     * database,
-     * <code>false</code> otherwise
+     * @return <code>true</code>, if another instance of derby is already
+     * accessing the database, <code>false</code> otherwise
      */
     public boolean isAnotherInstanceRunning() {
         return anotherInstanceRunning;
@@ -375,8 +369,8 @@ public class RdiffFileDatabase {
         }
 
         // check if mirror is up-to-date
-        Date fileSystemMirrorTimestamp =
-                fileSystemTimestamps.get(0).getTimestamp();
+        Date fileSystemMirrorTimestamp
+                = fileSystemTimestamps.get(0).getTimestamp();
         Date databaseMirrorTimestamp = getDatabaseMirrorTimestamp();
         boolean deleteMirror = (databaseMirrorTimestamp != null)
                 && (!fileSystemMirrorTimestamp.equals(databaseMirrorTimestamp));
@@ -384,14 +378,14 @@ public class RdiffFileDatabase {
                 || (!fileSystemMirrorTimestamp.equals(databaseMirrorTimestamp));
 
         // determine list of increments in database to delete
-        List<Date> databaseIncrementTimestamps =
-                getDatabaseIncrementTimestamps();
+        List<Date> databaseIncrementTimestamps
+                = getDatabaseIncrementTimestamps();
         List<Date> timestampsToDelete = new ArrayList<Date>();
         for (Date databaseTimestamp : databaseIncrementTimestamps) {
             boolean delete = true;
             for (int i = 1, size = fileSystemTimestamps.size(); i < size; i++) {
-                Date fileSystemTimestamp =
-                        fileSystemTimestamps.get(i).getTimestamp();
+                Date fileSystemTimestamp
+                        = fileSystemTimestamps.get(i).getTimestamp();
                 if (databaseTimestamp.equals(fileSystemTimestamp)) {
                     delete = false;
                     break;
@@ -424,8 +418,8 @@ public class RdiffFileDatabase {
         // delete everything that is no longer needed
         syncState = SyncState.TRIMMING;
         incrementCounter = 0;
-        maxIncrementCounter =
-                timestampsToDelete.size() + (deleteMirror ? 1 : 0);
+        maxIncrementCounter
+                = timestampsToDelete.size() + (deleteMirror ? 1 : 0);
 
         if (deleteMirror) {
             currentTimestamp = databaseMirrorTimestamp;
@@ -475,12 +469,12 @@ public class RdiffFileDatabase {
             statement.close();
 
             LOGGER.info("inserting new mirror files");
-            PreparedStatement insertMirrorDirStatement =
-                    connection.prepareStatement("INSERT INTO "
-                    + MIRROR_DIRECTORIES_TABLE + " VALUES (DEFAULT,?,?)");
-            PreparedStatement insertMirrorFileStatement =
-                    connection.prepareStatement("INSERT INTO "
-                    + MIRROR_FILES_TABLE + " VALUES (?,?,?,?,?)");
+            PreparedStatement insertMirrorDirStatement
+                    = connection.prepareStatement("INSERT INTO "
+                            + MIRROR_DIRECTORIES_TABLE + " VALUES (DEFAULT,?,?)");
+            PreparedStatement insertMirrorFileStatement
+                    = connection.prepareStatement("INSERT INTO "
+                            + MIRROR_FILES_TABLE + " VALUES (?,?,?,?,?)");
             parseMetaDataFile(backupPath, fileSystemTimestamps.get(0),
                     insertMirrorDirStatement, insertMirrorFileStatement,
                     null, null);
@@ -501,12 +495,12 @@ public class RdiffFileDatabase {
             statement.close();
 
             incrementDirectoryIdCache.clear();
-            PreparedStatement insertIncrementDirStatement =
-                    connection.prepareStatement("INSERT INTO "
-                    + INCREMENT_DIRECTORIES_TABLE + " VALUES (DEFAULT,?,?,?)");
-            PreparedStatement insertIncrementFileStatement =
-                    connection.prepareStatement("INSERT INTO "
-                    + INCREMENT_FILES_TABLE + " VALUES (?,?,?,?,?)");
+            PreparedStatement insertIncrementDirStatement
+                    = connection.prepareStatement("INSERT INTO "
+                            + INCREMENT_DIRECTORIES_TABLE + " VALUES (DEFAULT,?,?,?)");
+            PreparedStatement insertIncrementFileStatement
+                    = connection.prepareStatement("INSERT INTO "
+                            + INCREMENT_FILES_TABLE + " VALUES (?,?,?,?,?)");
             parseMetaDataFile(backupPath, timestampToAdd, null, null,
                     insertIncrementDirStatement, insertIncrementFileStatement);
             databaseChanged = true;
@@ -1151,20 +1145,20 @@ public class RdiffFileDatabase {
             throws SQLException {
 
         long trimStart = System.currentTimeMillis();
-        PreparedStatement deleteTimestampStatement =
-                connection.prepareStatement(
-                "DELETE FROM " + INCREMENT_TIMESTAMPS_TABLE
-                + " WHERE " + TIMESTAMP_COLUMN + "=?");
-        PreparedStatement deleteFilesStatement =
-                connection.prepareStatement("DELETE FROM "
-                + INCREMENT_FILES_TABLE + " WHERE " + ID_COLUMN
-                + " IN (SELECT " + ID_COLUMN
-                + " FROM " + INCREMENT_DIRECTORIES_TABLE
-                + " WHERE " + TIMESTAMP_COLUMN + "=?)");
-        PreparedStatement deleteDirectoriesStatement =
-                connection.prepareStatement(
-                "DELETE FROM " + INCREMENT_DIRECTORIES_TABLE
-                + " WHERE " + TIMESTAMP_COLUMN + "=?");
+        PreparedStatement deleteTimestampStatement
+                = connection.prepareStatement(
+                        "DELETE FROM " + INCREMENT_TIMESTAMPS_TABLE
+                        + " WHERE " + TIMESTAMP_COLUMN + "=?");
+        PreparedStatement deleteFilesStatement
+                = connection.prepareStatement("DELETE FROM "
+                        + INCREMENT_FILES_TABLE + " WHERE " + ID_COLUMN
+                        + " IN (SELECT " + ID_COLUMN
+                        + " FROM " + INCREMENT_DIRECTORIES_TABLE
+                        + " WHERE " + TIMESTAMP_COLUMN + "=?)");
+        PreparedStatement deleteDirectoriesStatement
+                = connection.prepareStatement(
+                        "DELETE FROM " + INCREMENT_DIRECTORIES_TABLE
+                        + " WHERE " + TIMESTAMP_COLUMN + "=?");
 
         for (Date timestampToDelete : timestampsToDelete) {
             LOGGER.log(Level.INFO, "deleting increment timestamp {0}",
@@ -1229,8 +1223,8 @@ public class RdiffFileDatabase {
         }
         Collections.sort(timestamps, Collections.reverseOrder());
         if (LOGGER.isLoggable(Level.INFO)) {
-            StringBuilder stringBuilder =
-                    new StringBuilder("filesystem timestamps:\n");
+            StringBuilder stringBuilder
+                    = new StringBuilder("filesystem timestamps:\n");
             for (long timestamp : timestamps) {
                 stringBuilder.append("\t");
                 stringBuilder.append(String.valueOf(timestamp));
@@ -1242,23 +1236,23 @@ public class RdiffFileDatabase {
         // map timestamps
         // (look into the session statistics files)
         List<RdiffTimestamp> rdiffTimestamps = new ArrayList<RdiffTimestamp>();
-        File rdiffBackupDataDirectory =
-                new File(backupDirectory, "rdiff-backup-data");
+        File rdiffBackupDataDirectory
+                = new File(backupDirectory, "rdiff-backup-data");
         File[] statisticsFiles = rdiffBackupDataDirectory.listFiles(
                 new FilenameFilter() {
 
-                    public boolean accept(File dir, String name) {
-                        return name.startsWith("session_statistics.");
-                    }
-                });
+            public boolean accept(File dir, String name) {
+                return name.startsWith("session_statistics.");
+            }
+        });
         for (Long timestamp : timestamps) {
             for (File statisticsFile : statisticsFiles) {
                 try {
                     List<String> lines = FileTools.readFile(statisticsFile);
                     for (String line : lines) {
                         if (line.startsWith("StartTime")) {
-                            String timeString =
-                                    line.split(" ")[1].split("\\.")[0];
+                            String timeString
+                                    = line.split(" ")[1].split("\\.")[0];
                             if (timestamp.toString().equals(timeString)) {
                                 String fileName = statisticsFile.getName();
                                 String fileStamp = fileName.split("\\.")[1];
@@ -1274,8 +1268,8 @@ public class RdiffFileDatabase {
         }
 
         if (LOGGER.isLoggable(Level.INFO)) {
-            StringBuilder stringBuilder =
-                    new StringBuilder("rdiffTimestamps:\n");
+            StringBuilder stringBuilder
+                    = new StringBuilder("rdiffTimestamps:\n");
             for (RdiffTimestamp timestamp : rdiffTimestamps) {
                 stringBuilder.append("\t");
                 stringBuilder.append(String.valueOf(timestamp.getTimestamp()));

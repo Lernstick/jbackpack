@@ -336,7 +336,7 @@ public class RdiffChooserPanel
         rdiffDirectoryPanel = new javax.swing.JPanel();
         backupsPanel = new javax.swing.JPanel();
         backupsListScrollPane = new javax.swing.JScrollPane();
-        backupsList = new javax.swing.JList();
+        backupsList = new javax.swing.JList<>();
         buttonPanel = new javax.swing.JPanel();
         leftButtonPanel = new javax.swing.JPanel();
         reloadButton = new javax.swing.JButton();
@@ -406,7 +406,7 @@ public class RdiffChooserPanel
         gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 3);
         backupsPanel.add(backupsListScrollPane, gridBagConstraints);
 
-        buttonPanel.setLayout(new java.awt.GridLayout());
+        buttonPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         leftButtonPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -1014,7 +1014,7 @@ public class RdiffChooserPanel
                 BUNDLE.getString("Error"), JOptionPane.ERROR_MESSAGE);
     }
 
-    private class IncrementModel extends DefaultListModel {
+    private class IncrementModel extends DefaultListModel<Increment> {
 
         @Override
         public int getSize() {
@@ -1022,7 +1022,7 @@ public class RdiffChooserPanel
         }
 
         @Override
-        public Object getElementAt(int index) {
+        public Increment getElementAt(int index) {
             return increments.get(index);
         }
 
@@ -1244,7 +1244,7 @@ public class RdiffChooserPanel
     private javax.swing.JRadioButton backupFilesRadioButton;
     private javax.swing.ButtonGroup backupSelectionGroup;
     private javax.swing.JPanel backupSizesPanel;
-    private javax.swing.JList backupsList;
+    private javax.swing.JList<Increment> backupsList;
     private javax.swing.JPopupMenu backupsListPopupMenu;
     private javax.swing.JScrollPane backupsListScrollPane;
     private javax.swing.JPanel backupsPanel;

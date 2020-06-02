@@ -326,10 +326,10 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             "GiB",
             "TiB"
         };
-        maxSizeComboBox.setModel(new DefaultComboBoxModel(sizeStrings));
-        minSizeComboBox.setModel(new DefaultComboBoxModel(sizeStrings));
+        maxSizeComboBox.setModel(new DefaultComboBoxModel<>(sizeStrings));
+        minSizeComboBox.setModel(new DefaultComboBoxModel<>(sizeStrings));
         autoDeletionSpaceComboBox.setModel(
-                new DefaultComboBoxModel(sizeStrings));
+                new DefaultComboBoxModel<>(sizeStrings));
 
         Dimension preferredSize = autoDeleteNumberSpinner.getPreferredSize();
         preferredSize.width = 60;
@@ -345,7 +345,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
             BUNDLE.getString("Months"),
             BUNDLE.getString("Years")
         };
-        autoDeleteAgeComboBox.setModel(new DefaultComboBoxModel(ageStrings));
+        autoDeleteAgeComboBox.setModel(new DefaultComboBoxModel<>(ageStrings));
 
         preferredSize = sourceDirSeparator1.getPreferredSize();
         preferredSize.width = 20;
@@ -926,10 +926,10 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         checkBoxPanel = new javax.swing.JPanel();
         maxSizeCheckBox = new javax.swing.JCheckBox();
         maxSizeTextField = new javax.swing.JTextField();
-        maxSizeComboBox = new javax.swing.JComboBox();
+        maxSizeComboBox = new javax.swing.JComboBox<>();
         minSizeCheckBox = new javax.swing.JCheckBox();
         minSizeTextField = new javax.swing.JTextField();
-        minSizeComboBox = new javax.swing.JComboBox();
+        minSizeComboBox = new javax.swing.JComboBox<>();
         excludeOtherFileSystemsCheckBox = new javax.swing.JCheckBox();
         excludeSymlinksCheckBox = new javax.swing.JCheckBox();
         excludeDeviceFilesCheckBox = new javax.swing.JCheckBox();
@@ -1037,11 +1037,11 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         autoDeletionAgePanel = new javax.swing.JPanel();
         autoDeleteAgeCheckBox = new javax.swing.JCheckBox();
         autoDeleteAgeSpinner = new javax.swing.JSpinner();
-        autoDeleteAgeComboBox = new javax.swing.JComboBox();
+        autoDeleteAgeComboBox = new javax.swing.JComboBox<>();
         autoDeletionSpacePanel = new javax.swing.JPanel();
         autoDeletionSpaceCheckBox = new javax.swing.JCheckBox();
         autoDeletionSpaceSpinner = new javax.swing.JSpinner();
-        autoDeletionSpaceComboBox = new javax.swing.JComboBox();
+        autoDeletionSpaceComboBox = new javax.swing.JComboBox<>();
         tempDirHeaderPanel = new javax.swing.JPanel();
         tempDirSeparator1 = new javax.swing.JSeparator();
         tempDirLabel = new javax.swing.JLabel();
@@ -1190,7 +1190,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         filePatternsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("BackupMainPanel.filePatternsPanel.border.title"))); // NOI18N
         filePatternsPanel.setLayout(new java.awt.GridBagLayout());
 
-        excludesTextArea.setName("excludesTextArea");
+        excludesTextArea.setName("excludesTextArea"); // NOI18N
         excludesScrollPane.setViewportView(excludesTextArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1214,7 +1214,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         filePatternsPanel.add(addExcludesButton, gridBagConstraints);
 
         includesCheckBox.setText(bundle.getString("BackupMainPanel.includesCheckBox.text")); // NOI18N
-        includesCheckBox.setName("includesCheckBox");
+        includesCheckBox.setName("includesCheckBox"); // NOI18N
         includesCheckBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 includesCheckBoxItemStateChanged(evt);
@@ -1228,7 +1228,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         includesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("BackupMainPanel.includesPanel.border.title"))); // NOI18N
         includesPanel.setLayout(new java.awt.GridBagLayout());
 
-        includesTextArea.setName("includesTextArea");
+        includesTextArea.setName("includesTextArea"); // NOI18N
         includesScrollPane.setViewportView(includesTextArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -2174,7 +2174,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         autoDeleteNumberCheckBox.setText(bundle.getString("BackupMainPanel.autoDeleteNumberCheckBox.text")); // NOI18N
         autoDeletionNumberPanel.add(autoDeleteNumberCheckBox, new java.awt.GridBagConstraints());
 
-        autoDeleteNumberSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        autoDeleteNumberSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         autoDeleteNumberSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 autoDeleteNumberSpinnerStateChanged(evt);
@@ -2203,7 +2203,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         autoDeleteAgeCheckBox.setText(bundle.getString("BackupMainPanel.autoDeleteAgeCheckBox.text")); // NOI18N
         autoDeletionAgePanel.add(autoDeleteAgeCheckBox, new java.awt.GridBagConstraints());
 
-        autoDeleteAgeSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        autoDeleteAgeSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         autoDeletionAgePanel.add(autoDeleteAgeSpinner, gridBagConstraints);
@@ -2226,7 +2226,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         autoDeletionSpaceCheckBox.setText(bundle.getString("BackupMainPanel.autoDeletionSpaceCheckBox.text")); // NOI18N
         autoDeletionSpacePanel.add(autoDeletionSpaceCheckBox, new java.awt.GridBagConstraints());
 
-        autoDeletionSpaceSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        autoDeletionSpaceSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         autoDeletionSpacePanel.add(autoDeletionSpaceSpinner, gridBagConstraints);
@@ -4872,7 +4872,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     private javax.swing.JPanel advancedSettingsPanel;
     private javax.swing.ButtonGroup authenticationButtonGroup;
     private javax.swing.JCheckBox autoDeleteAgeCheckBox;
-    private javax.swing.JComboBox autoDeleteAgeComboBox;
+    private javax.swing.JComboBox<String> autoDeleteAgeComboBox;
     private javax.swing.JSpinner autoDeleteAgeSpinner;
     private javax.swing.JCheckBox autoDeleteNumberCheckBox;
     private javax.swing.JLabel autoDeleteNumberLabel;
@@ -4883,7 +4883,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     private javax.swing.JPanel autoDeletionNumberPanel;
     private javax.swing.JSeparator autoDeletionSeparator1;
     private javax.swing.JCheckBox autoDeletionSpaceCheckBox;
-    private javax.swing.JComboBox autoDeletionSpaceComboBox;
+    private javax.swing.JComboBox<String> autoDeletionSpaceComboBox;
     private javax.swing.JPanel autoDeletionSpacePanel;
     private javax.swing.JSpinner autoDeletionSpaceSpinner;
     private javax.swing.JButton backupButton;
@@ -4951,10 +4951,10 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     private javax.swing.JButton lockButton;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JCheckBox maxSizeCheckBox;
-    private javax.swing.JComboBox maxSizeComboBox;
+    private javax.swing.JComboBox<String> maxSizeComboBox;
     private javax.swing.JTextField maxSizeTextField;
     private javax.swing.JCheckBox minSizeCheckBox;
-    private javax.swing.JComboBox minSizeComboBox;
+    private javax.swing.JComboBox<String> minSizeComboBox;
     private javax.swing.JTextField minSizeTextField;
     private javax.swing.JPanel noExcludesPanel;
     private javax.swing.JRadioButton otherDirectoryRadioButton;
