@@ -124,7 +124,12 @@ public class ProcessExecutor {
     public int executeScript(boolean storeStdOut, boolean storeStdErr,
             String script, String... parameters) throws IOException {
 
-        LOGGER.log(Level.INFO, "script:\n{0}", script);
+        // If the output must not be logged then most probably the script may
+        // also contain sensitive information (passwords, etc.). Therefore we
+        // only log the script's content if output logging is also wanted.
+        if (logOutput) {
+            LOGGER.log(Level.INFO, "script:\n{0}", script);
+        }
         File scriptFile = null;
         try {
             scriptFile = createScript(script);
@@ -189,17 +194,26 @@ public class ProcessExecutor {
     public int executeProcess(boolean storeStdOut, boolean storeStdErr,
             String... commandArray) {
 
+        String commandString = "";
+
         if (LOGGER.isLoggable(Level.FINE)) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("executing \"");
+            stringBuilder.append('\"');
             for (int i = 0; i < commandArray.length; i++) {
                 stringBuilder.append(commandArray[i]);
                 if (i != commandArray.length - 1) {
                     stringBuilder.append(" ");
                 }
             }
-            stringBuilder.append("\"");
-            LOGGER.fine(stringBuilder.toString());
+            stringBuilder.append('\"');
+            commandString = stringBuilder.toString();
+            LOGGER.log(Level.FINE, "\n"
+                    + "    thread: {0} {1}\n"
+                    + "    starting command: {2}",
+                    new Object[]{
+                        Thread.currentThread().getName(),
+                        Thread.currentThread().getId(),
+                        commandString});
         }
 
         stdOut = new ArrayList<>();
@@ -221,7 +235,14 @@ public class ProcessExecutor {
             stdoutReader.start();
             stderrReader.start();
             int exitValue = process.waitFor();
-            LOGGER.log(Level.FINE, "exitValue = {0}", exitValue);
+            LOGGER.log(Level.FINE, "\n"
+                    + "    thread: {0} {1}\n"
+                    + "    finished command: {2}\n"
+                    + "    exitValue = {3}",
+                    new Object[]{
+                        Thread.currentThread().getName(),
+                        Thread.currentThread().getId(),
+                        commandString, exitValue});
             // wait for readers to finish...
             if (storeStdOut) {
                 stdoutReader.join();
