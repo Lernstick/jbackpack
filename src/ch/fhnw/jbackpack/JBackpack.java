@@ -28,9 +28,10 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * the JBackpack main class
@@ -38,6 +39,9 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author Ronny Standtke <ronny.standtke@fhnw.ch>
  */
 public class JBackpack {
+
+    private static final Logger LOGGER
+            = Logger.getLogger(JBackpack.class.getName());
 
     /**
      * preferences key for the last backup timestamp
@@ -71,7 +75,7 @@ public class JBackpack {
                 int reminderTimeout = preferences.getInt(
                         REMINDER_TIMEOUT, Integer.MIN_VALUE);
                 if (reminderTimeout == Integer.MIN_VALUE) {
-                    Logger.getLogger(JBackpack.class.getName()).warning(
+                    LOGGER.warning(
                             "could not find reminder timeout in preferences!");
                     return;
                 }
@@ -80,8 +84,7 @@ public class JBackpack {
                 long lastBackup
                         = preferences.getLong(LAST_BACKUP, Long.MIN_VALUE);
                 if (lastBackup == Long.MIN_VALUE) {
-                    Logger.getLogger(JBackpack.class.getName()).info(
-                            "no backup timestamp found");
+                    LOGGER.info("no backup timestamp found");
                 }
 
                 // how long is it ago?
@@ -146,29 +149,26 @@ public class JBackpack {
         switch (CurrentOperatingSystem.OS) {
             case Linux:
                 try {
-                    // NimbusLookAndFeel is the only acceptable LAF on Linux.
-                    // The filechooser in GTK LAF is horribly broken and all
-                    // other LAFs just look plain ugly.
-                    UIManager.setLookAndFeel(
-                            "javax.swing.plaf.nimbus.NimbusLookAndFeel");
-                } catch (Exception ex) {
-                    Logger.getLogger(JBackpack.class.getName()).log(
-                            Level.WARNING,
-                            "failed to set look&feel", ex);
-                }
-                break;
+                // NimbusLookAndFeel is the only acceptable LAF on Linux.
+                // The filechooser in GTK LAF is horribly broken and all
+                // other LAFs just look plain ugly.
+                UIManager.setLookAndFeel(
+                        "javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            } catch (Exception ex) {
+                LOGGER.log(Level.WARNING, "failed to set look&feel", ex);
+            }
+            break;
 
             case Windows:
                 // use system look&feel
                 try {
-                    UIManager.setLookAndFeel(
-                            UIManager.getSystemLookAndFeelClassName());
-                } catch (Exception ex) {
-                    Logger.getLogger(JBackpack.class.getName()).log(
-                            Level.WARNING,
-                            "failed to set system look&feel", ex);
-                }
-                break;
+                UIManager.setLookAndFeel(
+                        UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception ex) {
+                LOGGER.log(Level.WARNING,
+                        "failed to set system look&feel", ex);
+            }
+            break;
 
             case Mac_OS_X:
                 System.setProperty("apple.laf.useScreenMenuBar", "true");
@@ -195,8 +195,7 @@ public class JBackpack {
             });
 
         } else {
-            Logger.getLogger(JBackpack.class.getName()).log(
-                    Level.INFO,
+            LOGGER.log(Level.INFO,
                     "return value of \"rdiff-backup --version\": {0}",
                     returnValue);
             ResourceBundle bundle = ResourceBundle.getBundle(
@@ -224,18 +223,39 @@ public class JBackpack {
 
     private static void checkJavaVersion() {
         String javaVersion = System.getProperty("java.version");
-        String[] tokens = javaVersion.split("\\.");
-        int majorVersion = Integer.parseInt(tokens[0]);
-        int minorVersion = Integer.parseInt(tokens[1]);
-        if (majorVersion <= 1 && minorVersion <= 5) {
-            ResourceBundle bundle = ResourceBundle.getBundle(
-                    "ch/fhnw/jbackpack/Strings");
-            String errorMessage = bundle.getString("Error_Java_Version");
-            Logger.getLogger(JBackpack.class.getName()).log(
-                    Level.SEVERE, errorMessage);
-            JOptionPane.showMessageDialog(null, errorMessage,
-                    bundle.getString("Error"), JOptionPane.ERROR_MESSAGE);
-            System.exit(-1);
+        // usually the version string looks like this: "11.0.12"
+        // but it can also look like this: "17-ea"
+
+        Pattern majorVersionPattern = Pattern.compile("(\\d+).*");
+        Matcher matcher = majorVersionPattern.matcher(javaVersion);
+        if (matcher.matches()) {
+            int majorVersion = Integer.parseInt(matcher.group(1));
+            LOGGER.log(Level.INFO,
+                    "detected major Java version {0}", majorVersion);
+
+            Pattern minorVersionPattern = Pattern.compile("\\d+\\.(\\d+).*");
+            matcher = minorVersionPattern.matcher(javaVersion);
+            if (matcher.matches()) {
+                int minorVersion = Integer.parseInt(matcher.group(1));
+                LOGGER.log(Level.INFO,
+                        "detected minor Java version {0}", minorVersion);
+
+                if (majorVersion <= 1 && minorVersion <= 5) {
+                    ResourceBundle bundle = ResourceBundle.getBundle(
+                            "ch/fhnw/jbackpack/Strings");
+                    String errorMessage = bundle.getString("Error_Java_Version");
+                    LOGGER.log(Level.SEVERE, errorMessage);
+                    JOptionPane.showMessageDialog(null, errorMessage,
+                            bundle.getString("Error"), JOptionPane.ERROR_MESSAGE);
+                    System.exit(-1);
+                }
+            } else {
+                LOGGER.log(Level.WARNING,
+                        "failed to parse minor java version: {0}", javaVersion);
+            }
+        } else {
+            LOGGER.log(Level.WARNING,
+                    "failed to parse major java version: {0}", javaVersion);
         }
     }
 }
