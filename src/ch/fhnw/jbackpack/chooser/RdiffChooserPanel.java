@@ -79,7 +79,7 @@ public class RdiffChooserPanel
             = NoHiddenFilesSwingFileFilter.getInstance();
     private final Desktop desktop;
     private final boolean desktopIsSupported;
-    private List<Increment> increments = new ArrayList<Increment>();
+    private List<Increment> increments = new ArrayList<>();
     private Window parentWindow;
     private String selectedDirectory;
     private File[] oldSelectedFiles;
@@ -118,7 +118,7 @@ public class RdiffChooserPanel
 
         // run all processes with the posix locale because we parse
         // English output
-        Map<String, String> environment = new HashMap<String, String>();
+        Map<String, String> environment = new HashMap<>();
         environment.put("LC_ALL", "C");
         processExecutor.setEnvironment(environment);
 
@@ -151,14 +151,14 @@ public class RdiffChooserPanel
      * @param evt A PropertyChangeEvent object describing the event source and
      * the property that has changed.
      */
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("busy".equals(evt.getPropertyName())
                 && evt.getNewValue() == Boolean.FALSE) {
             // the file loading thread is done
             // -> try to restore previous file selection
             File[] newFiles = fileChooser.getCurrentDirectory().listFiles();
-            Collection<File> newSelectedFilesCollection
-                    = new ArrayList<File>();
+            Collection<File> newSelectedFilesCollection = new ArrayList<>();
             for (File newFile : newFiles) {
                 for (File oldSelectedFile : oldSelectedFiles) {
                     if (newFile.getName().equals(oldSelectedFile.getName())) {
@@ -185,8 +185,8 @@ public class RdiffChooserPanel
     /**
      * defines, if the radio buttons are visible
      *
-     * @param visible if <tt>true</tt>, the radio buttons are visible, otherwise
-     * the radio buttons are hidden
+     * @param visible if <code>true</code>, the radio buttons are visible,
+     * otherwise the radio buttons are hidden
      */
     public void setRadioButtonsVisible(boolean visible) {
         allBackupRadioButton.setVisible(visible);
@@ -194,7 +194,7 @@ public class RdiffChooserPanel
     }
 
     /**
-     * checks, if <tt>selectedDirectory</tt> is a rdiff-backup directory and
+     * checks, if <code>selectedDirectory</code> is a rdiff-backup directory and
      * shows the corresponding panels
      *
      * @param selectedDir
@@ -1131,10 +1131,8 @@ public class RdiffChooserPanel
                         dialogHandler.hide();
                     }
                 }
-            } catch (InterruptedException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            } catch (ExecutionException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
+            } catch (InterruptedException | ExecutionException ex) {
+                LOGGER.log(Level.SEVERE, "", ex);
             }
         }
     }
@@ -1196,9 +1194,7 @@ public class RdiffChooserPanel
                 dialog.setDatabase(rdiffFileDatabase);
                 try {
                     rdiffFileDatabase.sync();
-                } catch (IOException ex) {
-                    LOGGER.log(Level.SEVERE, "", ex);
-                } catch (SQLException ex) {
+                } catch (IOException | SQLException ex) {
                     LOGGER.log(Level.SEVERE, "", ex);
                 }
                 increments = rdiffFileDatabase.getIncrements();
@@ -1232,10 +1228,8 @@ public class RdiffChooserPanel
                         dirCheckError("Error_Database");
                     }
                 }
-            } catch (InterruptedException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            } catch (ExecutionException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
+            } catch (InterruptedException | ExecutionException ex) {
+                LOGGER.log(Level.SEVERE, "", ex);
             }
         }
     }
