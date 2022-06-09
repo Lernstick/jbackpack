@@ -84,6 +84,7 @@ public class RdiffChooserPanel
     private String selectedDirectory;
     private File[] oldSelectedFiles;
     private RdiffFileDatabase rdiffFileDatabase;
+    private String fileChooserDirectory;
 
     /**
      * Creates new form RdiffChooserPanel
@@ -269,18 +270,38 @@ public class RdiffChooserPanel
     }
 
     /**
+     * sets the initial FileChooser directory
+     *
+     * @param fileChooserDirectory the initial directory selected in the
+     * FileChooser
+     */
+    public void setFileChooserDirectory(String fileChooserDirectory) {
+        this.fileChooserDirectory = fileChooserDirectory;
+    }
+
+    /**
+     * returns the current directory of the FileChooser
+     *
+     * @return the current directory of the FileChooser
+     */
+    public String getFileChooserDirectory() {
+        File currentDirectory = fileChooser.getCurrentDirectory();
+        return currentDirectory == null ? "" : currentDirectory.toString();
+    }
+
+    /**
      * sets a FileFilter on the integrated FileChooser
      *
      * @param index the index of the FileFilter to set (0-based)
      */
-    public void setFileFilterIndex(int index) {
+    public void setFileChooserFilterIndex(int index) {
         FileFilter[] fileFilters = fileChooser.getChoosableFileFilters();
         if (index < fileFilters.length) {
             fileChooser.setFileFilter(fileFilters[index]);
 
         } else {
             LOGGER.log(Level.WARNING,
-                    "fileFilter index {0} is out of range, "
+                    "fileChooser filter index {0} is out of range, "
                     + "only {1} FileFilters available",
                     new Object[]{index, fileFilters.length});
         }
@@ -288,9 +309,10 @@ public class RdiffChooserPanel
 
     /**
      * returns the index of the selected FileFilter
+     *
      * @return the index of the selected FileFilter
      */
-    public int getFileFilterIndex() {
+    public int getFileChooserFilterIndex() {
         List filters = Arrays.asList(fileChooser.getChoosableFileFilters());
         return filters.indexOf(fileChooser.getFileFilter());
     }
@@ -800,17 +822,18 @@ public class RdiffChooserPanel
 
             // try to restore the current directory
             File oldCurrentDirectory = fileChooser.getCurrentDirectory();
-            if (oldCurrentDirectory == null) {
-                fileChooser.setCurrentDirectory(root);
-            } else {
-                String currentPath = oldCurrentDirectory.getAbsolutePath();
-                try {
-                    File newCurrentDirectory
+            File newCurrentDirectory;
+            try {
+                if (oldCurrentDirectory == null) {
+                    newCurrentDirectory = root.getChild(fileChooserDirectory);
+                } else {
+                    String currentPath = oldCurrentDirectory.getAbsolutePath();
+                    newCurrentDirectory
                             = root.getLongestMatch(currentPath);
-                    fileChooser.setCurrentDirectory(newCurrentDirectory);
-                } catch (IOException ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
                 }
+                fileChooser.setCurrentDirectory(newCurrentDirectory);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
             }
 
             filesCardLayout.show(filesCardPanel, "fileChooser");

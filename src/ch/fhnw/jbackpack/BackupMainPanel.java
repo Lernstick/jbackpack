@@ -224,10 +224,15 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     public static final String AUTO_DELETION_SPACE_UNIT
             = "auto_deletion_space_unit";
     /**
-     * preferences key for the selected filechooser
+     * preferences key for the filechooser directory
      */
-    public static final String FILE_CHOOSER_INDEX
-            = "file_chooser_index";
+    public static final String FILE_CHOOSER_DIRECTORY
+            = "file_chooser_directory";
+    /**
+     * preferences key for the filechooser filter index
+     */
+    public static final String FILE_CHOOSER_FILTER_INDEX
+            = "file_chooser_filter_index";
     private static final Logger LOGGER
             = Logger.getLogger(BackupMainPanel.class.getName());
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
@@ -591,9 +596,11 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 preferences.getInt(AUTO_DELETION_AGE_UNIT, 3));
         autoDeletionSpaceComboBox.setSelectedIndex(
                 preferences.getInt(AUTO_DELETION_SPACE_UNIT, 3));
-        
-        rdiffChooserPanel.setFileFilterIndex(
-                preferences.getInt(FILE_CHOOSER_INDEX, 0));
+
+        rdiffChooserPanel.setFileChooserDirectory(
+                preferences.get(FILE_CHOOSER_DIRECTORY, ""));
+        rdiffChooserPanel.setFileChooserFilterIndex(
+                preferences.getInt(FILE_CHOOSER_FILTER_INDEX, 0));
 
         // update GUI
         mainTabbedPaneStateChanged(null);
@@ -659,8 +666,10 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
         preferences.putInt(AUTO_DELETION_SPACE_UNIT,
                 autoDeletionSpaceComboBox.getSelectedIndex());
 
-        preferences.putInt(FILE_CHOOSER_INDEX,
-                rdiffChooserPanel.getFileFilterIndex());
+        preferences.put(FILE_CHOOSER_DIRECTORY,
+                rdiffChooserPanel.getFileChooserDirectory());
+        preferences.putInt(FILE_CHOOSER_FILTER_INDEX,
+                rdiffChooserPanel.getFileChooserFilterIndex());
     }
 
     /**
