@@ -223,6 +223,11 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
      */
     public static final String AUTO_DELETION_SPACE_UNIT
             = "auto_deletion_space_unit";
+    /**
+     * preferences key for the selected filechooser
+     */
+    public static final String FILE_CHOOSER_INDEX
+            = "file_chooser_index";
     private static final Logger LOGGER
             = Logger.getLogger(BackupMainPanel.class.getName());
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
@@ -586,6 +591,9 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 preferences.getInt(AUTO_DELETION_AGE_UNIT, 3));
         autoDeletionSpaceComboBox.setSelectedIndex(
                 preferences.getInt(AUTO_DELETION_SPACE_UNIT, 3));
+        
+        rdiffChooserPanel.setFileFilterIndex(
+                preferences.getInt(FILE_CHOOSER_INDEX, 0));
 
         // update GUI
         mainTabbedPaneStateChanged(null);
@@ -650,6 +658,9 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                 autoDeleteAgeComboBox.getSelectedIndex());
         preferences.putInt(AUTO_DELETION_SPACE_UNIT,
                 autoDeletionSpaceComboBox.getSelectedIndex());
+
+        preferences.putInt(FILE_CHOOSER_INDEX,
+                rdiffChooserPanel.getFileFilterIndex());
     }
 
     /**
@@ -2758,7 +2769,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
     private void mainTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_mainTabbedPaneStateChanged
 
         Component selectedComponent = mainTabbedPane.getSelectedComponent();
-        
+
         if (selectedComponent == backupCardPanel) {
             String sourcePath = backupSourceTextField.getText();
             File sourceDirectory = new File(sourcePath);
@@ -2772,7 +2783,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
 
         } else if (selectedComponent == restoreCardPanel) {
             restoreTabActivated();
-            
+
         } else if (selectedComponent == directoriesPanel) {
             directoriesTabFocusHandling();
         }
@@ -3660,7 +3671,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                                 BUNDLE.getString(
                                         (CurrentOperatingSystem.OS
                                         == OperatingSystem.Mac_OS_X)
-                                        ? "Warning_No_SSHFS_OSX" : "Warning_No_SSHFS"));
+                                                ? "Warning_No_SSHFS_OSX" : "Warning_No_SSHFS"));
                         Color background = UIManager.getDefaults().getColor(
                                 "Panel.background");
                         editorPane.setBackground(background);
@@ -3704,7 +3715,7 @@ public class BackupMainPanel extends JPanel implements DocumentListener {
                             BUNDLE.getString(
                                     (CurrentOperatingSystem.OS
                                     == OperatingSystem.Mac_OS_X)
-                                    ? "Warning_No_ENCFS_OSX" : "Warning_No_ENCFS"));
+                                            ? "Warning_No_ENCFS_OSX" : "Warning_No_ENCFS"));
                     Color background = UIManager.getDefaults().getColor(
                             "Panel.background");
                     editorPane.setBackground(background);

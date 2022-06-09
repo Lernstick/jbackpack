@@ -269,6 +269,33 @@ public class RdiffChooserPanel
     }
 
     /**
+     * sets a FileFilter on the integrated FileChooser
+     *
+     * @param index the index of the FileFilter to set (0-based)
+     */
+    public void setFileFilterIndex(int index) {
+        FileFilter[] fileFilters = fileChooser.getChoosableFileFilters();
+        if (index < fileFilters.length) {
+            fileChooser.setFileFilter(fileFilters[index]);
+
+        } else {
+            LOGGER.log(Level.WARNING,
+                    "fileFilter index {0} is out of range, "
+                    + "only {1} FileFilters available",
+                    new Object[]{index, fileFilters.length});
+        }
+    }
+
+    /**
+     * returns the index of the selected FileFilter
+     * @return the index of the selected FileFilter
+     */
+    public int getFileFilterIndex() {
+        List filters = Arrays.asList(fileChooser.getChoosableFileFilters());
+        return filters.indexOf(fileChooser.getFileFilter());
+    }
+
+    /**
      * returns the selected files
      *
      * @return the selected files
